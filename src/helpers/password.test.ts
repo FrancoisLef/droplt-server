@@ -1,4 +1,5 @@
-import user from '../tests/fakes/user';
+import user from '@app/tests/fakes/user';
+
 import { hashPassword, hashUserPassword } from './password';
 
 describe('Helpers - password', () => {

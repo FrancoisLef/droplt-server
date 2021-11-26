@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 
+import prisma from '@app/client';
 import { Prisma } from '@prisma/client';
-
-import prisma from '../src/client';
 
 const admin: Prisma.UserCreateInput = {
   email: 'test@test.fr',
