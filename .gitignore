@@ -10,7 +10,6 @@
 
 # production
 /database
-/build
 /dist
 
 # misc
