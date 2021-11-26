@@ -104,6 +104,6 @@
     "node": "16"
   },
   "prisma": {
-    "seed": "ts-node --project src/server/tsconfig.json prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   }
 }
