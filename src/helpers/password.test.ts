@@ -1,4 +1,4 @@
-import user from '../__fakes__/user';
+import user from '../tests/fakes/user';
 import { hashPassword, hashUserPassword } from './password';
 
 describe('Helpers - password', () => {

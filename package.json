@@ -11,7 +11,7 @@
     "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
     "test": "jest",
     "seed": "prisma db seed",
-    "generate": "cpy .env.example .env.local --rename --no-overwrite && gen-env-types .env.example -o @types/env.d.ts && prisma generate",
+    "generate": "cpy .env.example .env.local --rename --no-overwrite && gen-env-types .env.example -o src/env.d.ts && prisma generate",
     "migrate": "prisma migrate dev"
   },
   "lint-staged": {
@@ -95,6 +95,7 @@
     "prisma": "^3.5.0",
     "sort-package-json": "^1.53.1",
     "supertest": "^6.1.6",
+    "ts-jest": "^27.0.7",
     "ts-node-dev": "^1.1.8",
     "typegraphql-prisma": "^0.18.0",
     "typescript": "^4.5.2"
