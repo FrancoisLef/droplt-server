@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "prestart": "run-s generate",
     "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
-    "test": "jest --watch",
+    "test": "jest -i --watch",
     "seed": "prisma db seed",
     "generate": "cpy .env.example .env.local --rename --no-overwrite && gen-env-types .env.example -o src/env.d.ts && prisma generate",
     "migrate": "prisma migrate dev"
