@@ -14,7 +14,7 @@ const hashPasswordMiddleware: Prisma.Middleware = async (params, next) => {
     return next(params);
   }
 
-  if (['create', 'update'].includes(params.action)) {
+  if (['create', 'update', 'updateMany'].includes(params.action)) {
     await hashPassword(params.args.data);
   }
 

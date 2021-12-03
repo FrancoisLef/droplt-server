@@ -19,6 +19,14 @@ async function main() {
     update: {},
     create: admin,
   });
+  await prisma.user.updateMany({
+    where: {
+      email: admin.email,
+    },
+    data: {
+      password: 'toto',
+    },
+  });
 }
 
 main()
