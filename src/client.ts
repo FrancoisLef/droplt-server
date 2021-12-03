@@ -4,19 +4,6 @@ import hashUserPassword from './middlewares/prisma/hashUserPassword';
 
 const prisma: PrismaClient = new PrismaClient();
 
-// prisma.$use(hashUserPassword);
-
-// prisma.$use(async (params: Prisma.MiddlewareParams, next) => {
-//   if (params.model === 'User') {
-//     if (params.action === 'create') {
-//       await hashUserPassword(params.args.data);
-//     }
-//     if (params.action === 'upsert') {
-//       await hashUserPassword(params.args.create);
-//     }
-//   }
-
-//   return await next(params);
-// });
+prisma.$use(hashUserPassword);
 
 export default prisma;
