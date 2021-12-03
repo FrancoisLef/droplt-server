@@ -12,7 +12,6 @@ const admin: Prisma.UserCreateInput = {
 };
 
 async function main() {
-  console.log('⏱ Start seeding ...');
   await prisma.user.upsert({
     where: {
       email: admin.email,
@@ -20,7 +19,6 @@ async function main() {
     update: {},
     create: admin,
   });
-  console.log('🌱 Seeding finished.');
 }
 
 main()

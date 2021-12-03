@@ -7,11 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// generator typegraphql {
-//   provider = "typegraphql-prisma"
-//   output   = "../src/server/prisma/graphql"
-// }
-
 model User {
   userId     String   @id @default(uuid())
   email      String   @unique
