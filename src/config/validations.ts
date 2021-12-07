@@ -1,6 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
-import { ValidationChain, validationResult } from 'express-validator';
+import { check, ValidationChain, validationResult } from 'express-validator';
 
+export const loginSchema = [
+  check('email').isEmail().normalizeEmail(),
+  check('password').isString().notEmpty(),
+];
+
+/**
+ * Validate middleware
+ *
+ * @param validations
+ * @returns
+ */
 const validate = (validations: ValidationChain[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     await Promise.all(validations.map((validation) => validation.run(req)));

@@ -5,24 +5,18 @@ import express, {
   RequestHandler,
   Response,
 } from 'express';
-import { check } from 'express-validator';
 
-import { validate } from './modules/express';
+import validate, { loginSchema } from './config/validations';
 
 const app: Application = express();
 
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
 
-app.post(
-  '/login',
-  validate([
-    check('email').isEmail().normalizeEmail(),
-    check('password').notEmpty().isString(),
-  ]),
-  (req: Request, res: Response) => {
-    res.send('Coucou');
-  }
-);
+app.post('/login', validate(loginSchema), (req: Request, res: Response) => {
+  console.log(req.body.email);
+  console.log(req.body.password);
+  res.json({ success: true });
+});
 
 export default app;
