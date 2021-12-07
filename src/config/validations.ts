@@ -2,8 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { check, ValidationChain, validationResult } from 'express-validator';
 
 export const loginSchema = [
-  check('email').isEmail().normalizeEmail(),
-  check('password').isString().notEmpty(),
+  check('email', 'Cette adresse email n’est pas valide')
+    .isEmail()
+    .normalizeEmail(),
+  check('password', 'Le mot de passe est obligatoire').isString().notEmpty(),
 ];
 
 /**
