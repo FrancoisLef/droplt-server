@@ -1,22 +1,22 @@
 import express, {
   Application,
+  ErrorRequestHandler,
   json,
-  Request,
   RequestHandler,
-  Response,
 } from 'express';
 
-import validate, { loginSchema } from './config/validations';
+import { httpError } from './middlewares';
+import login from './routes/login';
 
 const app: Application = express();
 
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
 
-app.post('/login', validate(loginSchema), (req: Request, res: Response) => {
-  console.log(req.body.email);
-  console.log(req.body.password);
-  res.json({ success: true });
-});
+// Use login routes
+app.use(login);
+
+// Format HTTP errors
+app.use(httpError() as ErrorRequestHandler);
 
 export default app;
