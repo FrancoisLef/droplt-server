@@ -15,6 +15,8 @@ import { LoginRequest, loginSchema } from './schema';
 
 const router = Router();
 
+const { APP_NAME, NODE_ENV, JWT_SECRET } = process.env;
+
 router.post(
   '/login',
   validate(loginSchema),
@@ -38,26 +40,22 @@ router.post(
         return next(new NotFound(AUTH_WRONG_PASSWORD));
       }
 
-      const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ userId: user.userId }, JWT_SECRET, {
         expiresIn: '10m',
-        issuer: process.env.APP_NAME,
-        audience: process.env.APP_NAME,
+        issuer: APP_NAME,
+        audience: APP_NAME,
       });
 
-      const refreshToken = jwt.sign(
-        { userId: user.userId },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: '1w',
-          issuer: process.env.APP_NAME,
-          audience: process.env.APP_NAME,
-        }
-      );
+      const refreshToken = jwt.sign({ userId: user.userId }, JWT_SECRET, {
+        expiresIn: '1w',
+        issuer: APP_NAME,
+        audience: APP_NAME,
+      });
 
       res
         .cookie('refresh_token', refreshToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: NODE_ENV === 'production',
           expires: addWeeks(new Date(), 1),
           signed: true,
           sameSite: true,
