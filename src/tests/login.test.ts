@@ -1,11 +1,8 @@
-import bcrypt from 'bcrypt';
-import request from 'supertest';
-
-import app from '../app';
 import { prismaMock } from '../setupTests';
 import user from './fakes/user';
+import { mockBcryptCompare, useAgent } from './helpers';
 
-const agent = request.agent(app);
+const agent = useAgent();
 const { email, password } = user;
 
 describe('Auth - login', () => {
@@ -41,8 +38,7 @@ describe('Auth - login', () => {
 
   it('should return a JWT on successful authentication', async () => {
     prismaMock.user.findUnique.mockResolvedValue(user);
-    const bcryptCompare = jest.fn().mockResolvedValue(true);
-    (bcrypt.compare as jest.Mock) = bcryptCompare;
+    mockBcryptCompare(true);
 
     return agent
       .post('/login')
