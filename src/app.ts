@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import express, {
   Application,
   ErrorRequestHandler,
@@ -12,6 +13,10 @@ const app: Application = express();
 
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
+
+// Parse cookies from requests
+// Encode signed cookies from responses
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Use login routes
 app.use(login);

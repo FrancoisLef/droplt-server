@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { addWeeks } from 'date-fns';
 import { NextFunction, Response, Router } from 'express';
 import { InternalServerError, NotFound } from 'http-errors';
 import jwt from 'jsonwebtoken';
@@ -37,9 +38,31 @@ router.post(
         return next(new NotFound(AUTH_WRONG_PASSWORD));
       }
 
-      const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET);
+      const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, {
+        expiresIn: '10m',
+        issuer: process.env.APP_NAME,
+        audience: process.env.APP_NAME,
+      });
 
-      res.json({ token });
+      const refreshToken = jwt.sign(
+        { userId: user.userId },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '1w',
+          issuer: process.env.APP_NAME,
+          audience: process.env.APP_NAME,
+        }
+      );
+
+      res
+        .cookie('refresh_token', refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          expires: addWeeks(new Date(), 1),
+          signed: true,
+          sameSite: true,
+        })
+        .json({ token });
     } catch (err) {
       return next(new InternalServerError(COMMON_ERROR));
     }

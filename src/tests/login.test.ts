@@ -48,6 +48,7 @@ describe('Auth - login', () => {
 
     const result = await request(app).post('/login').send({ email, password });
     console.log(result.body);
+    console.log(result.headers);
     expect(result.statusCode).toBe(200);
   });
 });
