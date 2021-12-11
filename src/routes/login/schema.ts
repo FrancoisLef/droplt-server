@@ -11,5 +11,5 @@ export const loginSchema = [
   check('email', 'Cette adresse email n’est pas valide')
     .isEmail()
     .normalizeEmail(),
-  check('password', 'Le mot de passe est obligatoire').isString().notEmpty(),
+  check('password', 'Le mot de passe est obligatoire').notEmpty(),
 ];

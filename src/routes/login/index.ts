@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { NextFunction, Response, Router } from 'express';
 import { InternalServerError, NotFound } from 'http-errors';
+import jwt from 'jsonwebtoken';
 
 import { validate } from '../../middlewares';
 import prisma from '../../modules/prisma';
@@ -28,10 +29,12 @@ router.post(
       const isMatch = await bcrypt.compare(user.password, password);
 
       if (!isMatch) {
-        return next(new Error('Le mot de passe est incorrect'));
+        return next(new NotFound('Le mot de passe est incorrect'));
       }
 
-      res.json({ user });
+      const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET);
+
+      res.json({ token });
     } catch (err) {
       return next(new InternalServerError('Un problème est survenu'));
     }

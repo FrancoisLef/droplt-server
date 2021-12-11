@@ -1,7 +1,8 @@
 import { User } from '@prisma/client';
+import { v4 as uuid } from 'uuid';
 
 const user: User = {
-  userId: '1',
+  userId: uuid(),
   email: 'john@doe.fr',
   firstName: 'John',
   lastName: 'Doe',
