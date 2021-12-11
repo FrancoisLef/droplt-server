@@ -3,6 +3,11 @@ import { NextFunction, Response, Router } from 'express';
 import { InternalServerError, NotFound } from 'http-errors';
 import jwt from 'jsonwebtoken';
 
+import {
+  AUTH_UNKNOWN_EMAIL,
+  AUTH_WRONG_PASSWORD,
+  COMMON_ERROR,
+} from '../../helpers/errors';
 import { validate } from '../../middlewares';
 import prisma from '../../modules/prisma';
 import { LoginRequest, loginSchema } from './schema';
@@ -18,25 +23,25 @@ router.post(
     try {
       const user = await prisma.user.findUnique({
         where: {
-          email: email.toLowerCase(),
+          email,
         },
       });
 
       if (!user) {
-        return next(new NotFound('Cette adresse email n’existe pas'));
+        return next(new NotFound(AUTH_UNKNOWN_EMAIL));
       }
 
       const isMatch = await bcrypt.compare(user.password, password);
 
       if (!isMatch) {
-        return next(new NotFound('Le mot de passe est incorrect'));
+        return next(new NotFound(AUTH_WRONG_PASSWORD));
       }
 
       const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET);
 
       res.json({ token });
     } catch (err) {
-      return next(new InternalServerError('Un problème est survenu'));
+      return next(new InternalServerError(COMMON_ERROR));
     }
   }
 );
