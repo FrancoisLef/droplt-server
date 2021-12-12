@@ -1,11 +1,11 @@
-import user from './fakes/user';
-import { usePrisma } from './helpers';
+import { getUser, mockCreateUser, usePrisma } from './helpers';
 
-const { prisma, prismaMock } = usePrisma();
+const { prisma } = usePrisma();
+const user = getUser();
 
 describe('Prisma mocks', () => {
   it('should be able to mock prisma resolved values', async () => {
-    prismaMock.user.create.mockResolvedValue(user);
+    mockCreateUser(user);
     await expect(
       prisma.user.create({
         data: user,

@@ -1,8 +1,12 @@
-import user from './fakes/user';
-import { mockBcryptCompare, useAgent, usePrisma } from './helpers';
+import {
+  getUser,
+  mockBcryptCompare,
+  mockFindUniqueUser,
+  useAgent,
+} from './helpers';
 
-const { prismaMock } = usePrisma();
 const agent = useAgent();
+const user = getUser();
 const { email, password } = user;
 
 describe('Auth - login', () => {
@@ -32,12 +36,12 @@ describe('Auth - login', () => {
   });
 
   it('should return a 404 on wrong password', async () => {
-    prismaMock.user.findUnique.mockResolvedValue(user);
+    mockFindUniqueUser(user);
     return agent.post('/login').expect(404).send({ email, password });
   });
 
   it('should return a JWT on successful authentication', async () => {
-    prismaMock.user.findUnique.mockResolvedValue(user);
+    mockFindUniqueUser(user);
     mockBcryptCompare(true);
 
     return agent
