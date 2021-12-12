@@ -1,4 +1,4 @@
-import prisma from '../modules/prisma';
+import prisma from '../prisma';
 import { prismaMock } from '../setupTests';
 import user from './fakes/user';
 

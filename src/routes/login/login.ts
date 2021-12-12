@@ -10,7 +10,7 @@ import {
   COMMON_ERROR,
 } from '../../helpers/errors';
 import { validate } from '../../middlewares';
-import prisma from '../../modules/prisma';
+import prisma from '../../prisma';
 import { LoginRequest, loginSchema } from './schema';
 
 const router = Router();
