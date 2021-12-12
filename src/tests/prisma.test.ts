@@ -1,6 +1,7 @@
-import prisma from '../prisma';
-import { prismaMock } from '../setupTests';
 import user from './fakes/user';
+import { usePrisma } from './helpers';
+
+const { prisma, prismaMock } = usePrisma();
 
 describe('Prisma mocks', () => {
   it('should be able to mock prisma resolved values', async () => {

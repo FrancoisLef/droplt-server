@@ -1,7 +1,7 @@
-import { prismaMock } from '../setupTests';
 import user from './fakes/user';
-import { mockBcryptCompare, useAgent } from './helpers';
+import { mockBcryptCompare, useAgent, usePrisma } from './helpers';
 
+const { prismaMock } = usePrisma();
 const agent = useAgent();
 const { email, password } = user;
 
