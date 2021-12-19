@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 import {
   getUser,
   mockBcryptCompare,
@@ -48,8 +50,13 @@ describe('Auth - login', () => {
       .post('/login')
       .expect(200)
       .expect(({ body, headers }) => {
-        console.log(body);
-        console.log(headers);
+        expect(jwt.decode(body.token)).toEqual(
+          expect.objectContaining({
+            userId: user.userId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          })
+        );
       })
       .send({ email, password });
   });
