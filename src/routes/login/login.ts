@@ -60,7 +60,6 @@ router.post(
           httpOnly: true,
           secure: NODE_ENV === 'production',
           expires: addWeeks(new Date(), 1),
-          signed: true,
           sameSite: true,
         })
         .json({ token });
