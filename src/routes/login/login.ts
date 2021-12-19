@@ -40,15 +40,16 @@ router.post(
         return next(new NotFound(AUTH_WRONG_PASSWORD));
       }
 
-      const { userId } = user;
+      const { userId, firstName, lastName } = user;
+      const data = { userId, firstName, lastName };
 
-      const token = jwt.sign({ userId }, JWT_SECRET, {
+      const token = jwt.sign(data, JWT_SECRET, {
         expiresIn: '10m',
         issuer: APP_NAME,
         audience: APP_NAME,
       });
 
-      const refreshToken = jwt.sign({ userId }, JWT_SECRET, {
+      const refreshToken = jwt.sign(data, JWT_SECRET, {
         expiresIn: '1w',
         issuer: APP_NAME,
         audience: APP_NAME,

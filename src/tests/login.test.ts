@@ -49,7 +49,7 @@ describe('Auth - login', () => {
     return agent
       .post('/login')
       .expect(200)
-      .expect(({ body, headers }) => {
+      .expect(({ body }) => {
         expect(jwt.decode(body.token)).toEqual(
           expect.objectContaining({
             userId: user.userId,
