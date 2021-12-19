@@ -1,4 +1,4 @@
-import { check } from 'express-validator';
+import { body } from 'express-validator';
 
 export interface LoginRequest extends Express.Request {
   body: {
@@ -8,8 +8,8 @@ export interface LoginRequest extends Express.Request {
 }
 
 export const loginSchema = [
-  check('email', 'Cette adresse email n’est pas valide')
+  body('email', 'Cette adresse email n’est pas valide')
     .isEmail()
     .normalizeEmail(),
-  check('password', 'Le mot de passe est obligatoire').notEmpty(),
+  body('password', 'Le mot de passe est obligatoire').notEmpty(),
 ];

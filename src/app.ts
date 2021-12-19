@@ -8,6 +8,7 @@ import express, {
 
 import { httpError } from './middlewares';
 import login from './routes/login';
+import refresh from './routes/refresh';
 
 const app: Application = express();
 
@@ -18,8 +19,9 @@ app.use(json() as RequestHandler);
 // Encode signed cookies from responses
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-// Use login routes
+// Routes definition
 app.use(login);
+app.use(refresh);
 
 // Format HTTP errors
 app.use(httpError() as ErrorRequestHandler);

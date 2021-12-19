@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { SuperAgentTest } from 'supertest';
 
 import {
   getCookie,
@@ -8,11 +9,15 @@ import {
   useAgent,
 } from './helpers';
 
-const agent = useAgent();
+let agent: SuperAgentTest;
 const user = getUser();
 const { email, password } = user;
 
 describe('Auth - login', () => {
+  beforeEach(() => {
+    agent = useAgent();
+  });
+
   it('should return a 400 on invalid credentials', async () => {
     return agent
       .post('/login')
