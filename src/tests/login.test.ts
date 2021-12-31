@@ -20,7 +20,7 @@ describe('Auth - login', () => {
 
   it('should return a 400 on invalid credentials', async () => {
     return agent
-      .post('/login')
+      .post('/api/login')
       .expect(400)
       .expect(({ body }) => {
         expect(body.errors).toEqual(
@@ -40,12 +40,12 @@ describe('Auth - login', () => {
   });
 
   it('should return a 404 on unknown email', async () => {
-    return agent.post('/login').expect(404).send({ email, password });
+    return agent.post('/api/login').expect(404).send({ email, password });
   });
 
   it('should return a 404 on wrong password', async () => {
     mockFindUniqueUser(user);
-    return agent.post('/login').expect(404).send({ email, password });
+    return agent.post('/api/login').expect(404).send({ email, password });
   });
 
   it('should return a JWT on successful authentication', async () => {
@@ -53,7 +53,7 @@ describe('Auth - login', () => {
     mockBcryptCompare(true);
 
     return agent
-      .post('/login')
+      .post('/api/login')
       .expect(200)
       .expect(({ body }) => {
         expect(jwt.decode(body.token)).toEqual(
@@ -72,7 +72,7 @@ describe('Auth - login', () => {
     mockBcryptCompare(true);
 
     return agent
-      .post('/login')
+      .post('/api/login')
       .expect(200)
       .expect(({ headers }) => {
         const refreshToken = getCookie(

@@ -18,7 +18,7 @@ const router = Router();
 const { APP_NAME, NODE_ENV, JWT_SECRET } = process.env;
 
 router.post(
-  '/login',
+  '/api/login',
   validate(loginSchema),
   async (req: LoginRequest, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -34,7 +34,7 @@ router.post(
         return next(new NotFound(AUTH_UNKNOWN_EMAIL));
       }
 
-      const isMatch = await bcrypt.compare(user.password, password);
+      const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
         return next(new NotFound(AUTH_WRONG_PASSWORD));

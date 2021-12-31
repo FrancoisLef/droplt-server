@@ -6,7 +6,7 @@ import 'reflect-metadata';
 import app from './app';
 // import { context } from './context';
 
-const { SERVER_PORT = 5000, NODE_ENV } = process.env;
+const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
 (async () => {
   /**

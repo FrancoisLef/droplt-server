@@ -19,12 +19,12 @@ describe('Auth - refresh', () => {
   });
 
   it('should return a 401 on missing refresh_token cookie', async () => {
-    return agent.get('/refresh').expect(401);
+    return agent.get('/api/refresh').expect(401);
   });
 
   it('should return a 401 on invalid refresh_token cookie', async () => {
     return agent
-      .get('/refresh')
+      .get('/api/refresh')
       .set('Cookie', 'refresh_token=test')
       .expect(401);
   });

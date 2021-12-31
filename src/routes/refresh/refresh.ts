@@ -7,7 +7,7 @@ import { RefreshRequest } from './schema';
 const router = Router();
 
 router.get(
-  '/refresh',
+  '/api/refresh',
   async (req: RefreshRequest, res: Response, next: NextFunction) => {
     const { refresh_token } = req.cookies;
 
