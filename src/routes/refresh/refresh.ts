@@ -20,8 +20,6 @@ router.get(
     try {
       const decoded = decodeRefresh(refresh_token);
 
-      console.log(decoded);
-
       if (!decoded) {
         throw new Error('Refresh token can’t be decoded');
       }
