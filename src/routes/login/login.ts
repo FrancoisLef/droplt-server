@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
-import { addWeeks } from 'date-fns';
 import { NextFunction, Response, Router } from 'express';
 import { InternalServerError, NotFound } from 'http-errors';
-import jwt from 'jsonwebtoken';
 
+import { REFRESH_TOKEN_COOKIE_OPTS, signin } from '../../helpers/auth';
 import {
   AUTH_UNKNOWN_EMAIL,
   AUTH_WRONG_PASSWORD,
@@ -14,8 +13,6 @@ import prisma from '../../prisma';
 import { LoginRequest, loginSchema } from './schema';
 
 const router = Router();
-
-const { APP_NAME, NODE_ENV, JWT_SECRET } = process.env;
 
 router.post(
   '/api/login',
@@ -40,28 +37,10 @@ router.post(
         return next(new NotFound(AUTH_WRONG_PASSWORD));
       }
 
-      const { userId, firstName, lastName } = user;
-      const data = { userId, firstName, lastName };
-
-      const token = jwt.sign(data, JWT_SECRET, {
-        expiresIn: '10m',
-        issuer: APP_NAME,
-        audience: APP_NAME,
-      });
-
-      const refreshToken = jwt.sign(data, JWT_SECRET, {
-        expiresIn: '1w',
-        issuer: APP_NAME,
-        audience: APP_NAME,
-      });
+      const { token, refreshToken } = await signin(user);
 
       res
-        .cookie('refresh_token', refreshToken, {
-          httpOnly: true,
-          secure: NODE_ENV === 'production',
-          expires: addWeeks(new Date(), 1),
-          sameSite: true,
-        })
+        .cookie('refresh_token', refreshToken, REFRESH_TOKEN_COOKIE_OPTS)
         .json({ token });
     } catch (err) {
       return next(new InternalServerError(COMMON_ERROR));

@@ -82,8 +82,6 @@ describe('Auth - login', () => {
         expect(jwt.decode(refreshToken)).toEqual(
           expect.objectContaining({
             userId: user.userId,
-            firstName: user.firstName,
-            lastName: user.lastName,
           })
         );
       })
