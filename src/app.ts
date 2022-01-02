@@ -9,6 +9,7 @@ import express, {
 import { httpError } from './middlewares';
 import refresh from './routes/refresh';
 import signin from './routes/signin';
+import signout from './routes/signout';
 
 const app: Application = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Routes definition
 app.use(signin);
+app.use(signout);
 app.use(refresh);
 
 // Format HTTP errors
