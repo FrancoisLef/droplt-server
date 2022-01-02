@@ -7,8 +7,8 @@ import express, {
 } from 'express';
 
 import { httpError } from './middlewares';
-import login from './routes/login';
 import refresh from './routes/refresh';
+import signin from './routes/signin';
 
 const app: Application = express();
 
@@ -20,7 +20,7 @@ app.use(json() as RequestHandler);
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Routes definition
-app.use(login);
+app.use(signin);
 app.use(refresh);
 
 // Format HTTP errors

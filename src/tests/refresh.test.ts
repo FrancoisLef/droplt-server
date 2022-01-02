@@ -12,6 +12,7 @@ import {
 let agent: SuperAgentTest;
 const user = getUser();
 const { email, password } = user;
+const URL = '/api/refresh';
 
 describe('Auth - refresh', () => {
   beforeEach(() => {
@@ -19,14 +20,11 @@ describe('Auth - refresh', () => {
   });
 
   it('should return a 401 on missing refresh_token cookie', async () => {
-    return agent.get('/api/refresh').expect(401);
+    return agent.get(URL).expect(401);
   });
 
   it('should return a 401 on invalid refresh_token cookie', async () => {
-    return agent
-      .get('/api/refresh')
-      .set('Cookie', 'refresh_token=test')
-      .expect(401);
+    return agent.get(URL).set('Cookie', 'refresh_token=test').expect(401);
   });
 
   // it('should return a 404 on unknown email', async () => {

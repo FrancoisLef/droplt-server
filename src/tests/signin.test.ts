@@ -12,6 +12,7 @@ import {
 let agent: SuperAgentTest;
 const user = getUser();
 const { email, password } = user;
+const URL = '/api/signin';
 
 describe('Auth - login', () => {
   beforeEach(() => {
@@ -20,7 +21,7 @@ describe('Auth - login', () => {
 
   it('should return a 400 on invalid credentials', async () => {
     return agent
-      .post('/api/login')
+      .post(URL)
       .expect(400)
       .expect(({ body }) => {
         expect(body.errors).toEqual(
@@ -39,13 +40,13 @@ describe('Auth - login', () => {
       .send({});
   });
 
-  it('should return a 404 on unknown email', async () => {
-    return agent.post('/api/login').expect(404).send({ email, password });
+  it('should return a 400 on unknown email', async () => {
+    return agent.post(URL).expect(400).send({ email, password });
   });
 
-  it('should return a 404 on wrong password', async () => {
+  it('should return a 400 on wrong password', async () => {
     mockFindUniqueUser(user);
-    return agent.post('/api/login').expect(404).send({ email, password });
+    return agent.post(URL).expect(400).send({ email, password });
   });
 
   it('should return a JWT on successful authentication', async () => {
@@ -53,7 +54,7 @@ describe('Auth - login', () => {
     mockBcryptCompare(true);
 
     return agent
-      .post('/api/login')
+      .post(URL)
       .expect(200)
       .expect(({ body }) => {
         expect(jwt.decode(body.token)).toEqual(
@@ -72,7 +73,7 @@ describe('Auth - login', () => {
     mockBcryptCompare(true);
 
     return agent
-      .post('/api/login')
+      .post(URL)
       .expect(200)
       .expect(({ headers }) => {
         const refreshToken = getCookie(

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { NextFunction, Response, Router } from 'express';
-import { InternalServerError, NotFound } from 'http-errors';
+import { BadRequest, InternalServerError } from 'http-errors';
 
 import { REFRESH_TOKEN_COOKIE_OPTS, signin } from '../../helpers/auth';
 import {
@@ -10,14 +10,14 @@ import {
 } from '../../helpers/errors';
 import { validate } from '../../middlewares';
 import prisma from '../../prisma';
-import { LoginRequest, loginSchema } from './schema';
+import { SigninRequest, signinSchema } from './schema';
 
 const router = Router();
 
 router.post(
-  '/api/login',
-  validate(loginSchema),
-  async (req: LoginRequest, res: Response, next: NextFunction) => {
+  '/api/signin',
+  validate(signinSchema),
+  async (req: SigninRequest, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
     try {
@@ -28,13 +28,13 @@ router.post(
       });
 
       if (!user) {
-        return next(new NotFound(AUTH_UNKNOWN_EMAIL));
+        return next(new BadRequest(AUTH_UNKNOWN_EMAIL));
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return next(new NotFound(AUTH_WRONG_PASSWORD));
+        return next(new BadRequest(AUTH_WRONG_PASSWORD));
       }
 
       const { token, refreshToken } = await signin(user);

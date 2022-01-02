@@ -17,7 +17,6 @@ const validate = (validations: ValidationChain[]) => {
     }
 
     res.status(400).json({
-      success: false,
       errors: errors.array(),
     });
   };
