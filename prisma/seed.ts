@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { Prisma } from '@prisma/client';
+import Chance from 'chance';
 
 import prisma from '../src/prisma';
 
@@ -19,6 +20,31 @@ async function main() {
     update: {},
     create: admin,
   });
+
+  if (process.env.NODE_ENV === 'development') {
+    await Promise.all(
+      Array(5)
+        .fill(0)
+        .map(async (_, i) => {
+          const faker = new Chance(i);
+          const email = `test${i}@test.fr`;
+          const user: Prisma.UserCreateInput = {
+            email,
+            password: 'password',
+            firstName: faker.name(),
+            lastName: faker.name(),
+          };
+
+          return prisma.user.upsert({
+            where: {
+              email: user.email,
+            },
+            update: {},
+            create: user,
+          });
+        })
+    );
+  }
 }
 
 main()
