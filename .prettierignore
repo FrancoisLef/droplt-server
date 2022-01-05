@@ -1,2 +1,2 @@
-src/server/prisma/graphql
 src/env.d.ts
+src/generated

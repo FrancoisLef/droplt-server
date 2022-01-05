@@ -1,10 +1,12 @@
 import 'dotenv-flow/config';
 import 'reflect-metadata';
 
-// import { ApolloServer } from 'apollo-server-express';
-// import * as tq from 'type-graphql';
+import { ApolloServer } from 'apollo-server-express';
+import * as tq from 'type-graphql';
+
 import app from './app';
-// import { context } from './context';
+import { context } from './context';
+import { FindManyUserResolver } from './generated';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
@@ -12,19 +14,19 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
   /**
    * ApolloServer configuration
    */
-  // const server = new ApolloServer({
-  //   schema: await tq.buildSchema({
-  //     resolvers: [],
-  //     emitSchemaFile: 'schema.graphql',
-  //   }),
-  //   context,
-  // });
-  // await server.start();
+  const server = new ApolloServer({
+    schema: await tq.buildSchema({
+      resolvers: [FindManyUserResolver],
+      emitSchemaFile: 'schema.graphql',
+    }),
+    context,
+  });
+  await server.start();
 
   /**
    * Connect ApolloServer to Express
    */
-  // server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app, path: '/graphql' });
 
   /**
    * Start Express server
