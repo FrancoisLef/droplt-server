@@ -20,9 +20,9 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
       emitSchemaFile: 'schema.graphql',
     }),
     context: ({ req }) => {
-      // console.log(req.headers);
       const context = {
         req,
+        user: req.user,
         prisma,
       };
       return context;
