@@ -18,9 +18,9 @@ const httpError = () => {
           name: error.name,
         },
       });
+    } else {
+      next(error);
     }
-
-    return next();
   };
 };
 

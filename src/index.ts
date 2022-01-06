@@ -5,8 +5,8 @@ import { ApolloServer } from 'apollo-server-express';
 import * as tq from 'type-graphql';
 
 import app from './app';
-import { context } from './context';
 import { FindManyUserResolver } from './generated';
+import prisma from './prisma';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
@@ -19,7 +19,14 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
       resolvers: [FindManyUserResolver],
       emitSchemaFile: 'schema.graphql',
     }),
-    context,
+    context: ({ req }) => {
+      // console.log(req.headers);
+      const context = {
+        req,
+        prisma,
+      };
+      return context;
+    },
   });
   await server.start();
 

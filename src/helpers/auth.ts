@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { addWeeks } from 'date-fns';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 
 const { APP_NAME, NODE_ENV, JWT_SECRET } = process.env;
 
@@ -31,6 +31,13 @@ export type DecodedRefreshToken = {
   iss: string;
 };
 
+export const algorithm = 'HS256';
+
+export const jwtOptions: SignOptions = {
+  audience: APP_NAME,
+  issuer: APP_NAME,
+};
+
 export const decodeRefresh = (token: string): DecodedRefreshToken =>
   jwt.verify(token, JWT_SECRET) as DecodedRefreshToken;
 
@@ -49,14 +56,14 @@ export const signin = async (
 
   const token = jwt.sign(payload, JWT_SECRET, {
     expiresIn: TOKEN_EXPIRATION,
-    issuer: APP_NAME,
-    audience: APP_NAME,
+    algorithm,
+    ...jwtOptions,
   });
 
   const refreshToken = jwt.sign(refreshPayload, JWT_SECRET, {
     expiresIn: REFRESH_TOKEN_EXPIRATION,
-    issuer: APP_NAME,
-    audience: APP_NAME,
+    algorithm,
+    ...jwtOptions,
   });
 
   return {

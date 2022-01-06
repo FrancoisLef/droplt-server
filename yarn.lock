@@ -1257,6 +1257,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/express-jwt@npm:^6.0.4":
+  version: 6.0.4
+  resolution: "@types/express-jwt@npm:6.0.4"
+  dependencies:
+    "@types/express": "*"
+    "@types/express-unless": "*"
+  checksum: bf4b80b10fbeb9d45491e605c79d4b2925823af76929ca833a208c13f73be45a7ab639e76054d0185457f97fef10b0232833dcc3f44dfcf14baabae26801420e
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:4.17.27, @types/express-serve-static-core@npm:^4.17.18":
   version: 4.17.27
   resolution: "@types/express-serve-static-core@npm:4.17.27"
@@ -1265,6 +1275,15 @@ __metadata:
     "@types/qs": "*"
     "@types/range-parser": "*"
   checksum: fef52b941f903011e31a5886369301d7765580a034cd011a2d3a7dbe6a6edf4f77537710a52e3e2258c6fc59c611f228594c213f984cda767654ab6c5c199e9e
+  languageName: node
+  linkType: hard
+
+"@types/express-unless@npm:*":
+  version: 0.5.2
+  resolution: "@types/express-unless@npm:0.5.2"
+  dependencies:
+    "@types/express": "*"
+  checksum: 31446f1871e29fb3c576f909c3770e167ac219f9dde94c82c236fe0da45f97bd509fd9dc8bb302caaf5b9b41589b0cb27b53309c8b8459b3904b0e3c98f215f7
   languageName: node
   linkType: hard
 
@@ -2124,6 +2143,13 @@ __metadata:
   dependencies:
     retry: 0.13.1
   checksum: 38a7152ff7265a9321ea214b9c69e8224ab1febbdec98efbbde6e562f17ff68405569b796b1c5271f354aef8783665d29953f051f68c1fc45306e61aec82fdc4
+  languageName: node
+  linkType: hard
+
+"async@npm:^1.5.0":
+  version: 1.5.2
+  resolution: "async@npm:1.5.2"
+  checksum: fe5d6214d8f15bd51eee5ae8ec5079b228b86d2d595f47b16369dec2e11b3ff75a567bb5f70d12d79006665fbbb7ee0a7ec0e388524eefd454ecbe651c124ebd
   languageName: node
   linkType: hard
 
@@ -3318,6 +3344,7 @@ __metadata:
     "@types/chance": ^1.1.3
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
+    "@types/express-jwt": ^6.0.4
     "@types/graphql-fields": ^1.3.4
     "@types/http-errors": ^1.8.1
     "@types/jest": ^27.4.0
@@ -3340,6 +3367,7 @@ __metadata:
     eslint-plugin-jest: ^25.3.4
     eslint-plugin-simple-import-sort: ^7.0.0
     express: ^4.17.2
+    express-jwt: ^6.1.0
     express-validator: ^6.14.0
     gen-env-types: ^1.3.0
     graphql: ^15.3.0
@@ -3814,6 +3842,25 @@ __metadata:
     jest-matcher-utils: ^27.4.6
     jest-message-util: ^27.4.6
   checksum: 593eaa8ff34320f9a70f961bc25eeae932df4f48ebcc5ecc1033f1cddffd286fc42a2f312929222541cec1077de2604ff4fc6e97012afcbd36b333bfaba82f7f
+  languageName: node
+  linkType: hard
+
+"express-jwt@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "express-jwt@npm:6.1.0"
+  dependencies:
+    async: ^1.5.0
+    express-unless: ^1.0.0
+    jsonwebtoken: ^8.1.0
+    lodash.set: ^4.0.0
+  checksum: 0c5a4ee4aa3f9917fdb672f7e556a68eb5c69db47dee622b88050ff75eac75bbe5a8ae8d8da06ca50f6b9ad8c5992375b319ec2ecd630f900694c961488c0070
+  languageName: node
+  linkType: hard
+
+"express-unless@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "express-unless@npm:1.0.0"
+  checksum: 0f27f8eae1ecb3ad41d65da903c855879f529412545e06f9df28bc6712b03460f79b74ffe3c51c9bfafa685dbdac11217c505e54d48f2f58e6d6928b7dbbad37
   languageName: node
   linkType: hard
 
@@ -5893,7 +5940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^8.5.1":
+"jsonwebtoken@npm:^8.1.0, jsonwebtoken@npm:^8.5.1":
   version: 8.5.1
   resolution: "jsonwebtoken@npm:8.5.1"
   dependencies:
@@ -6197,6 +6244,13 @@ __metadata:
   version: 4.1.1
   resolution: "lodash.once@npm:4.1.1"
   checksum: d768fa9f9b4e1dc6453be99b753906f58990e0c45e7b2ca5a3b40a33111e5d17f6edf2f768786e2716af90a8e78f8f91431ab8435f761fef00f9b0c256f6d245
+  languageName: node
+  linkType: hard
+
+"lodash.set@npm:^4.0.0":
+  version: 4.3.2
+  resolution: "lodash.set@npm:4.3.2"
+  checksum: a9122f49eef9f2d0fc9061a33d87f8e5b8c6b23d46e8b9e9ce1529d3588d79741bd1145a3abdfa3b13082703e65af27ff18d8a07bfc22b9be32f3fc36f763f70
   languageName: node
   linkType: hard
 
