@@ -73,6 +73,7 @@
     "graphql": "^15.3.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.14.1",
+    "helmet": "^5.0.1",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",

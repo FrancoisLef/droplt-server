@@ -3373,6 +3373,7 @@ __metadata:
     graphql: ^15.3.0
     graphql-fields: ^2.0.3
     graphql-scalars: ^1.14.1
+    helmet: ^5.0.1
     http-errors: ^2.0.0
     husky: ^7.0.4
     jest: ^27.4.7
@@ -4640,6 +4641,13 @@ __metadata:
     is-stream: ^2.0.0
     type-fest: ^0.8.0
   checksum: 06cc474bed246761ff61c19d629977eb5f53fa817be4313a255a64ae0f433e831a29e83acb6555e3f4592b348497596f1d1653751008dda4f21c9c21ca60ac5a
+  languageName: node
+  linkType: hard
+
+"helmet@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "helmet@npm:5.0.1"
+  checksum: 6e693ce32a413e967a3f7dc4f12ebcb494b8819b7d9397b2b3c72ac82f75a2ce415b5c6159f7d9717dc646bbf2f3447f63770fc8398efb555b12da1ac8ef53e7
   languageName: node
   linkType: hard
 
