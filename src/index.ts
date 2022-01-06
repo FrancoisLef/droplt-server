@@ -17,7 +17,7 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
   const server = new ApolloServer({
     schema: await tq.buildSchema({
       resolvers: [FindManyUserResolver],
-      emitSchemaFile: 'schema.graphql',
+      emitSchemaFile: 'public/schema.graphql',
     }),
     context: ({ req }) => {
       const context = {

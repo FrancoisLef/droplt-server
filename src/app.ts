@@ -27,6 +27,9 @@ app.use(json() as RequestHandler);
 // Encode signed cookies from responses
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+// Server public files
+app.use(express.static('public'));
+
 // Protect graphql endpoint with JWT authentication
 app.use(
   '/graphql',
