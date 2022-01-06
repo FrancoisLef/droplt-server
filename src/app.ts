@@ -6,6 +6,7 @@ import express, {
   RequestHandler,
 } from 'express';
 import jwt from 'express-jwt';
+import helmet from 'helmet';
 
 import { algorithm, jwtOptions } from './helpers/auth';
 import { authError, httpError } from './middlewares';
@@ -15,6 +16,9 @@ import signout from './routes/signout';
 
 const { JWT_SECRET } = process.env;
 const app: Application = express();
+
+// Setup various HTTP headers to secure app
+app.use(helmet());
 
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
