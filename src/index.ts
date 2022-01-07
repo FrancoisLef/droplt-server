@@ -5,7 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import * as tq from 'type-graphql';
 
 import app from './app';
-import { FindManyUserResolver } from './generated';
+import { FindManyTorrentResolver, FindManyUserResolver } from './generated';
 import prisma from './prisma';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
@@ -16,7 +16,7 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
    */
   const server = new ApolloServer({
     schema: await tq.buildSchema({
-      resolvers: [FindManyUserResolver],
+      resolvers: [FindManyUserResolver, FindManyTorrentResolver],
       emitSchemaFile: 'public/schema.graphql',
     }),
     context: ({ req }) => {

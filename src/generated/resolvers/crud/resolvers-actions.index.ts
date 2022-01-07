@@ -1,3 +1,14 @@
+export { FindUniqueTorrentResolver } from "./Torrent/FindUniqueTorrentResolver";
+export { FindFirstTorrentResolver } from "./Torrent/FindFirstTorrentResolver";
+export { FindManyTorrentResolver } from "./Torrent/FindManyTorrentResolver";
+export { CreateTorrentResolver } from "./Torrent/CreateTorrentResolver";
+export { DeleteTorrentResolver } from "./Torrent/DeleteTorrentResolver";
+export { UpdateTorrentResolver } from "./Torrent/UpdateTorrentResolver";
+export { DeleteManyTorrentResolver } from "./Torrent/DeleteManyTorrentResolver";
+export { UpdateManyTorrentResolver } from "./Torrent/UpdateManyTorrentResolver";
+export { UpsertTorrentResolver } from "./Torrent/UpsertTorrentResolver";
+export { AggregateTorrentResolver } from "./Torrent/AggregateTorrentResolver";
+export { GroupByTorrentResolver } from "./Torrent/GroupByTorrentResolver";
 export { FindUniqueUserResolver } from "./User/FindUniqueUserResolver";
 export { FindFirstUserResolver } from "./User/FindFirstUserResolver";
 export { FindManyUserResolver } from "./User/FindManyUserResolver";

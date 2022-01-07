@@ -55,6 +55,7 @@ input NestedStringFilter {
 }
 
 type Query {
+  torrents(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): [Torrent!]!
   users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
@@ -75,6 +76,58 @@ input StringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
+}
+
+type Torrent {
+  createdAt: DateTime!
+  hash: String!
+  name: String!
+  percentDone: String!
+  status: String!
+  torrentId: String!
+  totalSize: String!
+  updatedAt: DateTime!
+}
+
+input TorrentOrderByWithRelationInput {
+  createdAt: SortOrder
+  hash: SortOrder
+  name: SortOrder
+  percentDone: SortOrder
+  status: SortOrder
+  torrentId: SortOrder
+  totalSize: SortOrder
+  updatedAt: SortOrder
+}
+
+enum TorrentScalarFieldEnum {
+  createdAt
+  hash
+  name
+  percentDone
+  status
+  torrentId
+  totalSize
+  updatedAt
+}
+
+input TorrentWhereInput {
+  AND: [TorrentWhereInput!]
+  NOT: [TorrentWhereInput!]
+  OR: [TorrentWhereInput!]
+  createdAt: DateTimeFilter
+  hash: StringFilter
+  name: StringFilter
+  percentDone: StringFilter
+  status: StringFilter
+  torrentId: StringFilter
+  totalSize: StringFilter
+  updatedAt: DateTimeFilter
+}
+
+input TorrentWhereUniqueInput {
+  hash: String
+  torrentId: String
 }
 
 type User {

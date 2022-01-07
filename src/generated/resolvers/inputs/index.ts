@@ -14,6 +14,17 @@ export { NestedStringWithAggregatesFilter } from "./NestedStringWithAggregatesFi
 export { StringFieldUpdateOperationsInput } from "./StringFieldUpdateOperationsInput";
 export { StringFilter } from "./StringFilter";
 export { StringWithAggregatesFilter } from "./StringWithAggregatesFilter";
+export { TorrentCountOrderByAggregateInput } from "./TorrentCountOrderByAggregateInput";
+export { TorrentCreateInput } from "./TorrentCreateInput";
+export { TorrentMaxOrderByAggregateInput } from "./TorrentMaxOrderByAggregateInput";
+export { TorrentMinOrderByAggregateInput } from "./TorrentMinOrderByAggregateInput";
+export { TorrentOrderByWithAggregationInput } from "./TorrentOrderByWithAggregationInput";
+export { TorrentOrderByWithRelationInput } from "./TorrentOrderByWithRelationInput";
+export { TorrentScalarWhereWithAggregatesInput } from "./TorrentScalarWhereWithAggregatesInput";
+export { TorrentUpdateInput } from "./TorrentUpdateInput";
+export { TorrentUpdateManyMutationInput } from "./TorrentUpdateManyMutationInput";
+export { TorrentWhereInput } from "./TorrentWhereInput";
+export { TorrentWhereUniqueInput } from "./TorrentWhereUniqueInput";
 export { UserCountOrderByAggregateInput } from "./UserCountOrderByAggregateInput";
 export { UserCreateInput } from "./UserCreateInput";
 export { UserMaxOrderByAggregateInput } from "./UserMaxOrderByAggregateInput";

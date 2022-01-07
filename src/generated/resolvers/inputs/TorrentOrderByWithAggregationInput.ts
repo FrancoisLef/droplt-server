@@ -1,0 +1,68 @@
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { Prisma } from "@prisma/client";
+import { DecimalJSScalar } from "../../scalars";
+import { TorrentCountOrderByAggregateInput } from "../inputs/TorrentCountOrderByAggregateInput";
+import { TorrentMaxOrderByAggregateInput } from "../inputs/TorrentMaxOrderByAggregateInput";
+import { TorrentMinOrderByAggregateInput } from "../inputs/TorrentMinOrderByAggregateInput";
+import { SortOrder } from "../../enums/SortOrder";
+
+@TypeGraphQL.InputType("TorrentOrderByWithAggregationInput", {
+  isAbstract: true
+})
+export class TorrentOrderByWithAggregationInput {
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  torrentId?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  hash?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  name?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  percentDone?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  status?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  totalSize?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  createdAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  updatedAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentCountOrderByAggregateInput, {
+    nullable: true
+  })
+  _count?: TorrentCountOrderByAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentMaxOrderByAggregateInput, {
+    nullable: true
+  })
+  _max?: TorrentMaxOrderByAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentMinOrderByAggregateInput, {
+    nullable: true
+  })
+  _min?: TorrentMinOrderByAggregateInput | undefined;
+}

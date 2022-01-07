@@ -1,5 +1,10 @@
 export { AffectedRowsOutput } from "./AffectedRowsOutput";
+export { AggregateTorrent } from "./AggregateTorrent";
 export { AggregateUser } from "./AggregateUser";
+export { TorrentCountAggregate } from "./TorrentCountAggregate";
+export { TorrentGroupBy } from "./TorrentGroupBy";
+export { TorrentMaxAggregate } from "./TorrentMaxAggregate";
+export { TorrentMinAggregate } from "./TorrentMinAggregate";
 export { UserCountAggregate } from "./UserCountAggregate";
 export { UserGroupBy } from "./UserGroupBy";
 export { UserMaxAggregate } from "./UserMaxAggregate";
