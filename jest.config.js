@@ -3,6 +3,6 @@ module.exports = {
   preset: 'ts-jest',
   clearMocks: true,
   testEnvironment: 'node',
-  setupFiles: ['dotenv-flow/config'],
+  setupFiles: ['<rootDir>/src/bootstrap.ts'],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 };

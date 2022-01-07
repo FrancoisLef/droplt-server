@@ -1,5 +1,5 @@
-import 'dotenv-flow/config';
-import 'reflect-metadata';
+import './bootstrap';
+import './services/transmission';
 
 import { ApolloServer } from 'apollo-server-express';
 import * as tq from 'type-graphql';
