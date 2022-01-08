@@ -4,7 +4,7 @@ export enum TorrentScalarFieldEnum {
   torrentId = "torrentId",
   hash = "hash",
   name = "name",
-  percentDone = "percentDone",
+  progress = "progress",
   status = "status",
   totalSize = "totalSize",
   createdAt = "createdAt",

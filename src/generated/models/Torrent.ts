@@ -22,20 +22,20 @@ export class Torrent {
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
-  percentDone!: string;
+  progress!: number;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   status!: string;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  totalSize!: string;
+  totalSize!: number;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false

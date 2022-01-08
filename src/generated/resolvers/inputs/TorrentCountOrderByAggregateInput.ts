@@ -26,7 +26,7 @@ export class TorrentCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  percentDone?: "asc" | "desc" | undefined;
+  progress?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

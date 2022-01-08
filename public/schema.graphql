@@ -24,6 +24,28 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
 input NestedBoolFilter {
   equals: Boolean
   not: NestedBoolFilter
@@ -38,6 +60,28 @@ input NestedDateTimeFilter {
   lte: DateTime
   not: NestedDateTimeFilter
   notIn: [DateTime!]
+}
+
+input NestedFloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
 }
 
 input NestedStringFilter {
@@ -82,10 +126,10 @@ type Torrent {
   createdAt: DateTime!
   hash: String!
   name: String!
-  percentDone: String!
+  progress: Float!
   status: String!
   torrentId: String!
-  totalSize: String!
+  totalSize: Int!
   updatedAt: DateTime!
 }
 
@@ -93,7 +137,7 @@ input TorrentOrderByWithRelationInput {
   createdAt: SortOrder
   hash: SortOrder
   name: SortOrder
-  percentDone: SortOrder
+  progress: SortOrder
   status: SortOrder
   torrentId: SortOrder
   totalSize: SortOrder
@@ -104,7 +148,7 @@ enum TorrentScalarFieldEnum {
   createdAt
   hash
   name
-  percentDone
+  progress
   status
   torrentId
   totalSize
@@ -118,10 +162,10 @@ input TorrentWhereInput {
   createdAt: DateTimeFilter
   hash: StringFilter
   name: StringFilter
-  percentDone: StringFilter
+  progress: FloatFilter
   status: StringFilter
   torrentId: StringFilter
-  totalSize: StringFilter
+  totalSize: IntFilter
   updatedAt: DateTimeFilter
 }
 

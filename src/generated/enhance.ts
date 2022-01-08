@@ -194,7 +194,7 @@ function applyTypeClassEnhanceConfig<
 
 const modelsInfo = {
   User: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  Torrent: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"]
+  Torrent: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"]
 };
 
 type ModelNames = keyof typeof models;
@@ -235,15 +235,17 @@ export function applyModelsEnhanceMap(modelsEnhanceMap: ModelsEnhanceMap) {
 const outputsInfo = {
   AggregateUser: ["_count", "_min", "_max"],
   UserGroupBy: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_count", "_min", "_max"],
-  AggregateTorrent: ["_count", "_min", "_max"],
-  TorrentGroupBy: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt", "_count", "_min", "_max"],
+  AggregateTorrent: ["_count", "_avg", "_sum", "_min", "_max"],
+  TorrentGroupBy: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
   AffectedRowsOutput: ["count"],
   UserCountAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_all"],
   UserMinAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserMaxAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentCountAggregate: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt", "_all"],
-  TorrentMinAggregate: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentMaxAggregate: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"]
+  TorrentCountAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_all"],
+  TorrentAvgAggregate: ["progress", "totalSize"],
+  TorrentSumAggregate: ["progress", "totalSize"],
+  TorrentMinAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentMaxAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"]
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -289,17 +291,17 @@ const inputsInfo = {
   UserWhereUniqueInput: ["userId", "email"],
   UserOrderByWithAggregationInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_count", "_max", "_min"],
   UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentWhereInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentOrderByWithRelationInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentWhereInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentOrderByWithRelationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
   TorrentWhereUniqueInput: ["torrentId", "hash"],
-  TorrentOrderByWithAggregationInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt", "_count", "_max", "_min"],
-  TorrentScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentOrderByWithAggregationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
+  TorrentScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
   UserCreateInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserUpdateInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserUpdateManyMutationInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentCreateInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentUpdateInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentUpdateManyMutationInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentCreateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentUpdateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentUpdateManyMutationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
   StringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
   BoolFilter: ["equals", "not"],
   DateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
@@ -309,19 +311,30 @@ const inputsInfo = {
   StringWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
   BoolWithAggregatesFilter: ["equals", "not", "_count", "_min", "_max"],
   DateTimeWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
-  TorrentCountOrderByAggregateInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentMaxOrderByAggregateInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentMinOrderByAggregateInput: ["torrentId", "hash", "name", "percentDone", "status", "totalSize", "createdAt", "updatedAt"],
+  FloatFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  IntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  TorrentCountOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentAvgOrderByAggregateInput: ["progress", "totalSize"],
+  TorrentMaxOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentMinOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentSumOrderByAggregateInput: ["progress", "totalSize"],
+  FloatWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
+  IntWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
   StringFieldUpdateOperationsInput: ["set"],
   BoolFieldUpdateOperationsInput: ["set"],
   DateTimeFieldUpdateOperationsInput: ["set"],
+  FloatFieldUpdateOperationsInput: ["set", "increment", "decrement", "multiply", "divide"],
+  IntFieldUpdateOperationsInput: ["set", "increment", "decrement", "multiply", "divide"],
   NestedStringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
   NestedBoolFilter: ["equals", "not"],
   NestedDateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   NestedStringWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
   NestedIntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   NestedBoolWithAggregatesFilter: ["equals", "not", "_count", "_min", "_max"],
-  NestedDateTimeWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"]
+  NestedDateTimeWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
+  NestedFloatFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  NestedFloatWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
+  NestedIntWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"]
 };
 
 type InputTypesNames = keyof typeof inputTypes;

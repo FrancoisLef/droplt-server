@@ -22,20 +22,20 @@ export class TorrentMinAggregate {
   })
   name!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
-  percentDone!: string | null;
+  progress!: number | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   status!: string | null;
 
-  @TypeGraphQL.Field(_type => String, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  totalSize!: string | null;
+  totalSize!: number | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

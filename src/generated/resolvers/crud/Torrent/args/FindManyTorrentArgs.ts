@@ -35,5 +35,5 @@ export class FindManyTorrentArgs {
   @TypeGraphQL.Field(_type => [TorrentScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"torrentId" | "hash" | "name" | "percentDone" | "status" | "totalSize" | "createdAt" | "updatedAt"> | undefined;
+  distinct?: Array<"torrentId" | "hash" | "name" | "progress" | "status" | "totalSize" | "createdAt" | "updatedAt"> | undefined;
 }

@@ -2,15 +2,24 @@ import './bootstrap';
 import './services/transmission';
 
 import { ApolloServer } from 'apollo-server-express';
+import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as tq from 'type-graphql';
 
 import app from './app';
 import { FindManyTorrentResolver, FindManyUserResolver } from './generated';
+import { feeder } from './jobs';
 import prisma from './prisma';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
 (async () => {
+  /**
+   * In-memory jobs scheduler
+   */
+  new ToadScheduler().addSimpleIntervalJob(
+    new SimpleIntervalJob({ milliseconds: 2000 }, feeder)
+  );
+
   /**
    * ApolloServer configuration
    */

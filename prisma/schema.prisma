@@ -24,12 +24,12 @@ model User {
 }
 
 model Torrent {
-  torrentId   String   @id @default(uuid())
-  hash        String   @unique
-  name        String
-  percentDone String
-  status      String
-  totalSize   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  torrentId String   @id @default(uuid())
+  hash      String   @unique
+  name      String
+  progress  Float
+  status    String
+  totalSize Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

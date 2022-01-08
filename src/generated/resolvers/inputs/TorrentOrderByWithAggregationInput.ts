@@ -2,9 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { TorrentAvgOrderByAggregateInput } from "../inputs/TorrentAvgOrderByAggregateInput";
 import { TorrentCountOrderByAggregateInput } from "../inputs/TorrentCountOrderByAggregateInput";
 import { TorrentMaxOrderByAggregateInput } from "../inputs/TorrentMaxOrderByAggregateInput";
 import { TorrentMinOrderByAggregateInput } from "../inputs/TorrentMinOrderByAggregateInput";
+import { TorrentSumOrderByAggregateInput } from "../inputs/TorrentSumOrderByAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("TorrentOrderByWithAggregationInput", {
@@ -29,7 +31,7 @@ export class TorrentOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  percentDone?: "asc" | "desc" | undefined;
+  progress?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -56,6 +58,11 @@ export class TorrentOrderByWithAggregationInput {
   })
   _count?: TorrentCountOrderByAggregateInput | undefined;
 
+  @TypeGraphQL.Field(_type => TorrentAvgOrderByAggregateInput, {
+    nullable: true
+  })
+  _avg?: TorrentAvgOrderByAggregateInput | undefined;
+
   @TypeGraphQL.Field(_type => TorrentMaxOrderByAggregateInput, {
     nullable: true
   })
@@ -65,4 +72,9 @@ export class TorrentOrderByWithAggregationInput {
     nullable: true
   })
   _min?: TorrentMinOrderByAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentSumOrderByAggregateInput, {
+    nullable: true
+  })
+  _sum?: TorrentSumOrderByAggregateInput | undefined;
 }

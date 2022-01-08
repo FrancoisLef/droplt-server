@@ -9,4 +9,5 @@ const transmission = new Transmission({
   password: TRANSMISSION_PASSWORD,
 });
 
+export * from './normalize';
 export default transmission;

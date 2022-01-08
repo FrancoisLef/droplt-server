@@ -3,6 +3,8 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { FloatFilter } from "../inputs/FloatFilter";
+import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("TorrentWhereInput", {
@@ -39,20 +41,20 @@ export class TorrentWhereInput {
   })
   name?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  percentDone?: StringFilter | undefined;
+  progress?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   status?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
-  totalSize?: StringFilter | undefined;
+  totalSize?: IntFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
