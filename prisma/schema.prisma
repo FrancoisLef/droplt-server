@@ -24,12 +24,31 @@ model User {
 }
 
 model Torrent {
-  torrentId String   @id @default(uuid())
-  hash      String   @unique
-  name      String
-  progress  Float
-  status    String
-  totalSize Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  torrentId      String        @id @default(uuid())
+  hash           String        @unique
+  transmissionId Int
+  name           String
+  size           Int
+  path           String
+  files          TorrentFile[]
+  progress       Float         @default(0)
+  ratio          Float         @default(0)
+  status         String
+  downloaded     Int           @default(0)
+  uploaded       Int           @default(0)
+  addedAt        DateTime
+  completedAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model TorrentFile {
+  torrentFileId String   @id @default(uuid())
+  torrentId     String?
+  name          String
+  size          Int
+  downloaded    Int      @default(0)
+  Torrent       Torrent? @relation(fields: [torrentId], references: [torrentId])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

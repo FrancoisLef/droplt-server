@@ -17,15 +17,35 @@ export class TorrentMinAggregate {
   })
   hash!: string | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  transmissionId!: number | null;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
   name!: string | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  size!: number | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  path!: string | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
   progress!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  ratio!: number | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -35,7 +55,22 @@ export class TorrentMinAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  totalSize!: number | null;
+  downloaded!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  uploaded!: number | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  addedAt!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  completedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

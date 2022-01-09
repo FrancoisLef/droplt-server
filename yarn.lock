@@ -449,14 +449,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ctrl/transmission@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@ctrl/transmission@npm:2.4.0"
+"@ctrl/transmission@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@ctrl/transmission@npm:2.4.1"
   dependencies:
     "@ctrl/shared-torrent": ^3.0.5
     "@ctrl/url-join": ^1.0.4
     got: ^11.8.3
-  checksum: d980b210a6707790f224916f567035765b50431b55fe9d52409eedf9e07bae7a67a026d7ac412d120973cd6d61acd64a655bc4716c48a0a1fcd71a940d649e99
+  checksum: 9a0e4409c6b2dd8d7f2b09513654bfcd23798f3592736ed49b2892ad83c5a1343c7718722b21a42ae0169c987c683846226fbbd312b9cb4123a3122e99eb17fc
   languageName: node
   linkType: hard
 
@@ -3552,7 +3552,7 @@ __metadata:
   resolution: "droplt-server@workspace:."
   dependencies:
     "@ctrl/shared-torrent": ^4.0.0
-    "@ctrl/transmission": ^2.4.0
+    "@ctrl/transmission": ^2.4.1
     "@prisma/client": ^3.7.0
     "@types/bcrypt": ^5.0.0
     "@types/chance": ^1.1.3

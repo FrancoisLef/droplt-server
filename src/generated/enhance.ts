@@ -3,13 +3,15 @@ import * as tslib from "tslib";
 import * as crudResolvers from "./resolvers/crud/resolvers-crud.index";
 import * as argsTypes from "./resolvers/crud/args.index";
 import * as actionResolvers from "./resolvers/crud/resolvers-actions.index";
+import * as relationResolvers from "./resolvers/relations/resolvers.index";
 import * as models from "./models";
 import * as outputTypes from "./resolvers/outputs";
 import * as inputTypes from "./resolvers/inputs";
 
 const crudResolversMap = {
   User: crudResolvers.UserCrudResolver,
-  Torrent: crudResolvers.TorrentCrudResolver
+  Torrent: crudResolvers.TorrentCrudResolver,
+  TorrentFile: crudResolvers.TorrentFileCrudResolver
 };
 const actionResolversMap = {
   User: {
@@ -37,11 +39,25 @@ const actionResolversMap = {
     upsertTorrent: actionResolvers.UpsertTorrentResolver,
     aggregateTorrent: actionResolvers.AggregateTorrentResolver,
     groupByTorrent: actionResolvers.GroupByTorrentResolver
+  },
+  TorrentFile: {
+    torrentFile: actionResolvers.FindUniqueTorrentFileResolver,
+    findFirstTorrentFile: actionResolvers.FindFirstTorrentFileResolver,
+    torrentFiles: actionResolvers.FindManyTorrentFileResolver,
+    createTorrentFile: actionResolvers.CreateTorrentFileResolver,
+    deleteTorrentFile: actionResolvers.DeleteTorrentFileResolver,
+    updateTorrentFile: actionResolvers.UpdateTorrentFileResolver,
+    deleteManyTorrentFile: actionResolvers.DeleteManyTorrentFileResolver,
+    updateManyTorrentFile: actionResolvers.UpdateManyTorrentFileResolver,
+    upsertTorrentFile: actionResolvers.UpsertTorrentFileResolver,
+    aggregateTorrentFile: actionResolvers.AggregateTorrentFileResolver,
+    groupByTorrentFile: actionResolvers.GroupByTorrentFileResolver
   }
 };
 const crudResolversInfo = {
   User: ["user", "findFirstUser", "users", "createUser", "deleteUser", "updateUser", "deleteManyUser", "updateManyUser", "upsertUser", "aggregateUser", "groupByUser"],
-  Torrent: ["torrent", "findFirstTorrent", "torrents", "createTorrent", "deleteTorrent", "updateTorrent", "deleteManyTorrent", "updateManyTorrent", "upsertTorrent", "aggregateTorrent", "groupByTorrent"]
+  Torrent: ["torrent", "findFirstTorrent", "torrents", "createTorrent", "deleteTorrent", "updateTorrent", "deleteManyTorrent", "updateManyTorrent", "upsertTorrent", "aggregateTorrent", "groupByTorrent"],
+  TorrentFile: ["torrentFile", "findFirstTorrentFile", "torrentFiles", "createTorrentFile", "deleteTorrentFile", "updateTorrentFile", "deleteManyTorrentFile", "updateManyTorrentFile", "upsertTorrentFile", "aggregateTorrentFile", "groupByTorrentFile"]
 };
 const argsInfo = {
   FindUniqueUserArgs: ["where"],
@@ -65,7 +81,18 @@ const argsInfo = {
   UpdateManyTorrentArgs: ["data", "where"],
   UpsertTorrentArgs: ["where", "create", "update"],
   AggregateTorrentArgs: ["where", "orderBy", "cursor", "take", "skip"],
-  GroupByTorrentArgs: ["where", "orderBy", "by", "having", "take", "skip"]
+  GroupByTorrentArgs: ["where", "orderBy", "by", "having", "take", "skip"],
+  FindUniqueTorrentFileArgs: ["where"],
+  FindFirstTorrentFileArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  FindManyTorrentFileArgs: ["where", "orderBy", "cursor", "take", "skip", "distinct"],
+  CreateTorrentFileArgs: ["data"],
+  DeleteTorrentFileArgs: ["where"],
+  UpdateTorrentFileArgs: ["data", "where"],
+  DeleteManyTorrentFileArgs: ["where"],
+  UpdateManyTorrentFileArgs: ["data", "where"],
+  UpsertTorrentFileArgs: ["where", "create", "update"],
+  AggregateTorrentFileArgs: ["where", "orderBy", "cursor", "take", "skip"],
+  GroupByTorrentFileArgs: ["where", "orderBy", "by", "having", "take", "skip"]
 };
 
 type ResolverModelNames = keyof typeof crudResolversMap;
@@ -154,6 +181,54 @@ export function applyArgsTypesEnhanceMap(
   }
 }
 
+const relationResolversMap = {
+  Torrent: relationResolvers.TorrentRelationsResolver,
+  TorrentFile: relationResolvers.TorrentFileRelationsResolver
+};
+const relationResolversInfo = {
+  Torrent: ["files"],
+  TorrentFile: ["Torrent"]
+};
+
+type RelationResolverModelNames = keyof typeof relationResolversMap;
+
+type RelationResolverActionNames<
+  TModel extends RelationResolverModelNames
+  > = keyof typeof relationResolversMap[TModel]["prototype"];
+
+export type RelationResolverActionsConfig<TModel extends RelationResolverModelNames>
+  = Partial<Record<RelationResolverActionNames<TModel> | "_all", MethodDecorator[]>>;
+
+export type RelationResolversEnhanceMap = {
+  [TModel in RelationResolverModelNames]?: RelationResolverActionsConfig<TModel>;
+};
+
+export function applyRelationResolversEnhanceMap(
+  relationResolversEnhanceMap: RelationResolversEnhanceMap,
+) {
+  for (const relationResolversEnhanceMapKey of Object.keys(relationResolversEnhanceMap)) {
+    const modelName = relationResolversEnhanceMapKey as keyof typeof relationResolversEnhanceMap;
+    const relationResolverTarget = relationResolversMap[modelName].prototype;
+    const relationResolverActionsConfig = relationResolversEnhanceMap[modelName]!;
+    if (relationResolverActionsConfig._all) {
+      const allActionsDecorators = relationResolverActionsConfig._all;
+      const relationResolverActionNames = relationResolversInfo[modelName as keyof typeof relationResolversInfo];
+      for (const relationResolverActionName of relationResolverActionNames) {
+        tslib.__decorate(allActionsDecorators, relationResolverTarget, relationResolverActionName, null);
+      }
+    }
+    const relationResolverActionsToApply = Object.keys(relationResolverActionsConfig).filter(
+      it => it !== "_all"
+    );
+    for (const relationResolverActionName of relationResolverActionsToApply) {
+      const decorators = relationResolverActionsConfig[
+        relationResolverActionName as keyof typeof relationResolverActionsConfig
+      ] as MethodDecorator[];
+      tslib.__decorate(decorators, relationResolverTarget, relationResolverActionName, null);
+    }
+  }
+}
+
 type TypeConfig = {
   class?: ClassDecorator[];
   fields?: FieldsConfig;
@@ -194,7 +269,8 @@ function applyTypeClassEnhanceConfig<
 
 const modelsInfo = {
   User: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  Torrent: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"]
+  Torrent: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentFile: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"]
 };
 
 type ModelNames = keyof typeof models;
@@ -236,16 +312,24 @@ const outputsInfo = {
   AggregateUser: ["_count", "_min", "_max"],
   UserGroupBy: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_count", "_min", "_max"],
   AggregateTorrent: ["_count", "_avg", "_sum", "_min", "_max"],
-  TorrentGroupBy: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
+  TorrentGroupBy: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
+  AggregateTorrentFile: ["_count", "_avg", "_sum", "_min", "_max"],
+  TorrentFileGroupBy: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt", "_count", "_avg", "_sum", "_min", "_max"],
   AffectedRowsOutput: ["count"],
   UserCountAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_all"],
   UserMinAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserMaxAggregate: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentCountAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_all"],
-  TorrentAvgAggregate: ["progress", "totalSize"],
-  TorrentSumAggregate: ["progress", "totalSize"],
-  TorrentMinAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentMaxAggregate: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"]
+  TorrentCount: ["files"],
+  TorrentCountAggregate: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt", "_all"],
+  TorrentAvgAggregate: ["transmissionId", "size", "progress", "ratio", "downloaded", "uploaded"],
+  TorrentSumAggregate: ["transmissionId", "size", "progress", "ratio", "downloaded", "uploaded"],
+  TorrentMinAggregate: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentMaxAggregate: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentFileCountAggregate: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt", "_all"],
+  TorrentFileAvgAggregate: ["size", "downloaded"],
+  TorrentFileSumAggregate: ["size", "downloaded"],
+  TorrentFileMinAggregate: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentFileMaxAggregate: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"]
 };
 
 type OutputTypesNames = keyof typeof outputTypes;
@@ -291,17 +375,25 @@ const inputsInfo = {
   UserWhereUniqueInput: ["userId", "email"],
   UserOrderByWithAggregationInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt", "_count", "_max", "_min"],
   UserScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentWhereInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentOrderByWithRelationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentWhereInput: ["AND", "OR", "NOT", "torrentId", "hash", "transmissionId", "name", "size", "path", "files", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentOrderByWithRelationInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "files", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
   TorrentWhereUniqueInput: ["torrentId", "hash"],
-  TorrentOrderByWithAggregationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
-  TorrentScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentOrderByWithAggregationInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
+  TorrentScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentFileWhereInput: ["AND", "OR", "NOT", "torrentFileId", "torrentId", "name", "size", "downloaded", "Torrent", "createdAt", "updatedAt"],
+  TorrentFileOrderByWithRelationInput: ["torrentFileId", "torrentId", "name", "size", "downloaded", "Torrent", "createdAt", "updatedAt"],
+  TorrentFileWhereUniqueInput: ["torrentFileId"],
+  TorrentFileOrderByWithAggregationInput: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt", "_count", "_avg", "_max", "_min", "_sum"],
+  TorrentFileScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
   UserCreateInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserUpdateInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   UserUpdateManyMutationInput: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
-  TorrentCreateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentUpdateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentUpdateManyMutationInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
+  TorrentCreateInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt", "files"],
+  TorrentUpdateInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt", "files"],
+  TorrentUpdateManyMutationInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentFileCreateInput: ["torrentFileId", "name", "size", "downloaded", "createdAt", "updatedAt", "Torrent"],
+  TorrentFileUpdateInput: ["torrentFileId", "name", "size", "downloaded", "createdAt", "updatedAt", "Torrent"],
+  TorrentFileUpdateManyMutationInput: ["torrentFileId", "name", "size", "downloaded", "createdAt", "updatedAt"],
   StringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
   BoolFilter: ["equals", "not"],
   DateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
@@ -311,20 +403,38 @@ const inputsInfo = {
   StringWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
   BoolWithAggregatesFilter: ["equals", "not", "_count", "_min", "_max"],
   DateTimeWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
-  FloatFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
   IntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
-  TorrentCountOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentAvgOrderByAggregateInput: ["progress", "totalSize"],
-  TorrentMaxOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentMinOrderByAggregateInput: ["torrentId", "hash", "name", "progress", "status", "totalSize", "createdAt", "updatedAt"],
-  TorrentSumOrderByAggregateInput: ["progress", "totalSize"],
-  FloatWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
+  TorrentFileListRelationFilter: ["every", "some", "none"],
+  FloatFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  DateTimeNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  TorrentFileOrderByRelationAggregateInput: ["_count"],
+  TorrentCountOrderByAggregateInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentAvgOrderByAggregateInput: ["transmissionId", "size", "progress", "ratio", "downloaded", "uploaded"],
+  TorrentMaxOrderByAggregateInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentMinOrderByAggregateInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentSumOrderByAggregateInput: ["transmissionId", "size", "progress", "ratio", "downloaded", "uploaded"],
   IntWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
+  FloatWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
+  DateTimeNullableWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
+  StringNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
+  TorrentRelationFilter: ["is", "isNot"],
+  TorrentFileCountOrderByAggregateInput: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentFileAvgOrderByAggregateInput: ["size", "downloaded"],
+  TorrentFileMaxOrderByAggregateInput: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentFileMinOrderByAggregateInput: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentFileSumOrderByAggregateInput: ["size", "downloaded"],
+  StringNullableWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
   StringFieldUpdateOperationsInput: ["set"],
   BoolFieldUpdateOperationsInput: ["set"],
   DateTimeFieldUpdateOperationsInput: ["set"],
-  FloatFieldUpdateOperationsInput: ["set", "increment", "decrement", "multiply", "divide"],
+  TorrentFileCreateNestedManyWithoutTorrentInput: ["create", "connectOrCreate", "connect"],
   IntFieldUpdateOperationsInput: ["set", "increment", "decrement", "multiply", "divide"],
+  FloatFieldUpdateOperationsInput: ["set", "increment", "decrement", "multiply", "divide"],
+  NullableDateTimeFieldUpdateOperationsInput: ["set"],
+  TorrentFileUpdateManyWithoutTorrentInput: ["create", "connectOrCreate", "upsert", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
+  TorrentCreateNestedOneWithoutFilesInput: ["create", "connectOrCreate", "connect"],
+  TorrentUpdateOneWithoutFilesInput: ["create", "connectOrCreate", "upsert", "disconnect", "delete", "connect", "update"],
+  NullableStringFieldUpdateOperationsInput: ["set"],
   NestedStringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
   NestedBoolFilter: ["equals", "not"],
   NestedDateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
@@ -333,8 +443,24 @@ const inputsInfo = {
   NestedBoolWithAggregatesFilter: ["equals", "not", "_count", "_min", "_max"],
   NestedDateTimeWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
   NestedFloatFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  NestedDateTimeNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  NestedIntWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
   NestedFloatWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"],
-  NestedIntWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_avg", "_sum", "_min", "_max"]
+  NestedDateTimeNullableWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not", "_count", "_min", "_max"],
+  NestedIntNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  NestedStringNullableFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
+  NestedStringNullableWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
+  TorrentFileCreateWithoutTorrentInput: ["torrentFileId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentFileCreateOrConnectWithoutTorrentInput: ["where", "create"],
+  TorrentFileUpsertWithWhereUniqueWithoutTorrentInput: ["where", "update", "create"],
+  TorrentFileUpdateWithWhereUniqueWithoutTorrentInput: ["where", "data"],
+  TorrentFileUpdateManyWithWhereWithoutTorrentInput: ["where", "data"],
+  TorrentFileScalarWhereInput: ["AND", "OR", "NOT", "torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"],
+  TorrentCreateWithoutFilesInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentCreateOrConnectWithoutFilesInput: ["where", "create"],
+  TorrentUpsertWithoutFilesInput: ["update", "create"],
+  TorrentUpdateWithoutFilesInput: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
+  TorrentFileUpdateWithoutTorrentInput: ["torrentFileId", "name", "size", "downloaded", "createdAt", "updatedAt"]
 };
 
 type InputTypesNames = keyof typeof inputTypes;

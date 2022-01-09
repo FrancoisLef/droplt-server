@@ -20,7 +20,7 @@ export class GroupByTorrentArgs {
   @TypeGraphQL.Field(_type => [TorrentScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"torrentId" | "hash" | "name" | "progress" | "status" | "totalSize" | "createdAt" | "updatedAt">;
+  by!: Array<"torrentId" | "hash" | "transmissionId" | "name" | "size" | "path" | "progress" | "ratio" | "status" | "downloaded" | "uploaded" | "addedAt" | "completedAt" | "createdAt" | "updatedAt">;
 
   @TypeGraphQL.Field(_type => TorrentScalarWhereWithAggregatesInput, {
     nullable: true

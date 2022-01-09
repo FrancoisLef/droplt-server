@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { TorrentFileCreateNestedManyWithoutTorrentInput } from "../inputs/TorrentFileCreateNestedManyWithoutTorrentInput";
 
 @TypeGraphQL.InputType("TorrentCreateInput", {
   isAbstract: true
@@ -17,15 +18,35 @@ export class TorrentCreateInput {
   })
   hash!: string;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  transmissionId!: number;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  progress!: number;
+  size!: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  path!: string;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  progress?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  ratio?: number | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -33,9 +54,24 @@ export class TorrentCreateInput {
   status!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  downloaded?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  uploaded?: number | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  totalSize!: number;
+  addedAt!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  completedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
@@ -46,4 +82,9 @@ export class TorrentCreateInput {
     nullable: true
   })
   updatedAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentFileCreateNestedManyWithoutTorrentInput, {
+    nullable: true
+  })
+  files?: TorrentFileCreateNestedManyWithoutTorrentInput | undefined;
 }

@@ -7,13 +7,33 @@ import { DecimalJSScalar } from "../../scalars";
   isAbstract: true
 })
 export class TorrentSumAggregate {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  transmissionId!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  size!: number | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
   progress!: number | null;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  ratio!: number | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
-  totalSize!: number | null;
+  downloaded!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  uploaded!: number | null;
 }

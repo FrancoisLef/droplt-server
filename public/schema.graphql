@@ -24,6 +24,17 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
+input DateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTime!]
+}
+
 input FloatFilter {
   equals: Float
   gt: Float
@@ -59,6 +70,17 @@ input NestedDateTimeFilter {
   lt: DateTime
   lte: DateTime
   not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
   notIn: [DateTime!]
 }
 
@@ -98,6 +120,20 @@ input NestedStringFilter {
   startsWith: String
 }
 
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 type Query {
   torrents(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): [Torrent!]!
   users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
@@ -122,51 +158,129 @@ input StringFilter {
   startsWith: String
 }
 
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 type Torrent {
+  _count: TorrentCount
+  addedAt: DateTime!
+  completedAt: DateTime
   createdAt: DateTime!
+  downloaded: Int!
   hash: String!
   name: String!
+  path: String!
   progress: Float!
+  ratio: Float!
+  size: Int!
   status: String!
   torrentId: String!
-  totalSize: Int!
+  transmissionId: Int!
   updatedAt: DateTime!
+  uploaded: Int!
+}
+
+type TorrentCount {
+  files: Int!
+}
+
+input TorrentFileListRelationFilter {
+  every: TorrentFileWhereInput
+  none: TorrentFileWhereInput
+  some: TorrentFileWhereInput
+}
+
+input TorrentFileOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TorrentFileWhereInput {
+  AND: [TorrentFileWhereInput!]
+  NOT: [TorrentFileWhereInput!]
+  OR: [TorrentFileWhereInput!]
+  Torrent: TorrentRelationFilter
+  createdAt: DateTimeFilter
+  downloaded: IntFilter
+  name: StringFilter
+  size: IntFilter
+  torrentFileId: StringFilter
+  torrentId: StringNullableFilter
+  updatedAt: DateTimeFilter
 }
 
 input TorrentOrderByWithRelationInput {
+  addedAt: SortOrder
+  completedAt: SortOrder
   createdAt: SortOrder
+  downloaded: SortOrder
+  files: TorrentFileOrderByRelationAggregateInput
   hash: SortOrder
   name: SortOrder
+  path: SortOrder
   progress: SortOrder
+  ratio: SortOrder
+  size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  totalSize: SortOrder
+  transmissionId: SortOrder
   updatedAt: SortOrder
+  uploaded: SortOrder
+}
+
+input TorrentRelationFilter {
+  is: TorrentWhereInput
+  isNot: TorrentWhereInput
 }
 
 enum TorrentScalarFieldEnum {
+  addedAt
+  completedAt
   createdAt
+  downloaded
   hash
   name
+  path
   progress
+  ratio
+  size
   status
   torrentId
-  totalSize
+  transmissionId
   updatedAt
+  uploaded
 }
 
 input TorrentWhereInput {
   AND: [TorrentWhereInput!]
   NOT: [TorrentWhereInput!]
   OR: [TorrentWhereInput!]
+  addedAt: DateTimeFilter
+  completedAt: DateTimeNullableFilter
   createdAt: DateTimeFilter
+  downloaded: IntFilter
+  files: TorrentFileListRelationFilter
   hash: StringFilter
   name: StringFilter
+  path: StringFilter
   progress: FloatFilter
+  ratio: FloatFilter
+  size: IntFilter
   status: StringFilter
   torrentId: StringFilter
-  totalSize: IntFilter
+  transmissionId: IntFilter
   updatedAt: DateTimeFilter
+  uploaded: IntFilter
 }
 
 input TorrentWhereUniqueInput {

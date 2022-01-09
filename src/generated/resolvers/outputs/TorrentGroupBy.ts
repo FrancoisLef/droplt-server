@@ -22,15 +22,35 @@ export class TorrentGroupBy {
   })
   hash!: string;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  transmissionId!: number;
+
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   name!: string;
 
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  size!: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  path!: string;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
   progress!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: false
+  })
+  ratio!: number;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
@@ -40,7 +60,22 @@ export class TorrentGroupBy {
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
-  totalSize!: number;
+  downloaded!: number;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  uploaded!: number;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  addedAt!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  completedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
