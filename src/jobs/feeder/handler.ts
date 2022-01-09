@@ -1,8 +1,6 @@
 import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
-// import { Torrent } from '@prisma/client';
 import deepEqual from 'deep-equal';
 
-// import { pick } from 'ramda';
 import prisma from '../../prisma';
 import transmission, {
   FeedTorrent,
@@ -24,16 +22,8 @@ interface UpdatesFeed {
 interface DiffFeed {
   creates: CreatesFeed;
   updates: UpdatesFeed;
+  deletes: string[];
 }
-
-// const PROPS_TO_SAVE: Array<keyof NormalizedTorrent> = [
-//   'id',
-//   'name',
-//   'hash',
-//   'totalSize',
-//   'progress',
-//   'state',
-// ];
 
 export default class Handler {
   private currFeed: RawFeed = {};
@@ -45,8 +35,8 @@ export default class Handler {
     // build next feed
     const nextFeed = this.formatFeed(listTorrents.arguments.torrents);
 
-    // build diff with current feed
-    const { creates, updates } = this.feedsDiff(nextFeed);
+    // compute differences between current and next feeds
+    const { creates, updates, deletes } = this.feedsDiff(nextFeed);
 
     // create newly detected torrents
     await this.handleCreates(creates);
@@ -54,51 +44,8 @@ export default class Handler {
     // update already detected torrents
     await this.handleUpdates(updates);
 
-    console.log(creates, updates);
-
-    // // build diff to be applied to database
-    // const updates = this.formatUpdates(feedDiff);
-
-    // if (updates.length !== 0) {
-    //   console.log(updates);
-    //   // const upserts = updates.map(data => {
-    //   //   const { hash, name } = data;
-
-    //   //   return prisma.torrent.upsert({
-    //   //     where: {
-    //   //       hash
-    //   //     },
-    //   //     update: data,
-    //   //     create: {
-    //   //       hash,
-    //   //       name,
-    //   //     }
-    //   //   });
-    //   // });
-    //   // await prisma.$transaction(upserts);
-    //   // // console.log(updates);
-    //   // const batch = repository.createBatch();
-    //   // updates.map((update) => {
-    //   //   const torrent = new Torrent();
-    //   //   if (update.uuid) {
-    //   //     torrent.id = update.uuid;
-    //   //   }
-    //   //   if (update.name) {
-    //   //     torrent.name = update.name;
-    //   //   }
-    //   //   if (update.totalSize) {
-    //   //     torrent.size = update.totalSize;
-    //   //   }
-    //   //   if (update.state) {
-    //   //     torrent.state = update.state;
-    //   //   }
-    //   //   if (update.progress) {
-    //   //     torrent.progress = update.progress;
-    //   //   }
-    //   //   batch.create(torrent);
-    //   // });
-    //   // await batch.commit();
-    // }
+    // delete torrents
+    await this.handleDeletes(deletes);
 
     this.currFeed = nextFeed;
   }
@@ -138,9 +85,12 @@ export default class Handler {
       return acc;
     }, {} as UpdatesFeed);
 
+    const deletes = this.detectDeletes(nextFeed, Object.keys(creates).length);
+
     return {
       creates,
       updates,
+      deletes,
     };
   }
 
@@ -173,48 +123,46 @@ export default class Handler {
     return prisma.$transaction(transactions);
   }
 
-  // private handleDeletedItems(nextFeed: Feed, newItemCount: number) {
-  //   // we need to look for deleted items in two scenarios:
-  //   // 1. the next feed length is less than the current feed length
-  //   // 2. at least one new item was added and the next feed length is
-  //   //    equal to or greater than the current feed length
-  //   //
-  //   // we definitely don't need to look for deleted items if the number
-  //   // of new items is equal to the difference between next feed list
-  //   // length and previous feed list length
-  //   const nextFeedLength = Object.keys(nextFeed).length;
-  //   const currFeedLength = Object.keys(this.currFeed).length;
+  private async handleDeletes(deletes: string[]) {
+    const transactions = deletes.map((hash) => {
+      return prisma.torrent.delete({
+        where: {
+          hash,
+        },
+      });
+    });
 
-  //   // check if the next feed has less items than the current feed
-  //   let shouldLook = nextFeedLength < currFeedLength;
+    return prisma.$transaction(transactions);
+  }
 
-  //   if (newItemCount > 0) {
-  //     if (nextFeedLength >= currFeedLength) shouldLook = true;
-  //     if (newItemCount === nextFeedLength - currFeedLength) shouldLook = false;
-  //   }
+  private detectDeletes(nextFeed: RawFeed, newItemCount: number): string[] {
+    // we need to look for deleted items in two scenarios:
+    // 1. the next feed length is less than the current feed length
+    // 2. at least one new item was added and the next feed length is
+    //    equal to or greater than the current feed length
+    //
+    // we definitely don't need to look for deleted items if the number
+    // of new items is equal to the difference between next feed list
+    // length and previous feed list length
+    const nextFeedLength = Object.keys(nextFeed).length;
+    const currFeedLength = Object.keys(this.currFeed).length;
 
-  //   if (shouldLook) {
-  //     Object.keys(this.currFeed).forEach((hash) => {
-  //       if (typeof nextFeed[hash] === 'undefined') {
-  //         // soft delete item from database
-  //         console.log('DELETE', hash);
-  //       }
-  //     });
-  //   }
-  // }
+    // check if the next feed has less items than the current feed
+    let shouldLook = nextFeedLength < currFeedLength;
 
-  // private formatUpdates(feed: Feed): Array<Partial<Torrent>> {
-  //   // We need to filter the torrent properties we want to save to database.
-  //   // To ease this process we add torrent uuit to.
-  //   return Object.keys(feed)
-  //     .filter(
-  //       (hash) => Object.keys(pick(PROPS_TO_SAVE, feed[hash])).length !== 0
-  //     )
-  //     .map((hash) => ({
-  //       hash,
-  //       ...pick(PROPS_TO_SAVE, feed[hash]),
-  //     }));
-  // }
+    if (newItemCount > 0) {
+      if (nextFeedLength >= currFeedLength) shouldLook = true;
+      if (newItemCount === nextFeedLength - currFeedLength) shouldLook = false;
+    }
+
+    if (!shouldLook) {
+      return [];
+    }
+
+    return Object.keys(this.currFeed).filter(
+      (hash) => typeof nextFeed[hash] === 'undefined'
+    );
+  }
 
   private formatFeed(torrents: TransmissionTorrent[]): RawFeed {
     return torrents.reduce(
