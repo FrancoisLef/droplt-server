@@ -22,12 +22,12 @@ export class TorrentFileMinAggregate {
   })
   name!: string | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
   size!: number | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
   downloaded!: number | null;

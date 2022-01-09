@@ -48,10 +48,10 @@ export default class Handler {
     // build diff with current feed
     const { creates, updates } = this.feedsDiff(nextFeed);
 
-    // insert newly added torrents
+    // create newly detected torrents
     await this.handleCreates(creates);
 
-    // update existing torrents
+    // update already detected torrents
     await this.handleUpdates(updates);
 
     console.log(creates, updates);

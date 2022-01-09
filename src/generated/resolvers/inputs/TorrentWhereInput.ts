@@ -48,10 +48,10 @@ export class TorrentWhereInput {
   })
   name?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  size?: IntFilter | undefined;
+  size?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
@@ -78,15 +78,15 @@ export class TorrentWhereInput {
   })
   status?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  downloaded?: IntFilter | undefined;
+  downloaded?: FloatFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  uploaded?: IntFilter | undefined;
+  uploaded?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true

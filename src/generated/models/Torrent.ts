@@ -29,7 +29,7 @@ export class Torrent {
   })
   name!: string;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
   size!: number;
@@ -56,12 +56,12 @@ export class Torrent {
   })
   status!: string;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
   downloaded!: number;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
   uploaded!: number;

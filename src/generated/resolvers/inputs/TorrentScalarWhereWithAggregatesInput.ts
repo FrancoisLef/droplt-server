@@ -47,10 +47,10 @@ export class TorrentScalarWhereWithAggregatesInput {
   })
   name?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => FloatWithAggregatesFilter, {
     nullable: true
   })
-  size?: IntWithAggregatesFilter | undefined;
+  size?: FloatWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
@@ -72,15 +72,15 @@ export class TorrentScalarWhereWithAggregatesInput {
   })
   status?: StringWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => FloatWithAggregatesFilter, {
     nullable: true
   })
-  downloaded?: IntWithAggregatesFilter | undefined;
+  downloaded?: FloatWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => FloatWithAggregatesFilter, {
     nullable: true
   })
-  uploaded?: IntWithAggregatesFilter | undefined;
+  uploaded?: FloatWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true

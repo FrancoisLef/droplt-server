@@ -33,10 +33,10 @@ export class TorrentUpdateInput {
   })
   name?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true
   })
-  size?: IntFieldUpdateOperationsInput | undefined;
+  size?: FloatFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
@@ -58,15 +58,15 @@ export class TorrentUpdateInput {
   })
   status?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true
   })
-  downloaded?: IntFieldUpdateOperationsInput | undefined;
+  downloaded?: FloatFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true
   })
-  uploaded?: IntFieldUpdateOperationsInput | undefined;
+  uploaded?: FloatFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true

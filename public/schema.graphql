@@ -177,18 +177,18 @@ type Torrent {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
-  downloaded: Int!
+  downloaded: Float!
   hash: String!
   name: String!
   path: String!
   progress: Float!
   ratio: Float!
-  size: Int!
+  size: Float!
   status: String!
   torrentId: String!
   transmissionId: Int!
   updatedAt: DateTime!
-  uploaded: Int!
+  uploaded: Float!
 }
 
 type TorrentCount {
@@ -211,9 +211,9 @@ input TorrentFileWhereInput {
   OR: [TorrentFileWhereInput!]
   Torrent: TorrentRelationFilter
   createdAt: DateTimeFilter
-  downloaded: IntFilter
+  downloaded: FloatFilter
   name: StringFilter
-  size: IntFilter
+  size: FloatFilter
   torrentFileId: StringFilter
   torrentId: StringNullableFilter
   updatedAt: DateTimeFilter
@@ -268,19 +268,19 @@ input TorrentWhereInput {
   addedAt: DateTimeFilter
   completedAt: DateTimeNullableFilter
   createdAt: DateTimeFilter
-  downloaded: IntFilter
+  downloaded: FloatFilter
   files: TorrentFileListRelationFilter
   hash: StringFilter
   name: StringFilter
   path: StringFilter
   progress: FloatFilter
   ratio: FloatFilter
-  size: IntFilter
+  size: FloatFilter
   status: StringFilter
   torrentId: StringFilter
   transmissionId: IntFilter
   updatedAt: DateTimeFilter
-  uploaded: IntFilter
+  uploaded: FloatFilter
 }
 
 input TorrentWhereUniqueInput {

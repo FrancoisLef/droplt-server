@@ -3,7 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
-import { IntFilter } from "../inputs/IntFilter";
+import { FloatFilter } from "../inputs/FloatFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TorrentRelationFilter } from "../inputs/TorrentRelationFilter";
@@ -42,15 +42,15 @@ export class TorrentFileWhereInput {
   })
   name?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  size?: IntFilter | undefined;
+  size?: FloatFilter | undefined;
 
-  @TypeGraphQL.Field(_type => IntFilter, {
+  @TypeGraphQL.Field(_type => FloatFilter, {
     nullable: true
   })
-  downloaded?: IntFilter | undefined;
+  downloaded?: FloatFilter | undefined;
 
   @TypeGraphQL.Field(_type => TorrentRelationFilter, {
     nullable: true

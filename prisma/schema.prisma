@@ -28,14 +28,14 @@ model Torrent {
   hash           String        @unique
   transmissionId Int
   name           String
-  size           Int
+  size           Float
   path           String
   files          TorrentFile[]
   progress       Float         @default(0)
   ratio          Float         @default(0)
   status         String
-  downloaded     Int           @default(0)
-  uploaded       Int           @default(0)
+  downloaded     Float         @default(0)
+  uploaded       Float         @default(0)
   addedAt        DateTime
   completedAt    DateTime?
   createdAt      DateTime      @default(now())
@@ -46,8 +46,8 @@ model TorrentFile {
   torrentFileId String   @id @default(uuid())
   torrentId     String?
   name          String
-  size          Int
-  downloaded    Int      @default(0)
+  size          Float
+  downloaded    Float    @default(0)
   Torrent       Torrent? @relation(fields: [torrentId], references: [torrentId])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
