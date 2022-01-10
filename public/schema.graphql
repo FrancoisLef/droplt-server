@@ -177,7 +177,6 @@ type Torrent {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
-  download: String
   downloaded: Float!
   hash: String!
   name: String!
@@ -185,11 +184,11 @@ type Torrent {
   progress: Float!
   ratio: Float!
   size: Float!
+  stat: TorrentStat!
   status: String!
   torrentId: String!
   transmissionId: Int!
   updatedAt: DateTime!
-  upload: String
   uploaded: Float!
 }
 
@@ -261,6 +260,14 @@ enum TorrentScalarFieldEnum {
   transmissionId
   updatedAt
   uploaded
+}
+
+type TorrentStat {
+  downloadSpeed: Float
+  eta: Float
+  peers: Float
+  seeds: Float
+  uploadSpeed: Float
 }
 
 input TorrentWhereInput {
