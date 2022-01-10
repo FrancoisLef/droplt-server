@@ -6,10 +6,13 @@ import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as tq from 'type-graphql';
 
 import app from './app';
-import { FindManyTorrentResolver, FindManyUserResolver } from './generated';
 import { feeder } from './jobs';
 import prisma from './prisma';
-import TorrentResolver from './resolvers/torrent';
+import {
+  FindManyTorrentResolver,
+  FindManyUserResolver,
+} from './schema/__generated__';
+import { CustomTorrentResolver } from './schema/torrent';
 import { pubSub } from './services/redis';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
@@ -30,7 +33,7 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
       resolvers: [
         FindManyUserResolver,
         FindManyTorrentResolver,
-        TorrentResolver,
+        CustomTorrentResolver,
       ],
       emitSchemaFile: 'public/schema.graphql',
       pubSub,

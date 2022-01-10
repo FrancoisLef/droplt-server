@@ -1,2 +1,2 @@
 src/env.d.ts
-src/generated
+src/schema/__generated__

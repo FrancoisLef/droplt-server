@@ -1,4 +1,4 @@
 .husky
 dist
 node_modules
-src/generated
+src/schema/__generated__

@@ -1,9 +1,9 @@
 import * as TypeGraphQL from 'type-graphql';
 
-import { Torrent } from '../../generated';
+import { Torrent } from '../__generated__';
 
 @TypeGraphQL.Resolver(() => Torrent)
-export default class CustomTorrentResolver {
+export class CustomTorrentResolver {
   @TypeGraphQL.FieldResolver(() => String, { nullable: true })
   async download() {
     return '';
