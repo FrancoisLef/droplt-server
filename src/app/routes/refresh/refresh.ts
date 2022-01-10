@@ -1,13 +1,13 @@
 import { NextFunction, Response, Router } from 'express';
 import { Unauthorized } from 'http-errors';
 
+import prisma from '../../../prisma';
 import {
   decodeRefresh,
   REFRESH_TOKEN_COOKIE_OPTS,
   signin,
 } from '../../helpers/auth';
 import { AUTH_UNAUTHORIZED } from '../../helpers/errors';
-import prisma from '../../prisma';
 import { RefreshRequest } from './schema';
 
 const router = Router();

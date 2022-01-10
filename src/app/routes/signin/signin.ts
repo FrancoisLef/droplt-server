@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { NextFunction, Response, Router } from 'express';
 import { BadRequest, InternalServerError } from 'http-errors';
 
+import prisma from '../../../prisma';
 import { REFRESH_TOKEN_COOKIE_OPTS, signin } from '../../helpers/auth';
 import {
   AUTH_UNKNOWN_EMAIL,
@@ -9,7 +10,6 @@ import {
   COMMON_ERROR,
 } from '../../helpers/errors';
 import { validate } from '../../middlewares';
-import prisma from '../../prisma';
 import { SigninRequest, signinSchema } from './schema';
 
 const router = Router();
