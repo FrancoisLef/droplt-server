@@ -1,18 +1,6 @@
 import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
-import { Torrent } from '@prisma/client';
 
-export type FeedTorrent = Omit<
-  Torrent,
-  'torrentId' | 'createdAt' | 'updatedAt'
->;
-
-export type RealtimeTorrent = FeedTorrent & {
-  peers: number;
-  seeds: number;
-  upload: number;
-  download: number;
-  eta: number;
-};
+import { FeedTorrent } from './types';
 
 const statusMap = (status: number): string => {
   switch (status) {
@@ -33,7 +21,7 @@ const statusMap = (status: number): string => {
   }
 };
 
-export const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
+const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
   const addedAt = new Date(torrent.addedDate * 1000);
   const completedAt = torrent.doneDate
     ? new Date(torrent.doneDate * 1000)
@@ -55,3 +43,5 @@ export const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
   };
   return result;
 };
+
+export default normalize;
