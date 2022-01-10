@@ -177,6 +177,7 @@ type Torrent {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
+  download: String
   downloaded: Float!
   hash: String!
   name: String!
@@ -188,6 +189,7 @@ type Torrent {
   torrentId: String!
   transmissionId: Int!
   updatedAt: DateTime!
+  upload: String
   uploaded: Float!
 }
 
@@ -294,7 +296,6 @@ type User {
   firstName: String!
   isDisabled: Boolean!
   lastName: String!
-  password: String!
   updatedAt: DateTime!
   userId: String!
 }

@@ -9,6 +9,8 @@ import app from './app';
 import { FindManyTorrentResolver, FindManyUserResolver } from './generated';
 import { feeder } from './jobs';
 import prisma from './prisma';
+import TorrentResolver from './resolvers/torrent';
+import { pubSub } from './services/redis';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
@@ -25,17 +27,19 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
    */
   const server = new ApolloServer({
     schema: await tq.buildSchema({
-      resolvers: [FindManyUserResolver, FindManyTorrentResolver],
+      resolvers: [
+        FindManyUserResolver,
+        FindManyTorrentResolver,
+        TorrentResolver,
+      ],
       emitSchemaFile: 'public/schema.graphql',
+      pubSub,
     }),
-    context: ({ req }) => {
-      const context = {
-        req,
-        user: req.user,
-        prisma,
-      };
-      return context;
-    },
+    context: ({ req }) => ({
+      req,
+      user: req.user,
+      prisma,
+    }),
   });
   await server.start();
 

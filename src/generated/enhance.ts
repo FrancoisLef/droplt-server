@@ -268,7 +268,7 @@ function applyTypeClassEnhanceConfig<
 }
 
 const modelsInfo = {
-  User: ["userId", "email", "password", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
+  User: ["userId", "email", "firstName", "lastName", "isDisabled", "createdAt", "updatedAt"],
   Torrent: ["torrentId", "hash", "transmissionId", "name", "size", "path", "progress", "ratio", "status", "downloaded", "uploaded", "addedAt", "completedAt", "createdAt", "updatedAt"],
   TorrentFile: ["torrentFileId", "torrentId", "name", "size", "downloaded", "createdAt", "updatedAt"]
 };
