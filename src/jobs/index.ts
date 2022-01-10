@@ -1,1 +1,1 @@
-export { default as feeder } from './feeder';
+export { default as feed } from './feed';

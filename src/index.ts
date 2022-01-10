@@ -6,7 +6,7 @@ import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TypeGraphql from 'type-graphql';
 
 import app from './app';
-import { feeder } from './jobs';
+import { feed } from './jobs';
 import prisma from './prisma';
 import {
   FindManyTorrentResolver,
@@ -22,7 +22,7 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
    * In-memory jobs scheduler
    */
   new ToadScheduler().addSimpleIntervalJob(
-    new SimpleIntervalJob({ milliseconds: 250 }, feeder)
+    new SimpleIntervalJob({ milliseconds: 250 }, feed)
   );
 
   /**
