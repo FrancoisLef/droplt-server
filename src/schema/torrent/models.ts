@@ -1,7 +1,7 @@
 import * as TypeGraphQL from 'type-graphql';
 
 @TypeGraphQL.ObjectType()
-export class TorrentStat {
+export class TorrentStats {
   @TypeGraphQL.Field(() => Number, {
     nullable: true,
   })

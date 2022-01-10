@@ -8,10 +8,7 @@ import * as TypeGraphql from 'type-graphql';
 import app from './app';
 import { feed } from './jobs';
 import prisma from './prisma';
-import {
-  FindManyTorrentResolver,
-  FindManyUserResolver,
-} from './schema/__generated__';
+import { TorrentCrudResolver, UserCrudResolver } from './schema/__generated__';
 import { CustomTorrentResolver } from './schema/torrent';
 import { pubSub } from './services/redis';
 
@@ -30,11 +27,7 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
    */
   const server = new ApolloServer({
     schema: await TypeGraphql.buildSchema({
-      resolvers: [
-        FindManyUserResolver,
-        FindManyTorrentResolver,
-        CustomTorrentResolver,
-      ],
+      resolvers: [CustomTorrentResolver, TorrentCrudResolver, UserCrudResolver],
       emitSchemaFile: 'public/schema.graphql',
       pubSub,
     }),
