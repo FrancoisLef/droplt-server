@@ -10,9 +10,11 @@ import transmission, {
 import { CreatesFeed, DiffFeed, RawFeed, UpdatesFeed } from './types';
 
 class FeederJob {
+  private count = 0;
   private currFeed: RawFeed = {};
 
   public async run(): Promise<void> {
+    console.log(`-- RUN ${this.count} --`);
     // fetch data from provider
     const listTorrents = await transmission.listTorrents();
 
@@ -31,7 +33,21 @@ class FeederJob {
     // delete torrents
     await this.handleDeletes(deletes);
 
+    await this.test();
+
     this.currFeed = nextFeed;
+
+    console.log(`** DONE ${this.count} **`);
+    this.count += 1;
+  }
+
+  private test(): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log(`** TIMEOUT ${this.count} **`);
+        resolve();
+      }, 500);
+    });
   }
 
   public onError(err: Error): void {

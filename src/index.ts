@@ -3,7 +3,7 @@ import './services/transmission';
 
 import { ApolloServer } from 'apollo-server-express';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
-import * as tq from 'type-graphql';
+import * as TypeGraphql from 'type-graphql';
 
 import app from './app';
 import { feeder } from './jobs';
@@ -22,14 +22,14 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
    * In-memory jobs scheduler
    */
   new ToadScheduler().addSimpleIntervalJob(
-    new SimpleIntervalJob({ milliseconds: 2000 }, feeder)
+    new SimpleIntervalJob({ milliseconds: 250 }, feeder)
   );
 
   /**
    * ApolloServer configuration
    */
   const server = new ApolloServer({
-    schema: await tq.buildSchema({
+    schema: await TypeGraphql.buildSchema({
       resolvers: [
         FindManyUserResolver,
         FindManyTorrentResolver,
