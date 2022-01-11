@@ -1,7 +1,6 @@
 import * as TypeGraphQL from 'type-graphql';
 
-import { Topic } from '../../services/redis';
-// import { FeedTorrent } from '../../services/transmission';
+import { Topic } from '../../services/pubSub';
 import { Torrent } from '../__generated__';
 import { TorrentStats } from './models';
 
@@ -14,15 +13,12 @@ export class CustomTorrentResolver {
     };
   }
 
-  @TypeGraphQL.Subscription(() => Torrent, {
-    topics: Topic.TorrentUpdate,
+  @TypeGraphQL.Subscription(() => [Torrent], {
+    topics: Topic.TorrentRealtimeUpdate,
   })
-  async realtimeUpdates(
-    @TypeGraphQL.Root() torrentUpdates: Partial<Torrent>
-  ): Promise<Partial<Torrent>> {
-    console.log('received', torrentUpdates);
-    return {
-      torrentId: '',
-    };
+  async torrentsUpdate(
+    @TypeGraphQL.Root() updates: Torrent[]
+  ): Promise<Torrent[]> {
+    return updates;
   }
 }

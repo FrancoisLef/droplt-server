@@ -1,9 +1,10 @@
 import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
 import deepEqual from 'deep-equal';
+import { isEmpty } from 'ramda';
 import { AsyncTask } from 'toad-scheduler';
 
 import prisma from '../../prisma';
-import { pubSub, Topic } from '../../services/redis';
+import { pubSub, Topic } from '../../services/pubSub';
 import transmission, {
   FeedTorrent,
   normalize,
@@ -27,13 +28,15 @@ class FeederJob {
     await this.handleCreates(creates);
 
     // update already detected torrents
-    await this.handleUpdates(updates);
+    const updated = await this.handleUpdates(updates);
 
     // delete torrents
     await this.handleDeletes(deletes);
 
-    console.log('publish', updates);
-    await pubSub.publish(Topic.TorrentUpdate, updates);
+    // dispatch an event for updated torrents
+    if (!isEmpty(updated)) {
+      await pubSub.publish(Topic.TorrentRealtimeUpdate, updated);
+    }
 
     this.currFeed = nextFeed;
   }

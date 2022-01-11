@@ -427,7 +427,7 @@ input StringWithAggregatesFilter {
 }
 
 type Subscription {
-  realtimeUpdates: Torrent!
+  torrentsUpdate: [Torrent!]!
 }
 
 type Torrent {

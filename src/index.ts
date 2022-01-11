@@ -14,7 +14,8 @@ import { feed } from './jobs';
 import prisma from './prisma';
 import { TorrentCrudResolver, UserCrudResolver } from './schema/__generated__';
 import { CustomTorrentResolver } from './schema/torrent';
-import { pubSub } from './services/redis';
+import { pubSub } from './services/pubSub';
+// import { pubSub } from './services/redis';
 
 const { SERVER_PORT = 4000, NODE_ENV, JOB_INTERVAL } = process.env;
 
