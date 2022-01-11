@@ -3,6 +3,7 @@ import './services/transmission';
 
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
+import { execute, subscribe } from 'graphql';
 import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
@@ -55,6 +56,19 @@ const { SERVER_PORT = 4000, NODE_ENV, JOB_INTERVAL } = process.env;
 
   // Start HTTP server and listen for connections
   await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
+
+  // Start WebSocket server for GraphQL subscriptions
+  new SubscriptionServer(
+    {
+      execute,
+      subscribe,
+      schema,
+    },
+    {
+      server: httpServer,
+      path: '/subscriptions',
+    }
+  );
 
   // Start in-memory job scheduler
   new ToadScheduler().addSimpleIntervalJob(
