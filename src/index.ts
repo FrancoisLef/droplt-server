@@ -1,7 +1,10 @@
 import './bootstrap';
 import './services/transmission';
 
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
+import http from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TypeGraphql from 'type-graphql';
 
@@ -12,44 +15,57 @@ import { TorrentCrudResolver, UserCrudResolver } from './schema/__generated__';
 import { CustomTorrentResolver } from './schema/torrent';
 import { pubSub } from './services/redis';
 
-const { SERVER_PORT = 4000, NODE_ENV } = process.env;
+const { SERVER_PORT = 4000, NODE_ENV, JOB_INTERVAL } = process.env;
 
 (async () => {
-  /**
-   * In-memory jobs scheduler
-   */
-  new ToadScheduler().addSimpleIntervalJob(
-    new SimpleIntervalJob({ milliseconds: 250 }, feed)
-  );
+  // Encapsulate Express App into a HTTP server
+  // So that we can re-use the HTTP server instance to listen for WebSocket
+  // Useful for GraphQL subscriptions
+  const httpServer = http.createServer(app);
 
-  /**
-   * ApolloServer configuration
-   */
-  const server = new ApolloServer({
-    schema: await TypeGraphql.buildSchema({
-      resolvers: [CustomTorrentResolver, TorrentCrudResolver, UserCrudResolver],
-      emitSchemaFile: 'public/schema.graphql',
-      pubSub,
-    }),
+  // Build GraphQL schema
+  const schema = await TypeGraphql.buildSchema({
+    resolvers: [CustomTorrentResolver, TorrentCrudResolver, UserCrudResolver],
+    emitSchemaFile: 'public/schema.graphql',
+    pubSub,
+  });
+
+  // ApolloServer configuration
+  const apolloServer = new ApolloServer({
+    schema,
     context: ({ req }) => ({
       req,
       user: req.user,
       prisma,
     }),
+    plugins: [
+      // Handles server stop
+      // - stop listening for new connections
+      // - close idle connections
+      // - close active connections whenever they become idle
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+    ],
   });
-  await server.start();
 
-  /**
-   * Connect ApolloServer to Express
-   */
-  server.applyMiddleware({ app, path: '/graphql' });
+  // Start Apollo server (must be done before applying it)
+  await apolloServer.start();
 
-  /**
-   * Start Express server
-   */
-  app.listen(SERVER_PORT, () => {
-    console.log(
-      `🔥 ${NODE_ENV} graphql -> http://localhost:${SERVER_PORT}/graphql`
-    );
-  });
+  // Attach Apollo server to Express App
+  apolloServer.applyMiddleware({ app, path: '/graphql' });
+
+  // Start HTTP server and listen for connections
+  await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
+
+  // Start in-memory job scheduler
+  new ToadScheduler().addSimpleIntervalJob(
+    new SimpleIntervalJob({ milliseconds: parseInt(JOB_INTERVAL, 10) }, feed)
+  );
+
+  console.log(`
+✅ Server started
+⚙️  Environment: ${NODE_ENV}
+💧 GraphQL endpoint: http://localhost:${SERVER_PORT}/graphql
+🌱 GraphQL subscriptions: ws://localhost:${SERVER_PORT}/subscriptions
+🔥 Job interval: ${parseInt(JOB_INTERVAL, 10)}
+`);
 })();

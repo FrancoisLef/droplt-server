@@ -426,6 +426,10 @@ input StringWithAggregatesFilter {
   startsWith: String
 }
 
+type Subscription {
+  realtimeUpdates: Torrent!
+}
+
 type Torrent {
   _count: TorrentCount
   addedAt: DateTime!
@@ -818,6 +822,7 @@ type TorrentStats {
   eta: Float
   peers: Float
   seeds: Float
+  torrentId: String!
   uploadSpeed: Float
 }
 

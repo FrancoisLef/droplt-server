@@ -5,10 +5,11 @@ export type FeedTorrent = Omit<
   'torrentId' | 'createdAt' | 'updatedAt'
 >;
 
-export type RealtimeTorrent = FeedTorrent & {
-  peers: number;
-  seeds: number;
-  upload: number;
-  download: number;
-  eta: number;
-};
+// export interface RealtimeTorrentUpdates {
+//   torrentId: string;
+//   peers: number;
+//   seeds: number;
+//   upload: number;
+//   download: number;
+//   eta: number;
+// }

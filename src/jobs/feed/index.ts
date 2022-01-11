@@ -3,6 +3,7 @@ import deepEqual from 'deep-equal';
 import { AsyncTask } from 'toad-scheduler';
 
 import prisma from '../../prisma';
+import { pubSub, Topic } from '../../services/redis';
 import transmission, {
   FeedTorrent,
   normalize,
@@ -30,6 +31,9 @@ class FeederJob {
 
     // delete torrents
     await this.handleDeletes(deletes);
+
+    console.log('publish', updates);
+    await pubSub.publish(Topic.TorrentUpdate, updates);
 
     this.currFeed = nextFeed;
   }

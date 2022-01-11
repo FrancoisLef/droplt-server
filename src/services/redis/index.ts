@@ -9,3 +9,4 @@ export const pubSub = new RedisPubSub({
   publisher: new Redis(options),
   subscriber: new Redis(options),
 });
+export * from './types';
