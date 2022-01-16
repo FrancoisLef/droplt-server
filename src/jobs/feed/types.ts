@@ -1,4 +1,18 @@
-import { FeedTorrent } from '../../services/transmission';
+import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
+import { Torrent } from '@prisma/client';
+
+export type PrismaTorrentPayload = Omit<
+  Torrent,
+  'torrentId' | 'createdAt' | 'updatedAt'
+>;
+
+export type FeedTorrent = PrismaTorrentPayload & {
+  eta?: number;
+  peers?: number;
+  seeds?: number;
+  download?: number;
+  upload?: number;
+};
 
 export interface RawFeed {
   [hash: string]: Record<string, FeedTorrent>;

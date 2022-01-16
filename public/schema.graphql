@@ -435,18 +435,22 @@ type Torrent {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
+  download: Float
   downloaded: Float!
+  eta: Float
   hash: String!
   name: String!
   path: String!
+  peers: Float
   progress: Float!
   ratio: Float!
+  seeds: Float
   size: Float!
-  stats: TorrentStats!
   status: String!
   torrentId: String!
   transmissionId: Int!
   updatedAt: DateTime!
+  upload: Float
   uploaded: Float!
 }
 
@@ -815,15 +819,6 @@ input TorrentScalarWhereWithAggregatesInput {
   transmissionId: IntWithAggregatesFilter
   updatedAt: DateTimeWithAggregatesFilter
   uploaded: FloatWithAggregatesFilter
-}
-
-type TorrentStats {
-  downloadSpeed: Float
-  eta: Float
-  peers: Float
-  seeds: Float
-  torrentId: String!
-  uploadSpeed: Float
 }
 
 type TorrentSumAggregate {

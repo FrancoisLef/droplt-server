@@ -5,11 +5,20 @@ import { AsyncTask } from 'toad-scheduler';
 
 import prisma from '../../prisma';
 import { pubSub, Topic } from '../../services/pubSub';
-import transmission, {
-  FeedTorrent,
+import transmission from '../../services/transmission';
+import {
   normalize,
-} from '../../services/transmission';
-import { CreatesFeed, DiffFeed, RawFeed, UpdatesFeed } from './types';
+  sanitize,
+  sanitizePartial,
+  updatesEventPayload,
+} from './helpers';
+import {
+  CreatesFeed,
+  DiffFeed,
+  FeedTorrent,
+  RawFeed,
+  UpdatesFeed,
+} from './types';
 
 class FeederJob {
   private currFeed: RawFeed = {};
@@ -35,7 +44,10 @@ class FeederJob {
 
     // dispatch an event for updated torrents
     if (!isEmpty(updated)) {
-      await pubSub.publish(Topic.TorrentRealtimeUpdate, updated);
+      await pubSub.publish(
+        Topic.TorrentRealtimeUpdate,
+        updatesEventPayload(updated, updates)
+      );
     }
 
     this.currFeed = nextFeed;
@@ -87,7 +99,7 @@ class FeederJob {
 
   private async handleCreates(creates: CreatesFeed) {
     const transactions = Object.keys(creates).map((hash) => {
-      const torrent = creates[hash] as unknown as FeedTorrent;
+      const torrent = sanitize(creates[hash] as unknown as FeedTorrent);
       return prisma.torrent.upsert({
         where: {
           hash,
@@ -102,7 +114,9 @@ class FeederJob {
 
   private async handleUpdates(updates: UpdatesFeed) {
     const transactions = Object.keys(updates).map((hash) => {
-      const torrent = updates[hash] as unknown as Partial<FeedTorrent>;
+      const torrent = sanitizePartial(
+        updates[hash] as unknown as Partial<FeedTorrent>
+      );
       return prisma.torrent.update({
         where: {
           hash,
