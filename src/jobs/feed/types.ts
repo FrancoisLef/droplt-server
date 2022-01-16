@@ -1,4 +1,3 @@
-import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
 import { Torrent } from '@prisma/client';
 
 export type PrismaTorrentPayload = Omit<
