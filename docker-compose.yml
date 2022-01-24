@@ -1,26 +1,31 @@
 version: '3.7'
 
 services:
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./tmp/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   redis:
     image: redis:alpine
     volumes:
-      # where redis persist data
       - ./tmp/docker/redis:/data
     ports:
-      # for development purpose we need to expose Redis to localhost
       - 6379:6379
   transmission:
     image: linuxserver/transmission:latest
-    volumes:
-      # where Transmission download torrent data
-      - ./tmp/docker/transmission/downloads:/downloads
-      # where Transmission stores its configuration, logs files
-      - ./tmp/docker/transmission/config:/config
-      # Transmission will watch and automatically add .torrent files in this directory
-      - ./tmp/docker/transmission/watch:/watch
     environment:
       - USER=${TRANSMISSION_USER}
       - PASS=${TRANSMISSION_PASSWORD}
+    volumes:
+      - ./tmp/docker/transmission/downloads:/downloads
+      - ./tmp/docker/transmission/config:/config
+      - ./tmp/docker/transmission/watch:/watch
     ports:
       - 9091:9091
       - 51413:51413

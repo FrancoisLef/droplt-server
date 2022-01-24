@@ -40,6 +40,11 @@ export class TorrentMaxAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
+  eta!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
   progress!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
@@ -62,6 +67,21 @@ export class TorrentMaxAggregate {
   })
   uploaded!: number | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  isDeleted!: boolean | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createdAt!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updatedAt!: Date | null;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -75,10 +95,5 @@ export class TorrentMaxAggregate {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  createdAt!: Date | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  updatedAt!: Date | null;
+  deletedAt!: Date | null;
 }

@@ -37,6 +37,11 @@ export class UserMaxAggregate {
   })
   isDisabled!: boolean | null;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  isDeleted!: boolean | null;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -46,4 +51,14 @@ export class UserMaxAggregate {
     nullable: true
   })
   updatedAt!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  disabledAt!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  deletedAt!: Date | null;
 }

@@ -39,30 +39,31 @@ export const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
     ratio: torrent.uploadRatio,
     status: statusMap(torrent.status),
     eta: torrent.eta,
-    peers: torrent.peersSendingToUs,
-    seeds: torrent.peersGettingFromUs,
-    download: torrent.rateDownload,
-    upload: torrent.rateUpload,
+    // peers: torrent.peersSendingToUs,
+    // seeds: torrent.peersGettingFromUs,
+    // download: torrent.rateDownload,
+    // upload: torrent.rateUpload,
     downloaded: torrent.downloadedEver,
     uploaded: torrent.uploadedEver,
     addedAt,
     completedAt,
+    isDeleted: false,
   };
   return result;
 };
 
 export const sanitize = (torrent: FeedTorrent): PrismaTorrentPayload => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { eta, download, upload, seeds, peers, ...sanitized } = torrent;
-  return sanitized;
+  // const { eta, download, upload, seeds, peers, ...sanitized } = torrent;
+  return torrent;
 };
 
 export const sanitizePartial = (
   torrent: Partial<FeedTorrent>
 ): Partial<PrismaTorrentPayload> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { eta, download, upload, seeds, peers, ...sanitized } = torrent;
-  return sanitized;
+  // const { eta, download, upload, seeds, peers, ...sanitized } = torrent;
+  return torrent;
 };
 
 export const updatesEventPayload = (

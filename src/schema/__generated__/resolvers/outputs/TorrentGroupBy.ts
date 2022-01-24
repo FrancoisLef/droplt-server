@@ -43,6 +43,11 @@ export class TorrentGroupBy {
   path!: string;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
+  eta!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: false
   })
   progress!: number;
@@ -67,6 +72,21 @@ export class TorrentGroupBy {
   })
   uploaded!: number;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  isDeleted!: boolean;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  createdAt!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  updatedAt!: Date;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
@@ -78,14 +98,9 @@ export class TorrentGroupBy {
   completedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
-    nullable: false
+    nullable: true
   })
-  createdAt!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  updatedAt!: Date;
+  deletedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => TorrentCountAggregate, {
     nullable: true

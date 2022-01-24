@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { TorrentFileCreateManyTorrentInputEnvelope } from "../inputs/TorrentFileCreateManyTorrentInputEnvelope";
 import { TorrentFileCreateOrConnectWithoutTorrentInput } from "../inputs/TorrentFileCreateOrConnectWithoutTorrentInput";
 import { TorrentFileCreateWithoutTorrentInput } from "../inputs/TorrentFileCreateWithoutTorrentInput";
 import { TorrentFileScalarWhereInput } from "../inputs/TorrentFileScalarWhereInput";
@@ -28,6 +29,11 @@ export class TorrentFileUpdateManyWithoutTorrentInput {
     nullable: true
   })
   upsert?: TorrentFileUpsertWithWhereUniqueWithoutTorrentInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => TorrentFileCreateManyTorrentInputEnvelope, {
+    nullable: true
+  })
+  createMany?: TorrentFileCreateManyTorrentInputEnvelope | undefined;
 
   @TypeGraphQL.Field(_type => [TorrentFileWhereUniqueInput], {
     nullable: true

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
+import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 
@@ -55,6 +56,11 @@ export class UserScalarWhereWithAggregatesInput {
   })
   isDisabled?: BoolWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
+    nullable: true
+  })
+  isDeleted?: BoolWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
@@ -64,4 +70,14 @@ export class UserScalarWhereWithAggregatesInput {
     nullable: true
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  disabledAt?: DateTimeNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  deletedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 }

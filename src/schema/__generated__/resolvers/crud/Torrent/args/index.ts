@@ -1,4 +1,5 @@
 export { AggregateTorrentArgs } from "./AggregateTorrentArgs";
+export { CreateManyTorrentArgs } from "./CreateManyTorrentArgs";
 export { CreateTorrentArgs } from "./CreateTorrentArgs";
 export { DeleteManyTorrentArgs } from "./DeleteManyTorrentArgs";
 export { DeleteTorrentArgs } from "./DeleteTorrentArgs";

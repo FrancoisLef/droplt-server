@@ -21,6 +21,11 @@ export class TorrentAvgOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
+  eta?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
   progress?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {

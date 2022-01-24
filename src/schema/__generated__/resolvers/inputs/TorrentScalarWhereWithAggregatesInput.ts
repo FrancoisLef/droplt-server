@@ -2,8 +2,10 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolWithAggregatesFilter } from "../inputs/BoolWithAggregatesFilter";
 import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
 import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { FloatNullableWithAggregatesFilter } from "../inputs/FloatNullableWithAggregatesFilter";
 import { FloatWithAggregatesFilter } from "../inputs/FloatWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
@@ -57,6 +59,11 @@ export class TorrentScalarWhereWithAggregatesInput {
   })
   path?: StringWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => FloatNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  eta?: FloatNullableWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => FloatWithAggregatesFilter, {
     nullable: true
   })
@@ -82,15 +89,10 @@ export class TorrentScalarWhereWithAggregatesInput {
   })
   uploaded?: FloatWithAggregatesFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+  @TypeGraphQL.Field(_type => BoolWithAggregatesFilter, {
     nullable: true
   })
-  addedAt?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
-    nullable: true
-  })
-  completedAt?: DateTimeNullableWithAggregatesFilter | undefined;
+  isDeleted?: BoolWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
@@ -101,4 +103,19 @@ export class TorrentScalarWhereWithAggregatesInput {
     nullable: true
   })
   updatedAt?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
+  addedAt?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  completedAt?: DateTimeNullableWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableWithAggregatesFilter, {
+    nullable: true
+  })
+  deletedAt?: DateTimeNullableWithAggregatesFilter | undefined;
 }

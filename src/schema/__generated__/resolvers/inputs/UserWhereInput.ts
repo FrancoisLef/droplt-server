@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
 
 @TypeGraphQL.InputType("UserWhereInput", {
@@ -55,6 +56,11 @@ export class UserWhereInput {
   })
   isDisabled?: BoolFilter | undefined;
 
+  @TypeGraphQL.Field(_type => BoolFilter, {
+    nullable: true
+  })
+  isDeleted?: BoolFilter | undefined;
+
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
@@ -64,4 +70,14 @@ export class UserWhereInput {
     nullable: true
   })
   updatedAt?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  disabledAt?: DateTimeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  deletedAt?: DateTimeNullableFilter | undefined;
 }

@@ -6,12 +6,7 @@ import { AsyncTask } from 'toad-scheduler';
 import prisma from '../../prisma';
 import { pubSub, Topic } from '../../services/pubSub';
 import transmission from '../../services/transmission';
-import {
-  normalize,
-  sanitize,
-  sanitizePartial,
-  updatesEventPayload,
-} from './helpers';
+import { normalize, sanitize, sanitizePartial } from './helpers';
 import {
   CreatesFeed,
   DiffFeed,
@@ -44,10 +39,7 @@ class FeederJob {
 
     // dispatch an event for updated torrents
     if (!isEmpty(updated)) {
-      await pubSub.publish(
-        Topic.TorrentRealtimeUpdate,
-        updatesEventPayload(updated, updates)
-      );
+      await pubSub.publish(Topic.TorrentRealtimeUpdate, updated);
     }
 
     this.currFeed = nextFeed;

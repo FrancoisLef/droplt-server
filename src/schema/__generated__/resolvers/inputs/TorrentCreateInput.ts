@@ -41,6 +41,11 @@ export class TorrentCreateInput {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
+  eta?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
   progress?: number | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
@@ -63,6 +68,21 @@ export class TorrentCreateInput {
   })
   uploaded?: number | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  isDeleted?: boolean | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createdAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updatedAt?: Date | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
@@ -76,12 +96,7 @@ export class TorrentCreateInput {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  createdAt?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  updatedAt?: Date | undefined;
+  deletedAt?: Date | undefined;
 
   @TypeGraphQL.Field(_type => TorrentFileCreateNestedManyWithoutTorrentInput, {
     nullable: true

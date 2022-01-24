@@ -35,5 +35,5 @@ export class FindFirstTorrentArgs {
   @TypeGraphQL.Field(_type => [TorrentScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"torrentId" | "hash" | "transmissionId" | "name" | "size" | "path" | "progress" | "ratio" | "status" | "downloaded" | "uploaded" | "addedAt" | "completedAt" | "createdAt" | "updatedAt"> | undefined;
+  distinct?: Array<"torrentId" | "hash" | "transmissionId" | "name" | "size" | "path" | "eta" | "progress" | "ratio" | "status" | "downloaded" | "uploaded" | "isDeleted" | "createdAt" | "updatedAt" | "addedAt" | "completedAt" | "deletedAt"> | undefined;
 }

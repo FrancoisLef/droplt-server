@@ -2,9 +2,11 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFilter } from "../inputs/BoolFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { FloatFilter } from "../inputs/FloatFilter";
+import { FloatNullableFilter } from "../inputs/FloatNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { TorrentFileListRelationFilter } from "../inputs/TorrentFileListRelationFilter";
@@ -58,6 +60,11 @@ export class TorrentWhereInput {
   })
   path?: StringFilter | undefined;
 
+  @TypeGraphQL.Field(_type => FloatNullableFilter, {
+    nullable: true
+  })
+  eta?: FloatNullableFilter | undefined;
+
   @TypeGraphQL.Field(_type => TorrentFileListRelationFilter, {
     nullable: true
   })
@@ -88,15 +95,10 @@ export class TorrentWhereInput {
   })
   uploaded?: FloatFilter | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
+  @TypeGraphQL.Field(_type => BoolFilter, {
     nullable: true
   })
-  addedAt?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
-    nullable: true
-  })
-  completedAt?: DateTimeNullableFilter | undefined;
+  isDeleted?: BoolFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
@@ -107,4 +109,19 @@ export class TorrentWhereInput {
     nullable: true
   })
   updatedAt?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  addedAt?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  completedAt?: DateTimeNullableFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeNullableFilter, {
+    nullable: true
+  })
+  deletedAt?: DateTimeNullableFilter | undefined;
 }

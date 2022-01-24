@@ -34,6 +34,11 @@ export class User {
   })
   isDisabled!: boolean;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: false
+  })
+  isDeleted!: boolean;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
@@ -43,4 +48,14 @@ export class User {
     nullable: false
   })
   updatedAt!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  disabledAt?: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  deletedAt?: Date | null;
 }

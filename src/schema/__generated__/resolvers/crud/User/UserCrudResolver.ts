@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateUserArgs } from "./args/AggregateUserArgs";
+import { CreateManyUserArgs } from "./args/CreateManyUserArgs";
 import { CreateUserArgs } from "./args/CreateUserArgs";
 import { DeleteManyUserArgs } from "./args/DeleteManyUserArgs";
 import { DeleteUserArgs } from "./args/DeleteUserArgs";
@@ -67,6 +68,19 @@ export class UserCrudResolver {
       graphqlFields(info as any)
     );
     return getPrismaFromContext(ctx).user.create({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
+    nullable: false
+  })
+  async createManyUser(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyUserArgs): Promise<AffectedRowsOutput> {
+    const { _count } = transformFields(
+      graphqlFields(info as any)
+    );
+    return getPrismaFromContext(ctx).user.createMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

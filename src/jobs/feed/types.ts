@@ -2,16 +2,17 @@ import { Torrent } from '@prisma/client';
 
 export type PrismaTorrentPayload = Omit<
   Torrent,
-  'torrentId' | 'createdAt' | 'updatedAt'
+  'torrentId' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
 
-export type FeedTorrent = PrismaTorrentPayload & {
-  eta?: number;
-  peers?: number;
-  seeds?: number;
-  download?: number;
-  upload?: number;
-};
+export type FeedTorrent = PrismaTorrentPayload;
+// export type FeedTorrent = PrismaTorrentPayload & {
+//   eta?: number;
+//   peers?: number;
+//   seeds?: number;
+//   download?: number;
+//   upload?: number;
+// };
 
 export interface RawFeed {
   [hash: string]: Record<string, FeedTorrent>;

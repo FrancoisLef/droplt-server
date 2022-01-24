@@ -7,15 +7,18 @@ export enum TorrentScalarFieldEnum {
   name = "name",
   size = "size",
   path = "path",
+  eta = "eta",
   progress = "progress",
   ratio = "ratio",
   status = "status",
   downloaded = "downloaded",
   uploaded = "uploaded",
+  isDeleted = "isDeleted",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
   addedAt = "addedAt",
   completedAt = "completedAt",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt"
+  deletedAt = "deletedAt"
 }
 TypeGraphQL.registerEnumType(TorrentScalarFieldEnum, {
   name: "TorrentScalarFieldEnum",

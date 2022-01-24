@@ -37,6 +37,11 @@ export class UserCreateInput {
   })
   isDisabled?: boolean | undefined;
 
+  @TypeGraphQL.Field(_type => Boolean, {
+    nullable: true
+  })
+  isDeleted?: boolean | undefined;
+
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
@@ -46,4 +51,14 @@ export class UserCreateInput {
     nullable: true
   })
   updatedAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  disabledAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  deletedAt?: Date | undefined;
 }

@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 import { AggregateTorrentArgs } from "./args/AggregateTorrentArgs";
+import { CreateManyTorrentArgs } from "./args/CreateManyTorrentArgs";
 import { CreateTorrentArgs } from "./args/CreateTorrentArgs";
 import { DeleteManyTorrentArgs } from "./args/DeleteManyTorrentArgs";
 import { DeleteTorrentArgs } from "./args/DeleteTorrentArgs";
@@ -67,6 +68,19 @@ export class TorrentCrudResolver {
       graphqlFields(info as any)
     );
     return getPrismaFromContext(ctx).torrent.create({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.Mutation(_returns => AffectedRowsOutput, {
+    nullable: false
+  })
+  async createManyTorrent(@TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: CreateManyTorrentArgs): Promise<AffectedRowsOutput> {
+    const { _count } = transformFields(
+      graphqlFields(info as any)
+    );
+    return getPrismaFromContext(ctx).torrent.createMany({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

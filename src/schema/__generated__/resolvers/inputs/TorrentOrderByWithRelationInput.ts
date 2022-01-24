@@ -39,6 +39,11 @@ export class TorrentOrderByWithRelationInput {
   })
   path?: "asc" | "desc" | undefined;
 
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  eta?: "asc" | "desc" | undefined;
+
   @TypeGraphQL.Field(_type => TorrentFileOrderByRelationAggregateInput, {
     nullable: true
   })
@@ -72,12 +77,7 @@ export class TorrentOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  addedAt?: "asc" | "desc" | undefined;
-
-  @TypeGraphQL.Field(_type => SortOrder, {
-    nullable: true
-  })
-  completedAt?: "asc" | "desc" | undefined;
+  isDeleted?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -88,4 +88,19 @@ export class TorrentOrderByWithRelationInput {
     nullable: true
   })
   updatedAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  addedAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  completedAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SortOrder, {
+    nullable: true
+  })
+  deletedAt?: "asc" | "desc" | undefined;
 }

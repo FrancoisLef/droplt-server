@@ -2,10 +2,12 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { BoolFieldUpdateOperationsInput } from "../inputs/BoolFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { FloatFieldUpdateOperationsInput } from "../inputs/FloatFieldUpdateOperationsInput";
 import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
 import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableFloatFieldUpdateOperationsInput } from "../inputs/NullableFloatFieldUpdateOperationsInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 import { TorrentFileUpdateManyWithoutTorrentInput } from "../inputs/TorrentFileUpdateManyWithoutTorrentInput";
 
@@ -43,6 +45,11 @@ export class TorrentUpdateInput {
   })
   path?: StringFieldUpdateOperationsInput | undefined;
 
+  @TypeGraphQL.Field(_type => NullableFloatFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  eta?: NullableFloatFieldUpdateOperationsInput | undefined;
+
   @TypeGraphQL.Field(_type => FloatFieldUpdateOperationsInput, {
     nullable: true
   })
@@ -68,15 +75,10 @@ export class TorrentUpdateInput {
   })
   uploaded?: FloatFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+  @TypeGraphQL.Field(_type => BoolFieldUpdateOperationsInput, {
     nullable: true
   })
-  addedAt?: DateTimeFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  completedAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+  isDeleted?: BoolFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
@@ -87,6 +89,21 @@ export class TorrentUpdateInput {
     nullable: true
   })
   updatedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  addedAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  completedAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput, {
+    nullable: true
+  })
+  deletedAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => TorrentFileUpdateManyWithoutTorrentInput, {
     nullable: true

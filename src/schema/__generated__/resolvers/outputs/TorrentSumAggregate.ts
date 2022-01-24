@@ -20,6 +20,11 @@ export class TorrentSumAggregate {
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
     nullable: true
   })
+  eta!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
+    nullable: true
+  })
   progress!: number | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Float, {
