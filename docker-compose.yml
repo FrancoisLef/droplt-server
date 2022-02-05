@@ -1,24 +1,27 @@
 version: '3.7'
 
 services:
-  db:
+  postgres:
     image: postgres:alpine
+    container_name: postgres
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./tmp/postgresql/data:/var/lib/postgresql/data
+      - ./tmp/docker/postgresql:/var/lib/postgresql/data
     ports:
       - 5432:5432
   redis:
     image: redis:alpine
+    container_name: redis
     volumes:
       - ./tmp/docker/redis:/data
     ports:
       - 6379:6379
   transmission:
     image: linuxserver/transmission:latest
+    container_name: transmission
     environment:
       - USER=${TRANSMISSION_USER}
       - PASS=${TRANSMISSION_PASSWORD}

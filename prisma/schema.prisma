@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("POSTGRES_URL")
 }
 
 generator client {
@@ -9,44 +9,26 @@ generator client {
 
 generator typegraphql {
   provider = "typegraphql-prisma"
-  output   = "../src/schema/__generated__"
-}
-
-model User {
-  userId     String    @id @default(uuid())
-  email      String    @unique
-  /// @TypeGraphQL.omit(output: true)
-  password   String
-  firstName  String
-  lastName   String
-  isDisabled Boolean   @default(false)
-  isDeleted  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  disabledAt DateTime?
-  deletedAt  DateTime?
 }
 
 model Torrent {
-  torrentId      String        @id @default(uuid())
-  hash           String        @unique
-  transmissionId Int
-  name           String
-  size           Float
-  path           String
-  eta            Float?
-  files          TorrentFile[]
-  progress       Float         @default(0)
-  ratio          Float         @default(0)
-  status         String
-  downloaded     Float         @default(0)
-  uploaded       Float         @default(0)
-  isDeleted      Boolean       @default(false)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  addedAt        DateTime
-  completedAt    DateTime?
-  deletedAt      DateTime?
+  torrentId   String        @id
+  name        String
+  size        Float
+  path        String
+  eta         Float?
+  files       TorrentFile[]
+  progress    Float         @default(0)
+  ratio       Float         @default(0)
+  status      String
+  downloaded  Float         @default(0)
+  uploaded    Float         @default(0)
+  isDeleted   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  addedAt     DateTime
+  completedAt DateTime?
+  deletedAt   DateTime?
 }
 
 model TorrentFile {

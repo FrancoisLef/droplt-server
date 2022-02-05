@@ -23,6 +23,7 @@
 /tmp
 /database
 /dist
+/dist-worker
 
 # misc
 .DS_Store
