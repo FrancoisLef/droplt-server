@@ -4,7 +4,8 @@ declare global {
       NODE_ENV: string;
       APP_NAME: string;
       SERVER_PORT: string;
-      JOB_INTERVAL: string;
+      JOB_FEED_INTERVAL: string;
+      JOB_CLEAN_INTERVAL: string;
       PUBSUB_CHANNEL_CREATE: string;
       PUBSUB_CHANNEL_UPDATE: string;
       PUBSUB_CHANNEL_DELETE: string;
