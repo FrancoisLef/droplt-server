@@ -42,7 +42,6 @@ export const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
     uploaded: torrent.uploadedEver,
     addedAt,
     completedAt,
-    isDeleted: false,
   };
   return result;
 };

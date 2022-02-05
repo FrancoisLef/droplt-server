@@ -1,12 +1,14 @@
-import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 
-const options: Redis.RedisOptions = {
-  retryStrategy: (times) => Math.max(times * 100, 3000),
+const redis = new Redis({
+  host: process.env.REDIS_HOST,
+  port: parseInt(process.env.REDIS_PORT || '6379', 10),
+});
+
+export const channel = {
+  create: process.env.PUBSUB_CHANNEL_CREATE,
+  update: process.env.PUBSUB_CHANNEL_UPDATE,
+  delete: process.env.PUBSUB_CHANNEL_DELETE,
 };
 
-export const pubSub = new RedisPubSub({
-  publisher: new Redis(options),
-  subscriber: new Redis(options),
-});
-export * from '../types';
+export default redis;

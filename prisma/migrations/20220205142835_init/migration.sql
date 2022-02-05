@@ -10,12 +10,10 @@ CREATE TABLE "Torrent" (
     "status" TEXT NOT NULL,
     "downloaded" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "uploaded" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "addedAt" TIMESTAMP(3) NOT NULL,
     "completedAt" TIMESTAMP(3),
-    "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "Torrent_pkey" PRIMARY KEY ("torrentId")
 );

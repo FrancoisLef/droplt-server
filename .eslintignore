@@ -1,4 +1,6 @@
 .husky
 dist
+dist-worker
+tmp
 node_modules
 src/schema/__generated__

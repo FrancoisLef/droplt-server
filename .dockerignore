@@ -1,0 +1,7 @@
+/.git
+/node_modules
+/dist
+/dist-worker
+/tmp
+Dockerfile
+Dockerfile.worker

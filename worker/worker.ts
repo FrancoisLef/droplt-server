@@ -5,7 +5,7 @@ import { AsyncTask } from 'toad-scheduler';
 
 import { normalize, sanitize, sanitizePartial } from './helpers/helpers';
 import prisma from './services/prisma';
-// import { pubSub, Topic } from '../../src/services/pubSub';
+import redis, { channel } from './services/redis';
 import transmission from './services/transmission';
 import {
   CreatesFeed,
@@ -29,33 +29,25 @@ class FeederJob {
     const { creates, updates, deletes } = this.feedsDiff(nextFeed);
 
     // create newly detected torrents
-    await this.handleCreates(creates);
+    const created = await this.handleCreates(creates);
 
     // update already detected torrents
-    await this.handleUpdates(updates);
+    const updated = await this.handleUpdates(updates);
 
     // delete torrents
-    await this.handleDeletes(deletes);
+    const deleted = await this.handleDeletes(deletes);
 
-    if (!isEmpty(creates)) {
-      console.log('-- CREATES --');
-      console.log(creates);
+    if (!isEmpty(created)) {
+      redis.publish(channel.create, JSON.stringify(created));
     }
 
-    if (!isEmpty(updates)) {
-      console.log('-- UPDATES --');
-      console.log(updates);
+    if (!isEmpty(updated)) {
+      redis.publish(channel.update, JSON.stringify(updated));
     }
 
-    if (!isEmpty(deletes)) {
-      console.log('-- DELETES --');
-      console.log(deletes);
+    if (!isEmpty(deleted)) {
+      redis.publish(channel.delete, JSON.stringify(deleted));
     }
-
-    // dispatch an event for updated torrents
-    // if (!isEmpty(updated)) {
-    //   await pubSub.publish(Topic.TorrentRealtimeUpdate, updated);
-    // }
 
     this.currFeed = nextFeed;
   }

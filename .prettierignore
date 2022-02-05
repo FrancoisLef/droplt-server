@@ -1,2 +1,5 @@
+dist
+dist-worker
 src/env.d.ts
+worker/env.d.ts
 src/schema/__generated__
