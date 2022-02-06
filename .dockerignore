@@ -8,6 +8,5 @@
 .env.local
 
 Dockerfile
-Dockerfile.worker
 docker-compose.yml
 README.md
