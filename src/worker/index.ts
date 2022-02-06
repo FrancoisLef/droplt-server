@@ -1,11 +1,17 @@
-import './helpers/bootstrap';
-import './services/transmission';
+import 'reflect-metadata';
 
+import dotenv from 'dotenv-flow';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 
-import cleaner from './cleaner';
+dotenv.config({
+  silent: true,
+});
+
+import './services/transmission';
+
+import cleaner from './jobs/cleaner';
+import worker from './jobs/worker';
 import redis from './services/redis';
-import worker from './worker';
 
 const { NODE_ENV, JOB_CLEAN_INTERVAL, JOB_FEED_INTERVAL } = process.env;
 

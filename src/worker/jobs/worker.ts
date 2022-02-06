@@ -3,17 +3,17 @@ import deepEqual from 'deep-equal';
 import { isEmpty } from 'ramda';
 import { AsyncTask } from 'toad-scheduler';
 
-import { normalize, sanitize, sanitizePartial } from './helpers/helpers';
-import prisma from './services/prisma';
-import redis, { channel } from './services/redis';
-import transmission from './services/transmission';
+import { normalize, sanitize, sanitizePartial } from '../helpers';
+import prisma from '../services/prisma';
+import redis, { channel } from '../services/redis';
+import transmission from '../services/transmission';
 import {
   CreatesFeed,
   DiffFeed,
   FeedTorrent,
   RawFeed,
   UpdatesFeed,
-} from './types';
+} from '../types';
 
 class FeederJob {
   private currFeed: RawFeed = {};

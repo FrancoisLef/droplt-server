@@ -1,6 +1,16 @@
-.husky
-dist
-dist-worker
-tmp
-node_modules
-src/schema/__generated__
+# dependencies
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+/node_modules
+/.husky
+
+# generated
+/dist
+/dist-worker
+/tmp
+env.d.ts

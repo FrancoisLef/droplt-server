@@ -20,10 +20,9 @@
 /coverage
 
 # generated
-/tmp
-/database
 /dist
 /dist-worker
+/tmp
 
 # misc
 .DS_Store

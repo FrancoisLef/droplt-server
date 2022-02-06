@@ -3,8 +3,7 @@
     "strict": true,
     "target": "es2018",
     "lib": ["es2018", "esnext.asynciterable"],
-    "baseUrl": ".",
-    "outDir": "dist-worker",
+    "outDir": "worker",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -13,6 +12,6 @@
     "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/worker/**/*.ts"],
+  "include": ["./**/*.ts"],
   "exclude": ["node_modules"]
 }

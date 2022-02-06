@@ -10,13 +10,13 @@
     "prepare": "husky install",
     "prestart": "run-s generate",
     "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
-    "worker": "ts-node-dev --respawn --clear --transpile-only --rs --project tsconfig.worker.json worker/index.ts",
+    "worker": "ts-node-dev --respawn --clear --transpile-only --rs --project tsconfig.worker.json src/worker/index.ts",
     "test": "jest -i --watch",
     "seed": "NODE_ENV=development prisma db seed",
     "generate": "run-s generate:worker generate:server generate:prisma",
     "generate:prisma": "prisma generate",
     "generate:server": "gen-env-types .env -o src/env.d.ts",
-    "generate:worker": "gen-env-types .env -o worker/env.d.ts",
+    "generate:worker": "gen-env-types .env -o src/worker/env.d.ts",
     "migrate": "NODE_ENV=development prisma migrate dev"
   },
   "lint-staged": {
