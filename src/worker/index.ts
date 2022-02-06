@@ -1,13 +1,12 @@
-import 'reflect-metadata';
-
 import dotenv from 'dotenv-flow';
-import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 
 dotenv.config({
   silent: true,
 });
 
 import './services/transmission';
+
+import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 
 import cleaner from './jobs/cleaner';
 import worker from './jobs/worker';
