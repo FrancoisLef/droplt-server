@@ -1,6 +1,7 @@
 FROM node:16
 
 WORKDIR /worker
+ENV NODE_ENV production
 
 COPY package.json yarn.lock .yarnrc.yml .env ./
 COPY .yarn ./.yarn
