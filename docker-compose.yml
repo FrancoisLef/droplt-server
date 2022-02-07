@@ -8,16 +8,12 @@ services:
       - redis
       - postgres
       - transmission
+    env_file:
+      - .env
     environment:
-      - PUBSUB_CHANNEL_CREATE=${PUBSUB_CHANNEL_CREATE}
-      - PUBSUB_CHANNEL_UPDATE=${PUBSUB_CHANNEL_UPDATE}
-      - PUBSUB_CHANNEL_DELETE=${PUBSUB_CHANNEL_DELETE}
-      - JOB_FEED_INTERVAL=${JOB_FEED_INTERVAL}
-      - JOB_CLEAN_INTERVAL=${JOB_CLEAN_INTERVAL}
+      - NODE_ENV=production
       - TRANSMISSION_URL=http://transmission:9091
-      - TRANSMISSION_USER=${TRANSMISSION_USER}
-      - TRANSMISSION_PASSWORD=${TRANSMISSION_PASSWORD}
-      - POSTGRES_HOST=postgresql://dropltuser:dropltpass@postgres:5432/droplt
+      - POSTGRES_URL=postgresql://dropltuser:dropltpass@postgres:5432/droplt
       - REDIS_HOST=redis
   postgres:
     image: postgres:alpine
