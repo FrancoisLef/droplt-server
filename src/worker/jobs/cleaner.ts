@@ -3,11 +3,8 @@ import { AsyncTask } from 'toad-scheduler';
 import prisma from '../../services/prisma';
 import transmission from '../../services/transmission';
 import { normalize } from '../helpers';
-import { RawFeed } from '../types';
 
 class CleanerJob {
-  private currFeed: RawFeed = {};
-
   public async run(): Promise<void> {
     // fetch data from provider
     const listTorrents = await transmission.listTorrents();
@@ -55,8 +52,12 @@ class CleanerJob {
     await prisma.$transaction(transactions);
   }
 
-  public onError(err: Error): void {
-    console.log('Oops', err);
+  public onError(error: Error): void {
+    if (error.name === 'TimeoutError') {
+      console.warn('Transmission request timeout');
+      return;
+    }
+    console.log('Oops', error);
   }
 }
 

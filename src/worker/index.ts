@@ -38,7 +38,7 @@ const { NODE_ENV, TRANSMISSION_URL, JOB_CLEAN_INTERVAL, JOB_FEED_INTERVAL } =
 
   console.log(`✅ Worker started
 ⚙️  Environment: ${NODE_ENV}
-🔥 Feed interval: ${parseInt(JOB_FEED_INTERVAL, 10)}
-🗑  Clean interval: ${parseInt(JOB_CLEAN_INTERVAL, 10)}
+🔥 Feed interval: ${parseInt(JOB_FEED_INTERVAL, 10)} seconds
+🗑  Clean interval: ${parseInt(JOB_CLEAN_INTERVAL, 10)} seconds
 💧 Transmission url ${TRANSMISSION_URL}`);
 })();

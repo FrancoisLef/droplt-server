@@ -9,6 +9,4 @@ const transmission = new Transmission({
   password: TRANSMISSION_PASSWORD,
 });
 
-console.log(`💧 connected to Transmission on ${TRANSMISSION_URL}`);
-
 export default transmission;
