@@ -1,14 +1,22 @@
 import Redis from 'ioredis';
 
+const {
+  REDIS_HOST = 'localhost',
+  REDIS_PORT = '6379',
+  PUBSUB_CHANNEL_CREATE,
+  PUBSUB_CHANNEL_UPDATE,
+  PUBSUB_CHANNEL_DELETE,
+} = process.env;
+
 const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT || '6379', 10),
+  host: REDIS_HOST,
+  port: parseInt(REDIS_PORT, 10),
 });
 
 export const channel = {
-  create: process.env.PUBSUB_CHANNEL_CREATE,
-  update: process.env.PUBSUB_CHANNEL_UPDATE,
-  delete: process.env.PUBSUB_CHANNEL_DELETE,
+  create: PUBSUB_CHANNEL_CREATE,
+  update: PUBSUB_CHANNEL_UPDATE,
+  delete: PUBSUB_CHANNEL_DELETE,
 };
 
 export default redis;
