@@ -1,8 +1,8 @@
 import { AsyncTask } from 'toad-scheduler';
 
+import prisma from '../../services/prisma';
+import transmission from '../../services/transmission';
 import { normalize } from '../helpers';
-import prisma from '../services/prisma';
-import transmission from '../services/transmission';
 import { RawFeed } from '../types';
 
 class CleanerJob {

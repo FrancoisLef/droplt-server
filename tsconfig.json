@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es2018",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "target": "es2021",
+    "lib": ["es2021", "esnext.asynciterable"],
     "baseUrl": ".",
-    "outDir": "dist",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/server/**/*.ts"],
   "exclude": ["node_modules"]
 }

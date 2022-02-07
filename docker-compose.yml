@@ -1,17 +1,17 @@
 version: '3.7'
 
 services:
-  worker:
-    image: droplt-worker:latest
-    container_name: worker
-    depends_on:
-      - redis
-      - postgres
-      - transmission
-    environment:
-      - POSTGRES_URL=postgresql://dropltuser:dropltpass@postgres:5432/droplt
-      - REDIS_HOST=redis
-      - TRANSMISSION_URL=http://transmission:9091
+  # worker:
+  #   image: droplt-worker:latest
+  #   container_name: worker
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #     - transmission
+  #   environment:
+  #     - POSTGRES_URL=postgresql://dropltuser:dropltpass@postgres:5432/droplt
+  #     - REDIS_HOST=redis
+  #     - TRANSMISSION_URL=http://transmission:9091
   postgres:
     image: postgres:alpine
     container_name: postgres

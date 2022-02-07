@@ -3,10 +3,10 @@ import deepEqual from 'deep-equal';
 import { isEmpty } from 'ramda';
 import { AsyncTask } from 'toad-scheduler';
 
+import prisma from '../../services/prisma';
+import redis, { channel } from '../../services/redis';
+import transmission from '../../services/transmission';
 import { normalize, sanitize, sanitizePartial } from '../helpers';
-import prisma from '../services/prisma';
-import redis, { channel } from '../services/redis';
-import transmission from '../services/transmission';
 import {
   CreatesFeed,
   DiffFeed,
@@ -52,8 +52,12 @@ class FeederJob {
     this.currFeed = nextFeed;
   }
 
-  public onError(err: Error): void {
-    console.log('Oops', err);
+  public onError(error: Error): void {
+    if (error.name === 'TimeoutError') {
+      console.warn('Transmission request timeout');
+      return;
+    }
+    console.log('Oops', error);
   }
 
   private feedsDiff(nextFeed: RawFeed): DiffFeed {
