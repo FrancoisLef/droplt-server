@@ -6,16 +6,24 @@ dotenv.config({
   silent: true,
 });
 
+import '../services/transmission';
+
+// import { TorrentCrudResolver, UserCrudResolver } from './schema/__generated__';
 import { resolvers } from '@generated/type-graphql';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import { execute, subscribe } from 'graphql';
 import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TypeGraphql from 'type-graphql';
 
-import prisma from '../services/prisma';
 import app from './app';
+// import { feed } from './jobs';
+import prisma from './prisma';
+// import { CustomTorrentResolver } from './schema/torrent';
+// import { pubSub } from './services/pubSub';
+// import { pubSub } from './services/redis';
 
 const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
@@ -27,8 +35,10 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
 
   // Build GraphQL schema
   const schema = await TypeGraphql.buildSchema({
+    // resolvers: [CustomTorrentResolver, TorrentCrudResolver, UserCrudResolver],
     resolvers,
     emitSchemaFile: 'public/schema.graphql',
+    // pubSub,
   });
 
   // ApolloServer configuration
@@ -69,6 +79,11 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
       path: '/subscriptions',
     }
   );
+
+  // // Start in-memory job scheduler
+  // new ToadScheduler().addSimpleIntervalJob(
+  //   new SimpleIntervalJob({ milliseconds: parseInt(JOB_INTERVAL, 10) }, feed)
+  // );
 
   console.log(`
 ✅ Server started

@@ -15,27 +15,12 @@ type AggregateTorrent {
   _sum: TorrentSumAggregate
 }
 
-type AggregateUser {
-  _count: UserCountAggregate
-  _max: UserMaxAggregate
-  _min: UserMinAggregate
-}
-
-input BoolFieldUpdateOperationsInput {
-  set: Boolean
-}
-
-input BoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
-}
-
-input BoolWithAggregatesFilter {
-  _count: NestedIntFilter
-  _max: NestedBoolFilter
-  _min: NestedBoolFilter
-  equals: Boolean
-  not: NestedBoolWithAggregatesFilter
+type AggregateTorrentFile {
+  _avg: TorrentFileAvgAggregate
+  _count: TorrentFileCountAggregate
+  _max: TorrentFileMaxAggregate
+  _min: TorrentFileMinAggregate
+  _sum: TorrentFileSumAggregate
 }
 
 """
@@ -159,69 +144,21 @@ input FloatWithAggregatesFilter {
   notIn: [Float!]
 }
 
-input IntFieldUpdateOperationsInput {
-  decrement: Int
-  divide: Int
-  increment: Int
-  multiply: Int
-  set: Int
-}
-
-input IntFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntFilter
-  notIn: [Int!]
-}
-
-input IntWithAggregatesFilter {
-  _avg: NestedFloatFilter
-  _count: NestedIntFilter
-  _max: NestedIntFilter
-  _min: NestedIntFilter
-  _sum: NestedIntFilter
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntWithAggregatesFilter
-  notIn: [Int!]
-}
-
 type Mutation {
   createManyTorrent(data: [TorrentCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
-  createManyUser(data: [UserCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  createManyTorrentFile(data: [TorrentFileCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
   createTorrent(data: TorrentCreateInput!): Torrent!
-  createUser(data: UserCreateInput!): User!
+  createTorrentFile(data: TorrentFileCreateInput!): TorrentFile!
   deleteManyTorrent(where: TorrentWhereInput): AffectedRowsOutput!
-  deleteManyUser(where: UserWhereInput): AffectedRowsOutput!
+  deleteManyTorrentFile(where: TorrentFileWhereInput): AffectedRowsOutput!
   deleteTorrent(where: TorrentWhereUniqueInput!): Torrent
-  deleteUser(where: UserWhereUniqueInput!): User
+  deleteTorrentFile(where: TorrentFileWhereUniqueInput!): TorrentFile
   updateManyTorrent(data: TorrentUpdateManyMutationInput!, where: TorrentWhereInput): AffectedRowsOutput!
-  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): AffectedRowsOutput!
+  updateManyTorrentFile(data: TorrentFileUpdateManyMutationInput!, where: TorrentFileWhereInput): AffectedRowsOutput!
   updateTorrent(data: TorrentUpdateInput!, where: TorrentWhereUniqueInput!): Torrent
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateTorrentFile(data: TorrentFileUpdateInput!, where: TorrentFileWhereUniqueInput!): TorrentFile
   upsertTorrent(create: TorrentCreateInput!, update: TorrentUpdateInput!, where: TorrentWhereUniqueInput!): Torrent!
-  upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
-}
-
-input NestedBoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
-}
-
-input NestedBoolWithAggregatesFilter {
-  _count: NestedIntFilter
-  _max: NestedBoolFilter
-  _min: NestedBoolFilter
-  equals: Boolean
-  not: NestedBoolWithAggregatesFilter
+  upsertTorrentFile(create: TorrentFileCreateInput!, update: TorrentFileUpdateInput!, where: TorrentFileWhereUniqueInput!): TorrentFile!
 }
 
 input NestedDateTimeFilter {
@@ -350,22 +287,6 @@ input NestedIntNullableFilter {
   notIn: [Int!]
 }
 
-input NestedIntWithAggregatesFilter {
-  _avg: NestedFloatFilter
-  _count: NestedIntFilter
-  _max: NestedIntFilter
-  _min: NestedIntFilter
-  _sum: NestedIntFilter
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntWithAggregatesFilter
-  notIn: [Int!]
-}
-
 input NestedStringFilter {
   contains: String
   endsWith: String
@@ -390,6 +311,23 @@ input NestedStringNullableFilter {
   lt: String
   lte: String
   not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableWithAggregatesFilter {
+  _count: NestedIntNullableFilter
+  _max: NestedStringNullableFilter
+  _min: NestedStringNullableFilter
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableWithAggregatesFilter
   notIn: [String!]
   startsWith: String
 }
@@ -425,15 +363,15 @@ input NullableFloatFieldUpdateOperationsInput {
 
 type Query {
   aggregateTorrent(cursor: TorrentWhereUniqueInput, orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): AggregateTorrent!
-  aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
+  aggregateTorrentFile(cursor: TorrentFileWhereUniqueInput, orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): AggregateTorrentFile!
   findFirstTorrent(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): Torrent
-  findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
+  findFirstTorrentFile(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): TorrentFile
   groupByTorrent(by: [TorrentScalarFieldEnum!]!, having: TorrentScalarWhereWithAggregatesInput, orderBy: [TorrentOrderByWithAggregationInput!], skip: Int, take: Int, where: TorrentWhereInput): [TorrentGroupBy!]!
-  groupByUser(by: [UserScalarFieldEnum!]!, having: UserScalarWhereWithAggregatesInput, orderBy: [UserOrderByWithAggregationInput!], skip: Int, take: Int, where: UserWhereInput): [UserGroupBy!]!
+  groupByTorrentFile(by: [TorrentFileScalarFieldEnum!]!, having: TorrentFileScalarWhereWithAggregatesInput, orderBy: [TorrentFileOrderByWithAggregationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFileGroupBy!]!
   torrent(where: TorrentWhereUniqueInput!): Torrent
+  torrentFile(where: TorrentFileWhereUniqueInput!): TorrentFile
+  torrentFiles(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
   torrents(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): [Torrent!]!
-  user(where: UserWhereUniqueInput!): User
-  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 
 enum QueryMode {
@@ -480,6 +418,24 @@ input StringNullableFilter {
   startsWith: String
 }
 
+input StringNullableWithAggregatesFilter {
+  _count: NestedIntNullableFilter
+  _max: NestedStringNullableFilter
+  _min: NestedStringNullableFilter
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringNullableWithAggregatesFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 input StringWithAggregatesFilter {
   _count: NestedIntFilter
   _max: NestedStringFilter
@@ -498,20 +454,14 @@ input StringWithAggregatesFilter {
   startsWith: String
 }
 
-type Subscription {
-  torrentsUpdate: [Torrent!]!
-}
-
 type Torrent {
   _count: TorrentCount
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
-  deletedAt: DateTime
   downloaded: Float!
   eta: Float
-  hash: String!
-  isDeleted: Boolean!
+  files(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
   name: String!
   path: String!
   progress: Float!
@@ -519,7 +469,6 @@ type Torrent {
   size: Float!
   status: String!
   torrentId: String!
-  transmissionId: Int!
   updatedAt: DateTime!
   uploaded: Float!
 }
@@ -530,7 +479,6 @@ type TorrentAvgAggregate {
   progress: Float
   ratio: Float
   size: Float
-  transmissionId: Float
   uploaded: Float
 }
 
@@ -540,7 +488,6 @@ input TorrentAvgOrderByAggregateInput {
   progress: SortOrder
   ratio: SortOrder
   size: SortOrder
-  transmissionId: SortOrder
   uploaded: SortOrder
 }
 
@@ -553,11 +500,8 @@ type TorrentCountAggregate {
   addedAt: Int!
   completedAt: Int!
   createdAt: Int!
-  deletedAt: Int!
   downloaded: Int!
   eta: Int!
-  hash: Int!
-  isDeleted: Int!
   name: Int!
   path: Int!
   progress: Int!
@@ -565,7 +509,6 @@ type TorrentCountAggregate {
   size: Int!
   status: Int!
   torrentId: Int!
-  transmissionId: Int!
   updatedAt: Int!
   uploaded: Int!
 }
@@ -574,11 +517,8 @@ input TorrentCountOrderByAggregateInput {
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
-  deletedAt: SortOrder
   downloaded: SortOrder
   eta: SortOrder
-  hash: SortOrder
-  isDeleted: SortOrder
   name: SortOrder
   path: SortOrder
   progress: SortOrder
@@ -586,7 +526,6 @@ input TorrentCountOrderByAggregateInput {
   size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  transmissionId: SortOrder
   updatedAt: SortOrder
   uploaded: SortOrder
 }
@@ -595,20 +534,16 @@ input TorrentCreateInput {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime
-  deletedAt: DateTime
   downloaded: Float
   eta: Float
   files: TorrentFileCreateNestedManyWithoutTorrentInput
-  hash: String!
-  isDeleted: Boolean
   name: String!
   path: String!
   progress: Float
   ratio: Float
   size: Float!
   status: String!
-  torrentId: String
-  transmissionId: Int!
+  torrentId: String!
   updatedAt: DateTime
   uploaded: Float
 }
@@ -617,21 +552,107 @@ input TorrentCreateManyInput {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime
-  deletedAt: DateTime
   downloaded: Float
   eta: Float
-  hash: String!
-  isDeleted: Boolean
   name: String!
   path: String!
   progress: Float
   ratio: Float
   size: Float!
   status: String!
-  torrentId: String
-  transmissionId: Int!
+  torrentId: String!
   updatedAt: DateTime
   uploaded: Float
+}
+
+input TorrentCreateNestedOneWithoutFilesInput {
+  connect: TorrentWhereUniqueInput
+  connectOrCreate: TorrentCreateOrConnectWithoutFilesInput
+  create: TorrentCreateWithoutFilesInput
+}
+
+input TorrentCreateOrConnectWithoutFilesInput {
+  create: TorrentCreateWithoutFilesInput!
+  where: TorrentWhereUniqueInput!
+}
+
+input TorrentCreateWithoutFilesInput {
+  addedAt: DateTime!
+  completedAt: DateTime
+  createdAt: DateTime
+  downloaded: Float
+  eta: Float
+  name: String!
+  path: String!
+  progress: Float
+  ratio: Float
+  size: Float!
+  status: String!
+  torrentId: String!
+  updatedAt: DateTime
+  uploaded: Float
+}
+
+type TorrentFile {
+  Torrent: Torrent
+  createdAt: DateTime!
+  downloaded: Float!
+  name: String!
+  size: Float!
+  torrentFileId: String!
+  torrentId: String
+  updatedAt: DateTime!
+}
+
+type TorrentFileAvgAggregate {
+  downloaded: Float
+  size: Float
+}
+
+input TorrentFileAvgOrderByAggregateInput {
+  downloaded: SortOrder
+  size: SortOrder
+}
+
+type TorrentFileCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  downloaded: Int!
+  name: Int!
+  size: Int!
+  torrentFileId: Int!
+  torrentId: Int!
+  updatedAt: Int!
+}
+
+input TorrentFileCountOrderByAggregateInput {
+  createdAt: SortOrder
+  downloaded: SortOrder
+  name: SortOrder
+  size: SortOrder
+  torrentFileId: SortOrder
+  torrentId: SortOrder
+  updatedAt: SortOrder
+}
+
+input TorrentFileCreateInput {
+  Torrent: TorrentCreateNestedOneWithoutFilesInput
+  createdAt: DateTime
+  downloaded: Float
+  name: String!
+  size: Float!
+  torrentFileId: String
+  updatedAt: DateTime
+}
+
+input TorrentFileCreateManyInput {
+  createdAt: DateTime
+  downloaded: Float
+  name: String!
+  size: Float!
+  torrentFileId: String
+  torrentId: String
+  updatedAt: DateTime
 }
 
 input TorrentFileCreateManyTorrentInput {
@@ -669,14 +690,105 @@ input TorrentFileCreateWithoutTorrentInput {
   updatedAt: DateTime
 }
 
+type TorrentFileGroupBy {
+  _avg: TorrentFileAvgAggregate
+  _count: TorrentFileCountAggregate
+  _max: TorrentFileMaxAggregate
+  _min: TorrentFileMinAggregate
+  _sum: TorrentFileSumAggregate
+  createdAt: DateTime!
+  downloaded: Float!
+  name: String!
+  size: Float!
+  torrentFileId: String!
+  torrentId: String
+  updatedAt: DateTime!
+}
+
 input TorrentFileListRelationFilter {
   every: TorrentFileWhereInput
   none: TorrentFileWhereInput
   some: TorrentFileWhereInput
 }
 
+type TorrentFileMaxAggregate {
+  createdAt: DateTime
+  downloaded: Float
+  name: String
+  size: Float
+  torrentFileId: String
+  torrentId: String
+  updatedAt: DateTime
+}
+
+input TorrentFileMaxOrderByAggregateInput {
+  createdAt: SortOrder
+  downloaded: SortOrder
+  name: SortOrder
+  size: SortOrder
+  torrentFileId: SortOrder
+  torrentId: SortOrder
+  updatedAt: SortOrder
+}
+
+type TorrentFileMinAggregate {
+  createdAt: DateTime
+  downloaded: Float
+  name: String
+  size: Float
+  torrentFileId: String
+  torrentId: String
+  updatedAt: DateTime
+}
+
+input TorrentFileMinOrderByAggregateInput {
+  createdAt: SortOrder
+  downloaded: SortOrder
+  name: SortOrder
+  size: SortOrder
+  torrentFileId: SortOrder
+  torrentId: SortOrder
+  updatedAt: SortOrder
+}
+
 input TorrentFileOrderByRelationAggregateInput {
   _count: SortOrder
+}
+
+input TorrentFileOrderByWithAggregationInput {
+  _avg: TorrentFileAvgOrderByAggregateInput
+  _count: TorrentFileCountOrderByAggregateInput
+  _max: TorrentFileMaxOrderByAggregateInput
+  _min: TorrentFileMinOrderByAggregateInput
+  _sum: TorrentFileSumOrderByAggregateInput
+  createdAt: SortOrder
+  downloaded: SortOrder
+  name: SortOrder
+  size: SortOrder
+  torrentFileId: SortOrder
+  torrentId: SortOrder
+  updatedAt: SortOrder
+}
+
+input TorrentFileOrderByWithRelationInput {
+  Torrent: TorrentOrderByWithRelationInput
+  createdAt: SortOrder
+  downloaded: SortOrder
+  name: SortOrder
+  size: SortOrder
+  torrentFileId: SortOrder
+  torrentId: SortOrder
+  updatedAt: SortOrder
+}
+
+enum TorrentFileScalarFieldEnum {
+  createdAt
+  downloaded
+  name
+  size
+  torrentFileId
+  torrentId
+  updatedAt
 }
 
 input TorrentFileScalarWhereInput {
@@ -690,6 +802,39 @@ input TorrentFileScalarWhereInput {
   torrentFileId: StringFilter
   torrentId: StringNullableFilter
   updatedAt: DateTimeFilter
+}
+
+input TorrentFileScalarWhereWithAggregatesInput {
+  AND: [TorrentFileScalarWhereWithAggregatesInput!]
+  NOT: [TorrentFileScalarWhereWithAggregatesInput!]
+  OR: [TorrentFileScalarWhereWithAggregatesInput!]
+  createdAt: DateTimeWithAggregatesFilter
+  downloaded: FloatWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  size: FloatWithAggregatesFilter
+  torrentFileId: StringWithAggregatesFilter
+  torrentId: StringNullableWithAggregatesFilter
+  updatedAt: DateTimeWithAggregatesFilter
+}
+
+type TorrentFileSumAggregate {
+  downloaded: Float
+  size: Float
+}
+
+input TorrentFileSumOrderByAggregateInput {
+  downloaded: SortOrder
+  size: SortOrder
+}
+
+input TorrentFileUpdateInput {
+  Torrent: TorrentUpdateOneWithoutFilesInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  downloaded: FloatFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  size: FloatFieldUpdateOperationsInput
+  torrentFileId: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input TorrentFileUpdateManyMutationInput {
@@ -767,11 +912,8 @@ type TorrentGroupBy {
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
-  deletedAt: DateTime
   downloaded: Float!
   eta: Float
-  hash: String!
-  isDeleted: Boolean!
   name: String!
   path: String!
   progress: Float!
@@ -779,7 +921,6 @@ type TorrentGroupBy {
   size: Float!
   status: String!
   torrentId: String!
-  transmissionId: Int!
   updatedAt: DateTime!
   uploaded: Float!
 }
@@ -788,11 +929,8 @@ type TorrentMaxAggregate {
   addedAt: DateTime
   completedAt: DateTime
   createdAt: DateTime
-  deletedAt: DateTime
   downloaded: Float
   eta: Float
-  hash: String
-  isDeleted: Boolean
   name: String
   path: String
   progress: Float
@@ -800,7 +938,6 @@ type TorrentMaxAggregate {
   size: Float
   status: String
   torrentId: String
-  transmissionId: Int
   updatedAt: DateTime
   uploaded: Float
 }
@@ -809,11 +946,8 @@ input TorrentMaxOrderByAggregateInput {
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
-  deletedAt: SortOrder
   downloaded: SortOrder
   eta: SortOrder
-  hash: SortOrder
-  isDeleted: SortOrder
   name: SortOrder
   path: SortOrder
   progress: SortOrder
@@ -821,7 +955,6 @@ input TorrentMaxOrderByAggregateInput {
   size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  transmissionId: SortOrder
   updatedAt: SortOrder
   uploaded: SortOrder
 }
@@ -830,11 +963,8 @@ type TorrentMinAggregate {
   addedAt: DateTime
   completedAt: DateTime
   createdAt: DateTime
-  deletedAt: DateTime
   downloaded: Float
   eta: Float
-  hash: String
-  isDeleted: Boolean
   name: String
   path: String
   progress: Float
@@ -842,7 +972,6 @@ type TorrentMinAggregate {
   size: Float
   status: String
   torrentId: String
-  transmissionId: Int
   updatedAt: DateTime
   uploaded: Float
 }
@@ -851,11 +980,8 @@ input TorrentMinOrderByAggregateInput {
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
-  deletedAt: SortOrder
   downloaded: SortOrder
   eta: SortOrder
-  hash: SortOrder
-  isDeleted: SortOrder
   name: SortOrder
   path: SortOrder
   progress: SortOrder
@@ -863,7 +989,6 @@ input TorrentMinOrderByAggregateInput {
   size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  transmissionId: SortOrder
   updatedAt: SortOrder
   uploaded: SortOrder
 }
@@ -877,11 +1002,8 @@ input TorrentOrderByWithAggregationInput {
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
-  deletedAt: SortOrder
   downloaded: SortOrder
   eta: SortOrder
-  hash: SortOrder
-  isDeleted: SortOrder
   name: SortOrder
   path: SortOrder
   progress: SortOrder
@@ -889,7 +1011,6 @@ input TorrentOrderByWithAggregationInput {
   size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  transmissionId: SortOrder
   updatedAt: SortOrder
   uploaded: SortOrder
 }
@@ -898,12 +1019,9 @@ input TorrentOrderByWithRelationInput {
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
-  deletedAt: SortOrder
   downloaded: SortOrder
   eta: SortOrder
   files: TorrentFileOrderByRelationAggregateInput
-  hash: SortOrder
-  isDeleted: SortOrder
   name: SortOrder
   path: SortOrder
   progress: SortOrder
@@ -911,7 +1029,6 @@ input TorrentOrderByWithRelationInput {
   size: SortOrder
   status: SortOrder
   torrentId: SortOrder
-  transmissionId: SortOrder
   updatedAt: SortOrder
   uploaded: SortOrder
 }
@@ -925,11 +1042,8 @@ enum TorrentScalarFieldEnum {
   addedAt
   completedAt
   createdAt
-  deletedAt
   downloaded
   eta
-  hash
-  isDeleted
   name
   path
   progress
@@ -937,7 +1051,6 @@ enum TorrentScalarFieldEnum {
   size
   status
   torrentId
-  transmissionId
   updatedAt
   uploaded
 }
@@ -949,11 +1062,8 @@ input TorrentScalarWhereWithAggregatesInput {
   addedAt: DateTimeWithAggregatesFilter
   completedAt: DateTimeNullableWithAggregatesFilter
   createdAt: DateTimeWithAggregatesFilter
-  deletedAt: DateTimeNullableWithAggregatesFilter
   downloaded: FloatWithAggregatesFilter
   eta: FloatNullableWithAggregatesFilter
-  hash: StringWithAggregatesFilter
-  isDeleted: BoolWithAggregatesFilter
   name: StringWithAggregatesFilter
   path: StringWithAggregatesFilter
   progress: FloatWithAggregatesFilter
@@ -961,7 +1071,6 @@ input TorrentScalarWhereWithAggregatesInput {
   size: FloatWithAggregatesFilter
   status: StringWithAggregatesFilter
   torrentId: StringWithAggregatesFilter
-  transmissionId: IntWithAggregatesFilter
   updatedAt: DateTimeWithAggregatesFilter
   uploaded: FloatWithAggregatesFilter
 }
@@ -972,7 +1081,6 @@ type TorrentSumAggregate {
   progress: Float
   ratio: Float
   size: Float
-  transmissionId: Int
   uploaded: Float
 }
 
@@ -982,7 +1090,6 @@ input TorrentSumOrderByAggregateInput {
   progress: SortOrder
   ratio: SortOrder
   size: SortOrder
-  transmissionId: SortOrder
   uploaded: SortOrder
 }
 
@@ -990,12 +1097,9 @@ input TorrentUpdateInput {
   addedAt: DateTimeFieldUpdateOperationsInput
   completedAt: NullableDateTimeFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  deletedAt: NullableDateTimeFieldUpdateOperationsInput
   downloaded: FloatFieldUpdateOperationsInput
   eta: NullableFloatFieldUpdateOperationsInput
   files: TorrentFileUpdateManyWithoutTorrentInput
-  hash: StringFieldUpdateOperationsInput
-  isDeleted: BoolFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
   progress: FloatFieldUpdateOperationsInput
@@ -1003,7 +1107,6 @@ input TorrentUpdateInput {
   size: FloatFieldUpdateOperationsInput
   status: StringFieldUpdateOperationsInput
   torrentId: StringFieldUpdateOperationsInput
-  transmissionId: IntFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   uploaded: FloatFieldUpdateOperationsInput
 }
@@ -1012,11 +1115,8 @@ input TorrentUpdateManyMutationInput {
   addedAt: DateTimeFieldUpdateOperationsInput
   completedAt: NullableDateTimeFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  deletedAt: NullableDateTimeFieldUpdateOperationsInput
   downloaded: FloatFieldUpdateOperationsInput
   eta: NullableFloatFieldUpdateOperationsInput
-  hash: StringFieldUpdateOperationsInput
-  isDeleted: BoolFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
   progress: FloatFieldUpdateOperationsInput
@@ -1024,9 +1124,40 @@ input TorrentUpdateManyMutationInput {
   size: FloatFieldUpdateOperationsInput
   status: StringFieldUpdateOperationsInput
   torrentId: StringFieldUpdateOperationsInput
-  transmissionId: IntFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   uploaded: FloatFieldUpdateOperationsInput
+}
+
+input TorrentUpdateOneWithoutFilesInput {
+  connect: TorrentWhereUniqueInput
+  connectOrCreate: TorrentCreateOrConnectWithoutFilesInput
+  create: TorrentCreateWithoutFilesInput
+  delete: Boolean
+  disconnect: Boolean
+  update: TorrentUpdateWithoutFilesInput
+  upsert: TorrentUpsertWithoutFilesInput
+}
+
+input TorrentUpdateWithoutFilesInput {
+  addedAt: DateTimeFieldUpdateOperationsInput
+  completedAt: NullableDateTimeFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  downloaded: FloatFieldUpdateOperationsInput
+  eta: NullableFloatFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
+  progress: FloatFieldUpdateOperationsInput
+  ratio: FloatFieldUpdateOperationsInput
+  size: FloatFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  torrentId: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  uploaded: FloatFieldUpdateOperationsInput
+}
+
+input TorrentUpsertWithoutFilesInput {
+  create: TorrentCreateWithoutFilesInput!
+  update: TorrentUpdateWithoutFilesInput!
 }
 
 input TorrentWhereInput {
@@ -1036,12 +1167,9 @@ input TorrentWhereInput {
   addedAt: DateTimeFilter
   completedAt: DateTimeNullableFilter
   createdAt: DateTimeFilter
-  deletedAt: DateTimeNullableFilter
   downloaded: FloatFilter
   eta: FloatNullableFilter
   files: TorrentFileListRelationFilter
-  hash: StringFilter
-  isDeleted: BoolFilter
   name: StringFilter
   path: StringFilter
   progress: FloatFilter
@@ -1049,267 +1177,10 @@ input TorrentWhereInput {
   size: FloatFilter
   status: StringFilter
   torrentId: StringFilter
-  transmissionId: IntFilter
   updatedAt: DateTimeFilter
   uploaded: FloatFilter
 }
 
 input TorrentWhereUniqueInput {
-  hash: String
   torrentId: String
-}
-
-type User {
-  createdAt: DateTime!
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String!
-  firstName: String!
-  isDeleted: Boolean!
-  isDisabled: Boolean!
-  lastName: String!
-  updatedAt: DateTime!
-  userId: String!
-}
-
-type UserCountAggregate {
-  _all: Int!
-  createdAt: Int!
-  deletedAt: Int!
-  disabledAt: Int!
-  email: Int!
-  firstName: Int!
-  isDeleted: Int!
-  isDisabled: Int!
-  lastName: Int!
-  password: Int!
-  updatedAt: Int!
-  userId: Int!
-}
-
-input UserCountOrderByAggregateInput {
-  createdAt: SortOrder
-  deletedAt: SortOrder
-  disabledAt: SortOrder
-  email: SortOrder
-  firstName: SortOrder
-  isDeleted: SortOrder
-  isDisabled: SortOrder
-  lastName: SortOrder
-  password: SortOrder
-  updatedAt: SortOrder
-  userId: SortOrder
-}
-
-input UserCreateInput {
-  createdAt: DateTime
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String!
-  firstName: String!
-  isDeleted: Boolean
-  isDisabled: Boolean
-  lastName: String!
-  password: String!
-  updatedAt: DateTime
-  userId: String
-}
-
-input UserCreateManyInput {
-  createdAt: DateTime
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String!
-  firstName: String!
-  isDeleted: Boolean
-  isDisabled: Boolean
-  lastName: String!
-  password: String!
-  updatedAt: DateTime
-  userId: String
-}
-
-type UserGroupBy {
-  _count: UserCountAggregate
-  _max: UserMaxAggregate
-  _min: UserMinAggregate
-  createdAt: DateTime!
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String!
-  firstName: String!
-  isDeleted: Boolean!
-  isDisabled: Boolean!
-  lastName: String!
-  password: String!
-  updatedAt: DateTime!
-  userId: String!
-}
-
-type UserMaxAggregate {
-  createdAt: DateTime
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String
-  firstName: String
-  isDeleted: Boolean
-  isDisabled: Boolean
-  lastName: String
-  password: String
-  updatedAt: DateTime
-  userId: String
-}
-
-input UserMaxOrderByAggregateInput {
-  createdAt: SortOrder
-  deletedAt: SortOrder
-  disabledAt: SortOrder
-  email: SortOrder
-  firstName: SortOrder
-  isDeleted: SortOrder
-  isDisabled: SortOrder
-  lastName: SortOrder
-  password: SortOrder
-  updatedAt: SortOrder
-  userId: SortOrder
-}
-
-type UserMinAggregate {
-  createdAt: DateTime
-  deletedAt: DateTime
-  disabledAt: DateTime
-  email: String
-  firstName: String
-  isDeleted: Boolean
-  isDisabled: Boolean
-  lastName: String
-  password: String
-  updatedAt: DateTime
-  userId: String
-}
-
-input UserMinOrderByAggregateInput {
-  createdAt: SortOrder
-  deletedAt: SortOrder
-  disabledAt: SortOrder
-  email: SortOrder
-  firstName: SortOrder
-  isDeleted: SortOrder
-  isDisabled: SortOrder
-  lastName: SortOrder
-  password: SortOrder
-  updatedAt: SortOrder
-  userId: SortOrder
-}
-
-input UserOrderByWithAggregationInput {
-  _count: UserCountOrderByAggregateInput
-  _max: UserMaxOrderByAggregateInput
-  _min: UserMinOrderByAggregateInput
-  createdAt: SortOrder
-  deletedAt: SortOrder
-  disabledAt: SortOrder
-  email: SortOrder
-  firstName: SortOrder
-  isDeleted: SortOrder
-  isDisabled: SortOrder
-  lastName: SortOrder
-  password: SortOrder
-  updatedAt: SortOrder
-  userId: SortOrder
-}
-
-input UserOrderByWithRelationInput {
-  createdAt: SortOrder
-  deletedAt: SortOrder
-  disabledAt: SortOrder
-  email: SortOrder
-  firstName: SortOrder
-  isDeleted: SortOrder
-  isDisabled: SortOrder
-  lastName: SortOrder
-  password: SortOrder
-  updatedAt: SortOrder
-  userId: SortOrder
-}
-
-enum UserScalarFieldEnum {
-  createdAt
-  deletedAt
-  disabledAt
-  email
-  firstName
-  isDeleted
-  isDisabled
-  lastName
-  password
-  updatedAt
-  userId
-}
-
-input UserScalarWhereWithAggregatesInput {
-  AND: [UserScalarWhereWithAggregatesInput!]
-  NOT: [UserScalarWhereWithAggregatesInput!]
-  OR: [UserScalarWhereWithAggregatesInput!]
-  createdAt: DateTimeWithAggregatesFilter
-  deletedAt: DateTimeNullableWithAggregatesFilter
-  disabledAt: DateTimeNullableWithAggregatesFilter
-  email: StringWithAggregatesFilter
-  firstName: StringWithAggregatesFilter
-  isDeleted: BoolWithAggregatesFilter
-  isDisabled: BoolWithAggregatesFilter
-  lastName: StringWithAggregatesFilter
-  password: StringWithAggregatesFilter
-  updatedAt: DateTimeWithAggregatesFilter
-  userId: StringWithAggregatesFilter
-}
-
-input UserUpdateInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  deletedAt: NullableDateTimeFieldUpdateOperationsInput
-  disabledAt: NullableDateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  firstName: StringFieldUpdateOperationsInput
-  isDeleted: BoolFieldUpdateOperationsInput
-  isDisabled: BoolFieldUpdateOperationsInput
-  lastName: StringFieldUpdateOperationsInput
-  password: StringFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
-  userId: StringFieldUpdateOperationsInput
-}
-
-input UserUpdateManyMutationInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  deletedAt: NullableDateTimeFieldUpdateOperationsInput
-  disabledAt: NullableDateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  firstName: StringFieldUpdateOperationsInput
-  isDeleted: BoolFieldUpdateOperationsInput
-  isDisabled: BoolFieldUpdateOperationsInput
-  lastName: StringFieldUpdateOperationsInput
-  password: StringFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
-  userId: StringFieldUpdateOperationsInput
-}
-
-input UserWhereInput {
-  AND: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  createdAt: DateTimeFilter
-  deletedAt: DateTimeNullableFilter
-  disabledAt: DateTimeNullableFilter
-  email: StringFilter
-  firstName: StringFilter
-  isDeleted: BoolFilter
-  isDisabled: BoolFilter
-  lastName: StringFilter
-  password: StringFilter
-  updatedAt: DateTimeFilter
-  userId: StringFilter
-}
-
-input UserWhereUniqueInput {
-  email: String
-  userId: String
 }

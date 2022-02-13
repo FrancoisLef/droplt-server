@@ -1,20 +1,15 @@
-import cookieParser from 'cookie-parser';
 import express, {
   Application,
   ErrorRequestHandler,
   json,
   RequestHandler,
 } from 'express';
-import jwt from 'express-jwt';
 import helmet from 'helmet';
+import { Unauthorized } from 'http-errors';
 
-import { algorithm, jwtOptions } from './helpers/auth';
-import { authError, httpError } from './middlewares';
-import refresh from './routes/refresh';
-import signin from './routes/signin';
-import signout from './routes/signout';
+import admin from '../../services/firebase';
+import { httpError } from './middlewares';
 
-const { JWT_SECRET } = process.env;
 const app: Application = express();
 
 // Setup various HTTP headers to secure app
@@ -23,30 +18,29 @@ app.use(helmet());
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
 
-// Parse cookies from requests
-// Encode signed cookies from responses
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
 // Server public files
 app.use(express.static('public'));
 
 // Protect graphql endpoint with JWT authentication
-app.use(
-  '/graphql',
-  jwt({
-    algorithms: [algorithm],
-    secret: JWT_SECRET,
-    ...jwtOptions,
-  })
-);
+app.use('/graphql', async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return next(new Unauthorized());
+  }
 
-// Routes definition
-app.use(signin);
-app.use(signout);
-app.use(refresh);
+  const token = req.headers.authorization.split(' ')[1];
 
-// Handle authentication errors
-app.use(authError() as ErrorRequestHandler);
+  if (!token || token.length === 0) {
+    return next(new Unauthorized());
+  }
+
+  try {
+    const user = await admin.auth().verifyIdToken(token);
+    req.user = user;
+    return next();
+  } catch (err) {
+    return next(new Unauthorized());
+  }
+});
 
 // Format HTTP errors
 app.use(httpError() as ErrorRequestHandler);

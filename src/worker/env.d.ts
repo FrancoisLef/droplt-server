@@ -12,10 +12,9 @@ declare global {
       JWT_SECRET: string;
       COOKIE_SECRET: string;
       POSTGRES_DB: string;
-      POSTGRES_HOST: string;
-      POSTGRES_PORT: string;
       POSTGRES_USER: string;
       POSTGRES_PASSWORD: string;
+      POSTGRES_URL: string;
       REDIS_PORT: string;
       REDIS_HOST: string;
       TRANSMISSION_URL: string;
