@@ -298,6 +298,7 @@ input NestedStringFilter {
   lte: String
   not: NestedStringFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -312,6 +313,7 @@ input NestedStringNullableFilter {
   lte: String
   not: NestedStringNullableFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -329,6 +331,7 @@ input NestedStringNullableWithAggregatesFilter {
   lte: String
   not: NestedStringNullableWithAggregatesFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -346,6 +349,7 @@ input NestedStringWithAggregatesFilter {
   lte: String
   not: NestedStringWithAggregatesFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -362,16 +366,16 @@ input NullableFloatFieldUpdateOperationsInput {
 }
 
 type Query {
-  aggregateTorrent(cursor: TorrentWhereUniqueInput, orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): AggregateTorrent!
-  aggregateTorrentFile(cursor: TorrentFileWhereUniqueInput, orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): AggregateTorrentFile!
-  findFirstTorrent(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): Torrent
-  findFirstTorrentFile(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): TorrentFile
+  aggregateTorrent(cursor: TorrentWhereUniqueInput, orderBy: [TorrentOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentWhereInput): AggregateTorrent!
+  aggregateTorrentFile(cursor: TorrentFileWhereUniqueInput, orderBy: [TorrentFileOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentFileWhereInput): AggregateTorrentFile!
+  findFirstTorrent(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentWhereInput): Torrent
+  findFirstTorrentFile(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentFileWhereInput): TorrentFile
   groupByTorrent(by: [TorrentScalarFieldEnum!]!, having: TorrentScalarWhereWithAggregatesInput, orderBy: [TorrentOrderByWithAggregationInput!], skip: Int, take: Int, where: TorrentWhereInput): [TorrentGroupBy!]!
   groupByTorrentFile(by: [TorrentFileScalarFieldEnum!]!, having: TorrentFileScalarWhereWithAggregatesInput, orderBy: [TorrentFileOrderByWithAggregationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFileGroupBy!]!
   torrent(where: TorrentWhereUniqueInput!): Torrent
   torrentFile(where: TorrentFileWhereUniqueInput!): TorrentFile
-  torrentFiles(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
-  torrents(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentWhereInput): [Torrent!]!
+  torrentFiles(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
+  torrents(cursor: TorrentWhereUniqueInput, distinct: [TorrentScalarFieldEnum!], orderBy: [TorrentOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentWhereInput): [Torrent!]!
 }
 
 enum QueryMode {
@@ -400,6 +404,7 @@ input StringFilter {
   mode: QueryMode
   not: NestedStringFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -415,6 +420,7 @@ input StringNullableFilter {
   mode: QueryMode
   not: NestedStringNullableFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -433,6 +439,7 @@ input StringNullableWithAggregatesFilter {
   mode: QueryMode
   not: NestedStringNullableWithAggregatesFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -451,6 +458,7 @@ input StringWithAggregatesFilter {
   mode: QueryMode
   not: NestedStringWithAggregatesFilter
   notIn: [String!]
+  search: String
   startsWith: String
 }
 
@@ -461,7 +469,7 @@ type Torrent {
   createdAt: DateTime!
   downloaded: Float!
   eta: Float
-  files(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
+  files(cursor: TorrentFileWhereUniqueInput, distinct: [TorrentFileScalarFieldEnum!], orderBy: [TorrentFileOrderByWithRelationAndSearchRelevanceInput!], skip: Int, take: Int, where: TorrentFileWhereInput): [TorrentFile!]!
   name: String!
   path: String!
   progress: Float!
@@ -755,6 +763,18 @@ input TorrentFileOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
+enum TorrentFileOrderByRelevanceFieldEnum {
+  name
+  torrentFileId
+  torrentId
+}
+
+input TorrentFileOrderByRelevanceInput {
+  fields: [TorrentFileOrderByRelevanceFieldEnum!]!
+  search: String!
+  sort: SortOrder!
+}
+
 input TorrentFileOrderByWithAggregationInput {
   _avg: TorrentFileAvgOrderByAggregateInput
   _count: TorrentFileCountOrderByAggregateInput
@@ -770,8 +790,9 @@ input TorrentFileOrderByWithAggregationInput {
   updatedAt: SortOrder
 }
 
-input TorrentFileOrderByWithRelationInput {
-  Torrent: TorrentOrderByWithRelationInput
+input TorrentFileOrderByWithRelationAndSearchRelevanceInput {
+  Torrent: TorrentOrderByWithRelationAndSearchRelevanceInput
+  _relevance: TorrentFileOrderByRelevanceInput
   createdAt: SortOrder
   downloaded: SortOrder
   name: SortOrder
@@ -993,6 +1014,19 @@ input TorrentMinOrderByAggregateInput {
   uploaded: SortOrder
 }
 
+enum TorrentOrderByRelevanceFieldEnum {
+  name
+  path
+  status
+  torrentId
+}
+
+input TorrentOrderByRelevanceInput {
+  fields: [TorrentOrderByRelevanceFieldEnum!]!
+  search: String!
+  sort: SortOrder!
+}
+
 input TorrentOrderByWithAggregationInput {
   _avg: TorrentAvgOrderByAggregateInput
   _count: TorrentCountOrderByAggregateInput
@@ -1015,7 +1049,8 @@ input TorrentOrderByWithAggregationInput {
   uploaded: SortOrder
 }
 
-input TorrentOrderByWithRelationInput {
+input TorrentOrderByWithRelationAndSearchRelevanceInput {
+  _relevance: TorrentOrderByRelevanceInput
   addedAt: SortOrder
   completedAt: SortOrder
   createdAt: SortOrder
