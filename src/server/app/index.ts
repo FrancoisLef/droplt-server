@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server-core';
 import express, {
   Application,
   ErrorRequestHandler,
@@ -5,11 +6,10 @@ import express, {
   RequestHandler,
 } from 'express';
 import helmet from 'helmet';
-import { Unauthorized } from 'http-errors';
 
+// import { Unauthorized } from 'http-errors';
 import admin from '../../services/firebase';
 import { httpError } from './middlewares';
-
 const app: Application = express();
 
 // Setup various HTTP headers to secure app
@@ -22,27 +22,27 @@ app.use(json() as RequestHandler);
 app.use(express.static('public'));
 
 // Protect graphql endpoint with JWT authentication
-app.use('/graphql', async (req, res, next) => {
-  if (!req.headers.authorization) {
-    return next(new Unauthorized());
-  }
+// app.use('/graphql', async (req, res, next) => {
+//   if (!req.headers.authorization) {
+//     return next(new AuthenticationError(''));
+//   }
 
-  const token = req.headers.authorization.split(' ')[1];
+//   const token = req.headers.authorization.split(' ')[1];
 
-  if (!token || token.length === 0) {
-    return next(new Unauthorized());
-  }
+//   if (!token || token.length === 0) {
+//     return next(new AuthenticationError(''));
+//   }
 
-  try {
-    const user = await admin.auth().verifyIdToken(token);
-    req.user = user;
-    return next();
-  } catch (err) {
-    return next(new Unauthorized());
-  }
-});
+//   try {
+//     const user = await admin.auth().verifyIdToken(token);
+//     req.user = user;
+//     return next();
+//   } catch (err) {
+//     return next(new AuthenticationError(''));
+//   }
+// });
 
 // Format HTTP errors
-app.use(httpError() as ErrorRequestHandler);
+// app.use(httpError() as ErrorRequestHandler);
 
 export default app;

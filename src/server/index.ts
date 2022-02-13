@@ -7,6 +7,7 @@ dotenv.config({
 });
 
 import { resolvers } from '@generated/type-graphql';
+import { AuthenticationError } from 'apollo-server-core';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import { execute, subscribe } from 'graphql';
@@ -14,6 +15,7 @@ import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import * as TypeGraphql from 'type-graphql';
 
+import admin from '../services/firebase';
 import prisma from '../services/prisma';
 import app from './app';
 
@@ -34,11 +36,24 @@ const { SERVER_PORT = 4000, NODE_ENV } = process.env;
   // ApolloServer configuration
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => ({
-      req,
-      user: req.user,
-      prisma,
-    }),
+    context: async ({ req }) => {
+      if (!req.headers.authorization) {
+        throw new AuthenticationError('');
+      }
+
+      try {
+        const user = await admin
+          .auth()
+          .verifyIdToken(req.headers.authorization.split(' ')[1]);
+        return {
+          req,
+          user,
+          prisma,
+        };
+      } catch (err) {
+        throw new AuthenticationError('');
+      }
+    },
     plugins: [
       // Handles server stop
       // - stop listening for new connections
