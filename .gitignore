@@ -23,7 +23,7 @@ node_modules
 /dist
 /dist-worker
 /tmp
-/database.db
+/database
 
 # misc
 .DS_Store
