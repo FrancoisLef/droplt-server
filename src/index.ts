@@ -30,6 +30,9 @@ const {
   JOB_FEED_INTERVAL,
 } = process.env;
 
+const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10) || 5;
+const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10) || 5;
+
 // Init Express app
 const app: Application = express();
 
@@ -109,7 +112,7 @@ app.use(express.static('public'));
   // Feeder job
   new ToadScheduler().addSimpleIntervalJob(
     new SimpleIntervalJob(
-      { seconds: parseInt(JOB_FEED_INTERVAL, 10), runImmediately: true },
+      { seconds: feedJobInterval, runImmediately: true },
       worker
     )
   );
@@ -117,7 +120,7 @@ app.use(express.static('public'));
   // Cleaner job
   new ToadScheduler().addSimpleIntervalJob(
     new SimpleIntervalJob(
-      { seconds: parseInt(JOB_CLEAN_INTERVAL, 10), runImmediately: true },
+      { seconds: cleanJobInterval, runImmediately: true },
       cleaner
     )
   );
@@ -125,8 +128,8 @@ app.use(express.static('public'));
   console.log(`
 ✅ Server started
 ⚙️  Environment: ${NODE_ENV}
-🔥 Feed interval: ${parseInt(JOB_FEED_INTERVAL, 10)} seconds
-🗑  Clean interval: ${parseInt(JOB_CLEAN_INTERVAL, 10)} seconds
+🔥 Feed interval: ${feedJobInterval} seconds
+🗑  Clean interval: ${cleanJobInterval} seconds
 💧 GraphQL endpoint: http://localhost:${SERVER_PORT}/graphql
 🌱 GraphQL subscriptions: ws://localhost:${SERVER_PORT}/subscriptions
 `);

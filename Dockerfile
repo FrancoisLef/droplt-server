@@ -1,21 +1,37 @@
-FROM node:lts as builder
-# change working directory
-WORKDIR /service-builder
-# copy only necessary files for dependencies install
-COPY package.json yarn.lock .env.example .
-# install dependencies
-RUN yarn install --frozen-lockfile
-# copy project files
-COPY . .
-# build service
-RUN yarn build
+###
+# Builder
+###
+FROM node:16 as builder
 
-FROM node:lts as runner
-# change working directory
-WORKDIR /service-runner
-# copy build output
-COPY --from=builder /service-builder/dist .
-# install production dependencies
-RUN yarn install --production
-# start server
-CMD ["node", "."]
+WORKDIR /builder
+
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+
+RUN yarn install
+
+COPY . ./
+
+RUN yarn generate
+RUN yarn build
+RUN yarn deploy
+
+###
+# Runner
+###
+FROM node:16 as runner
+
+WORKDIR /runner
+
+ENV NODE_ENV=production
+ENV GOOGLE_APPLICATION_CREDENTIALS=/firebase.json
+
+COPY --from=builder /builder/node_modules ./node_modules/
+COPY --from=builder /builder/database ./database/
+COPY --from=builder /builder/prisma ./prisma/
+COPY --from=builder /builder/public ./public/
+COPY --from=builder /builder/dist ./dist/
+
+EXPOSE 4000
+
+CMD ["node", "./dist"]

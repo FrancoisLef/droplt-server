@@ -28,28 +28,13 @@ class FeederJob {
     const { creates, updates, deletes } = this.feedsDiff(nextFeed);
 
     // create newly detected torrents
-    const created = await this.handleCreates(creates);
+    await this.handleCreates(creates);
 
     // update already detected torrents
-    const updated = await this.handleUpdates(updates);
+    await this.handleUpdates(updates);
 
     // delete torrents
-    const deleted = await this.handleDeletes(deletes);
-
-    if (!isEmpty(created)) {
-      console.log('-- CREATED --');
-      console.log(created);
-    }
-
-    if (!isEmpty(updated)) {
-      console.log('-- UPDATED --');
-      console.log(updated);
-    }
-
-    if (!isEmpty(deleted)) {
-      console.log('-- DELETED --');
-      console.log(deleted);
-    }
+    await this.handleDeletes(deletes);
 
     this.currFeed = nextFeed;
   }
