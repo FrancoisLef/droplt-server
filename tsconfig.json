@@ -4,6 +4,7 @@
     "target": "es2021",
     "lib": ["es2021", "esnext.asynciterable"],
     "baseUrl": ".",
+    "outDir": "dist",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -13,5 +14,6 @@
     "strictPropertyInitialization": false
   },
   "exclude": ["node_modules"],
+  "include": ["src"],
   "typeRoots": ["@types", "./node_modules/@types"]
 }

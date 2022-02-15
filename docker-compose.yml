@@ -1,38 +1,6 @@
 version: '3.7'
 
 services:
-  # worker:
-  #   image: droplt-worker:latest
-  #   container_name: worker
-  #   depends_on:
-  #     - redis
-  #     - postgres
-  #     - transmission
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - NODE_ENV=production
-  #     - TRANSMISSION_URL=http://transmission:9091
-  #     - POSTGRES_URL=postgresql://dropltuser:dropltpass@postgres:5432/droplt
-  #     - REDIS_HOST=redis
-  postgres:
-    image: postgres:alpine
-    container_name: postgres
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - ./tmp/docker/postgresql:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-  redis:
-    image: redis:alpine
-    container_name: redis
-    volumes:
-      - ./tmp/docker/redis:/data
-    ports:
-      - 6379:6379
   transmission:
     image: linuxserver/transmission:latest
     container_name: transmission
