@@ -6,7 +6,6 @@ dotenv.config({
   silent: true,
 });
 
-import { resolvers } from '@generated/type-graphql';
 import { AuthenticationError } from 'apollo-server-core';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
@@ -15,6 +14,7 @@ import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import * as TypeGraphql from 'type-graphql';
 
+import { resolvers } from '../prisma';
 import admin from '../services/firebase';
 import prisma from '../services/prisma';
 import app from './app';

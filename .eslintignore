@@ -13,4 +13,5 @@
 /dist
 /dist-worker
 /tmp
+/src/prisma
 env.d.ts

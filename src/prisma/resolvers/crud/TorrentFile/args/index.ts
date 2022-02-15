@@ -1,0 +1,12 @@
+export { AggregateTorrentFileArgs } from "./AggregateTorrentFileArgs";
+export { CreateManyTorrentFileArgs } from "./CreateManyTorrentFileArgs";
+export { CreateTorrentFileArgs } from "./CreateTorrentFileArgs";
+export { DeleteManyTorrentFileArgs } from "./DeleteManyTorrentFileArgs";
+export { DeleteTorrentFileArgs } from "./DeleteTorrentFileArgs";
+export { FindFirstTorrentFileArgs } from "./FindFirstTorrentFileArgs";
+export { FindManyTorrentFileArgs } from "./FindManyTorrentFileArgs";
+export { FindUniqueTorrentFileArgs } from "./FindUniqueTorrentFileArgs";
+export { GroupByTorrentFileArgs } from "./GroupByTorrentFileArgs";
+export { UpdateManyTorrentFileArgs } from "./UpdateManyTorrentFileArgs";
+export { UpdateTorrentFileArgs } from "./UpdateTorrentFileArgs";
+export { UpsertTorrentFileArgs } from "./UpsertTorrentFileArgs";
