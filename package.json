@@ -8,7 +8,7 @@
     "deploy": "prisma migrate deploy",
     "generate": "gen-env-types .env -o src/env.d.ts && prisma generate",
     "lint": "eslint src/**/**.ts --fix",
-    "migrate": "NODE_ENV=development prisma migrate dev",
+    "migrate": "NODE_ENV=development prisma migrate dev --name init",
     "prepare": "husky install",
     "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts"
   },
