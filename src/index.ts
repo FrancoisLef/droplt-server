@@ -19,7 +19,7 @@ import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TypeGraphql from 'type-graphql';
 
 import cleaner from './jobs/cleaner';
-import worker from './jobs/worker';
+import feeder from './jobs/feeder';
 import admin from './services/firebase';
 import prisma from './services/prisma';
 
@@ -30,7 +30,7 @@ const {
   JOB_FEED_INTERVAL,
 } = process.env;
 
-const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10) || 5;
+const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10) || 60;
 const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10) || 5;
 
 // Init Express app
@@ -113,7 +113,7 @@ app.use(express.static('public'));
   new ToadScheduler().addSimpleIntervalJob(
     new SimpleIntervalJob(
       { seconds: feedJobInterval, runImmediately: true },
-      worker
+      feeder
     )
   );
 

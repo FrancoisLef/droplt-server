@@ -1,6 +1,5 @@
 import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
 import deepEqual from 'deep-equal';
-import { isEmpty } from 'ramda';
 import { AsyncTask } from 'toad-scheduler';
 
 import { normalize, sanitize, sanitizePartial } from '../helpers';
