@@ -92,7 +92,7 @@ class FeederJob {
         where: {
           torrentId,
         },
-        update: {},
+        update: torrent,
         create: torrent,
       });
     });
