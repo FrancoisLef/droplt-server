@@ -6,9 +6,10 @@ dotenv.config({
   silent: true,
 });
 
-import { resolvers } from '@generated/type-graphql';
-import { AuthenticationError } from 'apollo-server-core';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import {
+  ApolloServerPluginDrainHttpServer,
+  AuthenticationError,
+} from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import express, { Application, json, RequestHandler } from 'express';
 import { execute, subscribe } from 'graphql';
@@ -16,12 +17,14 @@ import helmet from 'helmet';
 import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
-import * as TypeGraphql from 'type-graphql';
+import * as TGQL from 'type-graphql';
 
+import { TorrentResolver } from './graphql';
 import cleaner from './jobs/cleaner';
 import feeder from './jobs/feeder';
 import admin from './services/firebase';
 import prisma from './services/prisma';
+import { Context } from './types';
 
 const {
   SERVER_PORT = 4000,
@@ -52,15 +55,15 @@ app.use(express.static('public'));
   const httpServer = http.createServer(app);
 
   // Build GraphQL schema
-  const schema = await TypeGraphql.buildSchema({
-    resolvers,
+  const schema = await TGQL.buildSchema({
+    resolvers: [TorrentResolver],
     emitSchemaFile: 'public/schema.graphql',
   });
 
   // ApolloServer configuration
   const apolloServer = new ApolloServer({
     schema,
-    context: async ({ req }) => {
+    context: async ({ req }): Promise<Context> => {
       if (!req.headers.authorization) {
         throw new AuthenticationError('');
       }

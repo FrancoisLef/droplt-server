@@ -1,4 +1,13 @@
+import { PrismaClient } from '@prisma/client';
 import { Torrent } from '@prisma/client';
+import { Request } from 'express';
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+
+export interface Context {
+  prisma: PrismaClient;
+  user: DecodedIdToken;
+  req: Request;
+}
 
 export type PrismaTorrentPayload = Omit<Torrent, 'createdAt' | 'updatedAt'>;
 

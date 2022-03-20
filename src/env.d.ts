@@ -5,7 +5,6 @@ declare global {
       SERVER_PORT: string;
       JOB_FEED_INTERVAL: string;
       JOB_CLEAN_INTERVAL: string;
-      JOB_STATS_INTERVAL: string;
       TRANSMISSION_URL: string;
       TRANSMISSION_USER: string;
       TRANSMISSION_PASSWORD: string;
