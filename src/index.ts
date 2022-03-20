@@ -19,7 +19,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import * as TGQL from 'type-graphql';
 
-import { TorrentResolver } from './graphql';
+import { DashboardResolver, TorrentResolver } from './graphql';
 import cleaner from './jobs/cleaner';
 import feeder from './jobs/feeder';
 import admin from './services/firebase';
@@ -56,7 +56,7 @@ app.use(express.static('public'));
 
   // Build GraphQL schema
   const schema = await TGQL.buildSchema({
-    resolvers: [TorrentResolver],
+    resolvers: [DashboardResolver, TorrentResolver],
     emitSchemaFile: 'public/schema.graphql',
   });
 

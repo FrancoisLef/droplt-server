@@ -12,7 +12,7 @@ RUN yarn install
 
 COPY . ./
 
-RUN yarn generate
+# RUN yarn generate
 RUN yarn build
 RUN yarn deploy
 
