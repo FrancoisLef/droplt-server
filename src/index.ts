@@ -17,7 +17,7 @@ import helmet from 'helmet';
 import http from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
-import * as TGQL from 'type-graphql';
+import { buildSchema } from 'type-graphql';
 
 import { DashboardResolver, TorrentResolver } from './graphql';
 import cleaner from './jobs/cleaner';
@@ -55,7 +55,7 @@ app.use(express.static('public'));
   const httpServer = http.createServer(app);
 
   // Build GraphQL schema
-  const schema = await TGQL.buildSchema({
+  const schema = await buildSchema({
     resolvers: [DashboardResolver, TorrentResolver],
     emitSchemaFile: 'public/schema.graphql',
   });

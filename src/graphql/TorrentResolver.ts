@@ -1,14 +1,14 @@
 import { Torrent } from '@generated/type-graphql';
-import * as TGQL from 'type-graphql';
+import { Ctx, Query, Resolver } from 'type-graphql';
 
 import { Context } from '../types';
 
-@TGQL.Resolver(() => Torrent)
+@Resolver(() => Torrent)
 export class TorrentResolver {
-  @TGQL.Query(() => [Torrent], {
+  @Query(() => [Torrent], {
     nullable: false,
   })
-  async torrents(@TGQL.Ctx() { prisma }: Context): Promise<Torrent[]> {
+  async torrents(@Ctx() { prisma }: Context): Promise<Torrent[]> {
     return prisma.torrent.findMany();
   }
 }
