@@ -9,7 +9,6 @@ generator client {
 
 generator typegraphql {
   provider = "typegraphql-prisma"
-  output   = "../src/graphql/__generated__"
 }
 
 model Torrent {
