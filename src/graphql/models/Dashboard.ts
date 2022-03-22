@@ -18,4 +18,14 @@ export class Dashboard {
     nullable: false,
   })
   version!: string;
+
+  @TGQL.Field(() => TGQL.Float, {
+    nullable: false,
+  })
+  uploaded!: number;
+
+  @TGQL.Field(() => TGQL.Float, {
+    nullable: false,
+  })
+  downloaded!: number;
 }
