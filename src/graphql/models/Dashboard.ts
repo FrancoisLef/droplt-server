@@ -12,7 +12,12 @@ export class Dashboard {
   @TGQL.Field(() => TGQL.Float, {
     nullable: false,
   })
-  torrentCount!: number;
+  torrents!: number;
+
+  @TGQL.Field(() => TGQL.Float, {
+    nullable: false,
+  })
+  files!: number;
 
   @TGQL.Field(() => String, {
     nullable: false,

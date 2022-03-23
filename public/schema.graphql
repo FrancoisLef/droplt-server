@@ -5,8 +5,9 @@
 
 type Dashboard {
   downloaded: Float!
+  files: Float!
   freeSpace: Float!
-  torrentCount: Float!
+  torrents: Float!
   uploaded: Float!
   version: String!
 }

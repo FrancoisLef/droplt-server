@@ -10,20 +10,24 @@ export class DashboardResolver {
   })
   async dashboard(): Promise<Dashboard> {
     const session = await transmission.getSession();
-    const torrents = await transmission.listTorrents();
-
-    const downloaded = torrents.arguments.torrents.reduce((acc, torrent) => {
-      return acc + torrent.downloadedEver;
-    }, 0);
-
-    const uploaded = torrents.arguments.torrents.reduce((acc, torrent) => {
-      return acc + torrent.uploadedEver;
-    }, 0);
+    const {
+      arguments: { torrents },
+    } = await transmission.listTorrents();
+    const downloaded = torrents.reduce(
+      (acc, { downloadedEver }) => acc + downloadedEver,
+      0
+    );
+    const uploaded = torrents.reduce(
+      (acc, { uploadedEver }) => acc + uploadedEver,
+      0
+    );
+    const files = torrents.reduce((acc, { files }) => acc + files.length, 0);
 
     return {
       downloaded,
       uploaded,
-      torrentCount: torrents.arguments.torrents.length,
+      files,
+      torrents: torrents.length,
       freeSpace: session.arguments['download-dir-free-space'],
       version: session.arguments.version,
     };
