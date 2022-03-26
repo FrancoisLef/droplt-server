@@ -11,7 +11,6 @@ import {
   AuthenticationError,
 } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
-import cors from 'cors';
 import express, { Application, json, RequestHandler } from 'express';
 import { execute, subscribe } from 'graphql';
 import helmet from 'helmet';
@@ -66,16 +65,11 @@ app.use(json() as RequestHandler);
 app.use(express.static('public'));
 
 // Upload .torrent files
-app.post(
-  '/api/upload',
-  cors({ origin: '*' }),
-  upload.array('torrents'),
-  (req, res) => {
-    res.json({
-      files: req.files,
-    });
-  }
-);
+app.post('/api/upload', upload.array('torrents'), (req, res) => {
+  res.json({
+    files: req.files,
+  });
+});
 
 (async () => {
   // Encapsulate Express App into a HTTP server
