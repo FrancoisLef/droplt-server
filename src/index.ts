@@ -15,6 +15,7 @@ import express, { Application, json, RequestHandler } from 'express';
 import { execute, subscribe } from 'graphql';
 import helmet from 'helmet';
 import http from 'http';
+import multer from 'multer';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { buildSchema } from 'type-graphql';
@@ -36,6 +37,21 @@ const {
 const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10) || 60;
 const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10) || 5;
 
+const upload = multer({
+  dest: 'tmp/uploads/',
+  fileFilter: (req, file, next) => {
+    if (file.mimetype !== 'application/octet-stream') {
+      return next(null, false);
+    }
+
+    if (!file.originalname.endsWith('.torrent')) {
+      return next(null, false);
+    }
+
+    next(null, true);
+  },
+});
+
 // Init Express app
 const app: Application = express();
 
@@ -47,6 +63,12 @@ app.use(json() as RequestHandler);
 
 // Server public files
 app.use(express.static('public'));
+
+app.post('/upload', upload.array('torrents'), (req, res) => {
+  res.json({
+    files: req.files,
+  });
+});
 
 (async () => {
   // Encapsulate Express App into a HTTP server
