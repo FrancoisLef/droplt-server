@@ -65,7 +65,7 @@ app.use(json() as RequestHandler);
 app.use(express.static('public'));
 
 // Upload .torrent files
-app.post('/upload', upload.array('torrents'), (req, res) => {
+app.post('/api/upload', upload.array('torrents'), (req, res) => {
   res.json({
     files: req.files,
   });
