@@ -28,7 +28,7 @@ class CleanerJob {
 
     // get torrents id from provider
     const btTorrentsIds = listTorrents.arguments.torrents.map(
-      (torrent) => normalize(torrent).torrentId
+      (torrent) => normalize(torrent).torrentId,
     );
 
     // find differences
@@ -65,5 +65,5 @@ const cleanerJob = new CleanerJob();
 export default new AsyncTask(
   'clean',
   () => cleanerJob.run(),
-  cleanerJob.onError
+  cleanerJob.onError,
 );

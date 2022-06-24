@@ -15,11 +15,11 @@ export class DashboardResolver {
     } = await transmission.listTorrents();
     const downloaded = torrents.reduce(
       (acc, { downloadedEver }) => acc + downloadedEver,
-      0
+      0,
     );
     const uploaded = torrents.reduce(
       (acc, { uploadedEver }) => acc + uploadedEver,
-      0
+      0,
     );
     const files = torrents.reduce((acc, { files }) => acc + files.length, 0);
 

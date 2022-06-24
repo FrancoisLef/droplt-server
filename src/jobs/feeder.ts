@@ -103,7 +103,7 @@ class FeederJob {
   private async handleUpdates(updates: UpdatesFeed) {
     const transactions = Object.keys(updates).map((torrentId) => {
       const torrent = sanitizePartial(
-        updates[torrentId] as unknown as Partial<FeedTorrent>
+        updates[torrentId] as unknown as Partial<FeedTorrent>,
       );
       return prisma.torrent.update({
         where: {
@@ -153,7 +153,7 @@ class FeederJob {
     }
 
     return Object.keys(this.currFeed).filter(
-      (hash) => typeof nextFeed[hash] === 'undefined'
+      (hash) => typeof nextFeed[hash] === 'undefined',
     );
   }
 
@@ -163,7 +163,7 @@ class FeederJob {
         ...acc,
         [torrent.torrentId]: torrent,
       }),
-      {}
+      {},
     );
   }
 }

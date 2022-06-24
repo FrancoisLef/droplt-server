@@ -74,7 +74,7 @@ app.post(
     res.json({
       files: req.files,
     });
-  }
+  },
 );
 
 (async () => {
@@ -138,23 +138,23 @@ app.post(
     {
       server: httpServer,
       path: '/subscriptions',
-    }
+    },
   );
 
   // Feeder job
   new ToadScheduler().addSimpleIntervalJob(
     new SimpleIntervalJob(
       { seconds: feedJobInterval, runImmediately: true },
-      feeder
-    )
+      feeder,
+    ),
   );
 
   // Cleaner job
   new ToadScheduler().addSimpleIntervalJob(
     new SimpleIntervalJob(
       { seconds: cleanJobInterval, runImmediately: true },
-      cleaner
-    )
+      cleaner,
+    ),
   );
 
   console.log(`
