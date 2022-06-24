@@ -11,7 +11,8 @@
     "migrate": "NODE_ENV=development prisma migrate dev --name init",
     "prepare": "husky install",
     "prettify": "prettier --check \"**/*.{ts,tsx,md,json}\"",
-    "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts"
+    "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts",
+    "test": "exit 0;"
   },
   "dependencies": {
     "@ctrl/shared-torrent": "^4.1.0",
