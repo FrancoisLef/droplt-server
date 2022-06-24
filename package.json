@@ -7,54 +7,11 @@
     "build": "tsc",
     "deploy": "prisma migrate deploy",
     "generate": "gen-env-types .env -o src/env.d.ts && prisma generate",
-    "lint": "eslint src/**/**.ts --fix",
+    "lint": "eslint .",
     "migrate": "NODE_ENV=development prisma migrate dev --name init",
     "prepare": "husky install",
+    "prettify": "prettier --check \"**/*.{ts,tsx,md,json}\"",
     "start": "ts-node-dev --respawn --clear --transpile-only --rs src/index.ts"
-  },
-  "lint-staged": {
-    "package.json": "sort-package-json",
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,css,scss,md}": [
-      "prettier --write"
-    ]
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "jest",
-      "simple-import-sort"
-    ],
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier"
-    ],
-    "rules": {
-      "no-multiple-empty-lines": [
-        "error",
-        {
-          "max": 1
-        }
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "semi": "error",
-      "simple-import-sort/exports": "error",
-      "simple-import-sort/imports": "error"
-    }
   },
   "dependencies": {
     "@ctrl/shared-torrent": "^4.1.0",
@@ -96,15 +53,17 @@
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
-    "eslint": "^8.12.0",
+    "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.1.3",
+    "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "gen-env-types": "^1.3.3",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
-    "prettier": "^2.6.1",
-    "sort-package-json": "^1.55.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-jsdoc": "^0.3.38",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "prettier-plugin-sort-json": "^0.0.2",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
   },
