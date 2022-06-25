@@ -13,8 +13,6 @@
         "max": 1
       }
     ],
-    "quotes": ["error", "single"],
-    "semi": "error",
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": "error"
   }
