@@ -1,10 +1,10 @@
 import { PrismaClient, Torrent } from '@prisma/client';
 import { Request } from 'express';
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+// import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
 export interface Context {
   prisma: PrismaClient;
-  user: DecodedIdToken;
+  // user: DecodedIdToken;
   req: Request;
 }
 

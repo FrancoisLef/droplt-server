@@ -1,7 +1,7 @@
 import * as TGql from 'type-graphql';
 
-import { Dashboard } from '../models/Dashboard';
-import transmission from '../services/transmission';
+import { Dashboard } from '../models/Dashboard.js';
+import transmission from '../services/transmission.js';
 
 @TGql.Resolver(() => Dashboard)
 export class DashboardResolver {

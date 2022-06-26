@@ -1,7 +1,7 @@
 import { Torrent as TransmissionTorrent } from '@ctrl/transmission';
 
-import { FeedTorrent } from '../types';
-import { statusMap } from './status-map';
+import { FeedTorrent } from '../types.js';
+import { statusMap } from './status-map.js';
 
 export const normalize = (torrent: TransmissionTorrent): FeedTorrent => {
   const addedAt = new Date(torrent.addedDate * 1000);

@@ -1,6 +1,6 @@
 import * as TGql from 'type-graphql';
 
-import { TorrentFile } from './TorrentFile';
+import { TorrentFile } from './TorrentFile.js';
 
 @TGql.ObjectType('Torrent', {
   isAbstract: true,

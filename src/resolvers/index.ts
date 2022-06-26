@@ -1,2 +1,2 @@
-export * from './DashboardResolver';
-export * from './TorrentResolver';
+export * from './DashboardResolver.js';
+export * from './TorrentResolver.js';

@@ -1,29 +1,23 @@
 import 'reflect-metadata';
 
-import dotenv from 'dotenv-flow';
-
-dotenv.config({
-  silent: true,
-});
-
-import {
-  ApolloServerPluginDrainHttpServer,
-  AuthenticationError,
-} from 'apollo-server-core';
-import { ApolloServer } from 'apollo-server-express';
+// import {
+//   ApolloServerPluginDrainHttpServer,
+//   AuthenticationError,
+// } from 'apollo-server-core';
+// import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express, { Application, json, RequestHandler } from 'express';
 import helmet from 'helmet';
-import http from 'http';
+// import http from 'http';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
-import { buildSchema } from 'type-graphql';
 
-import cleaner from './jobs/cleaner';
-import feeder from './jobs/feeder';
-import { DashboardResolver, TorrentResolver } from './resolvers';
-import admin from './services/firebase';
-import prisma from './services/prisma';
-import { Context } from './types';
+// import { buildSchema } from 'type-graphql';
+import cleaner from './jobs/cleaner.js';
+import feeder from './jobs/feeder.js';
+// import { DashboardResolver, TorrentResolver } from './resolvers/index.js';
+// import admin from './services/firebase.js';
+// import prisma from './services/prisma.js';
+// import { Context } from './types.js';
 
 const {
   SERVER_PORT = 4000,
@@ -54,52 +48,52 @@ app.use(express.static('public'));
   // Encapsulate Express App into a HTTP server
   // So that we can re-use the HTTP server instance to listen for WebSocket
   // Useful for GraphQL subscriptions
-  const httpServer = http.createServer(app);
+  // const httpServer = http.createServer(app);
 
-  // Build GraphQL schema
-  const schema = await buildSchema({
-    resolvers: [DashboardResolver, TorrentResolver],
-    emitSchemaFile: 'public/schema.graphql',
-  });
+  // // Build GraphQL schema
+  // const schema = await buildSchema({
+  //   resolvers: [DashboardResolver, TorrentResolver],
+  //   emitSchemaFile: 'public/schema.graphql',
+  // });
 
-  // ApolloServer configuration
-  const apolloServer = new ApolloServer({
-    schema,
-    context: async ({ req }): Promise<Context> => {
-      if (!req.headers.authorization) {
-        throw new AuthenticationError('');
-      }
+  // // ApolloServer configuration
+  // const apolloServer = new ApolloServer({
+  //   schema,
+  //   context: async ({ req }): Promise<Context> => {
+  //     if (!req.headers.authorization) {
+  //       throw new AuthenticationError('');
+  //     }
 
-      try {
-        const user = await admin
-          .auth()
-          .verifyIdToken(req.headers.authorization.split(' ')[1]);
-        return {
-          req,
-          user,
-          prisma,
-        };
-      } catch (err) {
-        throw new AuthenticationError('');
-      }
-    },
-    plugins: [
-      // Handles server stop
-      // - stop listening for new connections
-      // - close idle connections
-      // - close active connections whenever they become idle
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-    ],
-  });
+  //     try {
+  //       // const user = await admin
+  //       //   .auth()
+  //       //   .verifyIdToken(req.headers.authorization.split(' ')[1]);
+  //       return {
+  //         req,
+  //         // user,
+  //         prisma,
+  //       };
+  //     } catch (err) {
+  //       throw new AuthenticationError('');
+  //     }
+  //   },
+  //   plugins: [
+  //     // Handles server stop
+  //     // - stop listening for new connections
+  //     // - close idle connections
+  //     // - close active connections whenever they become idle
+  //     ApolloServerPluginDrainHttpServer({ httpServer }),
+  //   ],
+  // });
 
-  // Start Apollo server (must be done before applying it)
-  await apolloServer.start();
+  // // Start Apollo server (must be done before applying it)
+  // await apolloServer.start();
 
-  // Attach Apollo server to Express App
-  apolloServer.applyMiddleware({ app, path: '/graphql' });
+  // // Attach Apollo server to Express App
+  // apolloServer.applyMiddleware({ app, path: '/graphql' });
 
-  // Start HTTP server and listen for connections
-  await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
+  // // Start HTTP server and listen for connections
+  // await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
 
   // Feeder job
   new ToadScheduler().addSimpleIntervalJob(

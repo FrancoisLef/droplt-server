@@ -1,8 +1,8 @@
 import { AsyncTask } from 'toad-scheduler';
 
-import { normalize } from '../helpers';
-import prisma from '../services/prisma';
-import transmission from '../services/transmission';
+import { normalize } from '../helpers/index.js';
+import prisma from '../services/prisma.js';
+import transmission from '../services/transmission.js';
 
 class CleanerJob {
   public async run(): Promise<void> {

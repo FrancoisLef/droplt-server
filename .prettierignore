@@ -1,17 +1,8 @@
 # dependencies
 .yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
 /node_modules
 /.husky
 
 # generated
-/dist
-/dist-worker
+/build
 /tmp
-/src/graphql/__generated__
-env.d.ts

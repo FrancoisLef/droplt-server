@@ -1,8 +1,7 @@
 /.git
 /node_modules
-/dist
+/build
 /tmp
-/database
 
 .env.local
 

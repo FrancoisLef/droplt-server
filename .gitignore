@@ -20,10 +20,8 @@ node_modules
 /coverage
 
 # generated
-/dist
-/dist-worker
+/build
 /tmp
-/database
 
 # misc
 .DS_Store
