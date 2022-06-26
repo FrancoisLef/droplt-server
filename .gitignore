@@ -17,11 +17,13 @@ node_modules
 .pnp.*
 
 # testing
-/coverage
+coverage
 
 # generated
-/build
-/tmp
+build
+database.db
+database.db-journal
+tmp
 
 # misc
 .DS_Store
