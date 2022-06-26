@@ -1,35 +1,35 @@
-import * as TGQL from 'type-graphql';
+import * as TGql from 'type-graphql';
 
-@TGQL.ObjectType('Dashboard', {
+@TGql.ObjectType('Dashboard', {
   isAbstract: true,
 })
 export class Dashboard {
-  @TGQL.Field(() => TGQL.Float, {
+  @TGql.Field(() => TGql.Float, {
     nullable: false,
   })
   freeSpace!: number;
 
-  @TGQL.Field(() => TGQL.Float, {
+  @TGql.Field(() => TGql.Float, {
     nullable: false,
   })
   torrents!: number;
 
-  @TGQL.Field(() => TGQL.Float, {
+  @TGql.Field(() => TGql.Float, {
     nullable: false,
   })
   files!: number;
 
-  @TGQL.Field(() => String, {
+  @TGql.Field(() => String, {
     nullable: false,
   })
   version!: string;
 
-  @TGQL.Field(() => TGQL.Float, {
+  @TGql.Field(() => TGql.Float, {
     nullable: false,
   })
   uploaded!: number;
 
-  @TGQL.Field(() => TGQL.Float, {
+  @TGql.Field(() => TGql.Float, {
     nullable: false,
   })
   downloaded!: number;

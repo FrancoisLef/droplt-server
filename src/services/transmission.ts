@@ -1,9 +1,9 @@
 import { Transmission } from '@ctrl/transmission';
 
 const {
-  TRANSMISSION_PASSWORD,
+  TRANSMISSION_PASSWORD = 'transmission',
   TRANSMISSION_URL = 'http://localhost:9091',
-  TRANSMISSION_USER,
+  TRANSMISSION_USER = 'transmission',
 } = process.env;
 
 const transmission = new Transmission({

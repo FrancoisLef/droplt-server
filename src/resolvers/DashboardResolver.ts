@@ -1,11 +1,11 @@
-import { Query, Resolver } from 'type-graphql';
+import * as TGql from 'type-graphql';
 
+import { Dashboard } from '../models/Dashboard';
 import transmission from '../services/transmission';
-import { Dashboard } from './models/Dashboard';
 
-@Resolver(() => Dashboard)
+@TGql.Resolver(() => Dashboard)
 export class DashboardResolver {
-  @Query(() => Dashboard, {
+  @TGql.Query(() => Dashboard, {
     nullable: false,
   })
   async dashboard(): Promise<Dashboard> {

@@ -13,17 +13,17 @@ import {
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express, { Application, json, RequestHandler } from 'express';
-import { execute, subscribe } from 'graphql';
+// import { execute, subscribe } from 'graphql';
 import helmet from 'helmet';
 import http from 'http';
-import multer from 'multer';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import multer from 'multer';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { buildSchema } from 'type-graphql';
 
-import { DashboardResolver, TorrentResolver } from './graphql';
 import cleaner from './jobs/cleaner';
 import feeder from './jobs/feeder';
+import { DashboardResolver, TorrentResolver } from './resolvers';
 import admin from './services/firebase';
 import prisma from './services/prisma';
 import { Context } from './types';
@@ -31,27 +31,27 @@ import { Context } from './types';
 const {
   SERVER_PORT = 4000,
   NODE_ENV,
-  JOB_CLEAN_INTERVAL,
-  JOB_FEED_INTERVAL,
+  JOB_CLEAN_INTERVAL = '60',
+  JOB_FEED_INTERVAL = '5',
 } = process.env;
 
-const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10) || 60;
-const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10) || 5;
+const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10);
+const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10);
 
-const upload = multer({
-  dest: 'tmp/uploads/',
-  fileFilter: (req, file, next) => {
-    if (file.mimetype !== 'application/octet-stream') {
-      return next(null, false);
-    }
+// const upload = multer({
+//   dest: 'tmp/uploads/',
+//   fileFilter: (req, file, next) => {
+//     if (file.mimetype !== 'application/octet-stream') {
+//       return next(null, false);
+//     }
 
-    if (!file.originalname.endsWith('.torrent')) {
-      return next(null, false);
-    }
+//     if (!file.originalname.endsWith('.torrent')) {
+//       return next(null, false);
+//     }
 
-    next(null, true);
-  },
-});
+//     next(null, true);
+//   },
+// });
 
 // Init Express app
 const app: Application = express();
@@ -59,23 +59,26 @@ const app: Application = express();
 // Setup various HTTP headers to secure app
 app.use(helmet());
 
+// Setup CORS headers
+app.use(cors({ origin: '*' }));
+
 // Parse incoming requests with JSON payloads
 app.use(json() as RequestHandler);
 
 // Server public files
 app.use(express.static('public'));
 
-// Upload .torrent files
-app.post(
-  '/api/upload',
-  cors({ origin: '*' }),
-  upload.array('torrents'),
-  (req, res) => {
-    res.json({
-      files: req.files,
-    });
-  },
-);
+// // Upload .torrent files
+// app.post(
+//   '/api/upload',
+//   cors({ origin: '*' }),
+//   upload.array('torrents'),
+//   (req, res) => {
+//     res.json({
+//       files: req.files,
+//     });
+//   },
+// );
 
 (async () => {
   // Encapsulate Express App into a HTTP server
@@ -129,17 +132,17 @@ app.post(
   await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
 
   // Start WebSocket server for GraphQL subscriptions
-  new SubscriptionServer(
-    {
-      execute,
-      subscribe,
-      schema,
-    },
-    {
-      server: httpServer,
-      path: '/subscriptions',
-    },
-  );
+  // new SubscriptionServer(
+  //   {
+  //     execute,
+  //     subscribe,
+  //     schema,
+  //   },
+  //   {
+  //     server: httpServer,
+  //     path: '/subscriptions',
+  //   },
+  // );
 
   // Feeder job
   new ToadScheduler().addSimpleIntervalJob(
@@ -159,9 +162,9 @@ app.post(
 
   console.log(`
 ✅ Server started
-⚙️  Environment: ${NODE_ENV}
+⚙️ Environment: ${NODE_ENV}
 🔥 Feed interval: ${feedJobInterval} seconds
-🗑  Clean interval: ${cleanJobInterval} seconds
+🗑 Clean interval: ${cleanJobInterval} seconds
 💧 GraphQL endpoint: http://localhost:${SERVER_PORT}/graphql
 🌱 GraphQL subscriptions: ws://localhost:${SERVER_PORT}/subscriptions
 `);
