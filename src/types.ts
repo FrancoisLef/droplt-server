@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { Torrent } from '@prisma/client';
+import { PrismaClient, Torrent } from '@prisma/client';
 import { Request } from 'express';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 

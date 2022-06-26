@@ -13,5 +13,7 @@
     "strictPropertyInitialization": false,
     "target": "es2021"
   },
-  "include": ["src"]
+  "exclude": ["node_modules"],
+  "include": ["src"],
+  "typeRoots": ["@types", "./node_modules/@types"]
 }

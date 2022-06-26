@@ -13,11 +13,8 @@ import {
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express, { Application, json, RequestHandler } from 'express';
-// import { execute, subscribe } from 'graphql';
 import helmet from 'helmet';
 import http from 'http';
-// import multer from 'multer';
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { buildSchema } from 'type-graphql';
 
@@ -38,21 +35,6 @@ const {
 const cleanJobInterval = parseInt(JOB_CLEAN_INTERVAL, 10);
 const feedJobInterval = parseInt(JOB_FEED_INTERVAL, 10);
 
-// const upload = multer({
-//   dest: 'tmp/uploads/',
-//   fileFilter: (req, file, next) => {
-//     if (file.mimetype !== 'application/octet-stream') {
-//       return next(null, false);
-//     }
-
-//     if (!file.originalname.endsWith('.torrent')) {
-//       return next(null, false);
-//     }
-
-//     next(null, true);
-//   },
-// });
-
 // Init Express app
 const app: Application = express();
 
@@ -67,18 +49,6 @@ app.use(json() as RequestHandler);
 
 // Server public files
 app.use(express.static('public'));
-
-// // Upload .torrent files
-// app.post(
-//   '/api/upload',
-//   cors({ origin: '*' }),
-//   upload.array('torrents'),
-//   (req, res) => {
-//     res.json({
-//       files: req.files,
-//     });
-//   },
-// );
 
 (async () => {
   // Encapsulate Express App into a HTTP server
@@ -130,19 +100,6 @@ app.use(express.static('public'));
 
   // Start HTTP server and listen for connections
   await new Promise<void>((resolve) => httpServer.listen(SERVER_PORT, resolve));
-
-  // Start WebSocket server for GraphQL subscriptions
-  // new SubscriptionServer(
-  //   {
-  //     execute,
-  //     subscribe,
-  //     schema,
-  //   },
-  //   {
-  //     server: httpServer,
-  //     path: '/subscriptions',
-  //   },
-  // );
 
   // Feeder job
   new ToadScheduler().addSimpleIntervalJob(
