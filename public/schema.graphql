@@ -23,7 +23,6 @@ type Query {
 }
 
 type Torrent {
-  _count: TorrentCount
   addedAt: DateTime!
   completedAt: DateTime
   createdAt: DateTime!
@@ -38,8 +37,4 @@ type Torrent {
   torrentId: String!
   updatedAt: DateTime!
   uploaded: Float!
-}
-
-type TorrentCount {
-  files: Int!
 }
